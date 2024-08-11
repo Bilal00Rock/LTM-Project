@@ -17,6 +17,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import SignUPPage from "./pages/SignUPPage";
 import DashboardUPPI from "./pages/DashboardUPPI";
 import { ForgotPassPage } from "./pages/ForgotPassPage";
+import MainDashboard from "./pages/MainDashboard";
 
 function App() {
   const action = useNavigationType();
@@ -94,6 +95,8 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/login-page" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassPage />} />
+        <Route path="/maindashboard" element={<MainDashboard />} />
+        
         <Route
           path="/dashboardpatientsaddpatients"
           element={<DashboardPatientsAddPatients />}
