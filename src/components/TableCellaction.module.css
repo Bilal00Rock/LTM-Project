@@ -1,0 +1,22 @@
+.invite {
+  align-self: stretch;
+  width: 41px;
+  position: relative;
+  line-height: 22px;
+  display: inline-block;
+}
+.tableCellaction {
+  align-self: stretch;
+  flex: 1;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px 16px 17px;
+  text-align: left;
+  font-size: 14px;
+  color: #1890ff;
+  font-family: Roboto;
+}

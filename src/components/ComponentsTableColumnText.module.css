@@ -1,0 +1,44 @@
+.divider {
+  height: 23px;
+  width: 1px;
+  position: absolute;
+  margin: 0 !important;
+  top: calc(50% - 11px);
+  left: -0.5px;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+}
+.title {
+  flex: 1;
+  position: relative;
+  line-height: 22px;
+  font-weight: 500;
+}
+.sorterIcon {
+  height: 22px;
+  width: 11px;
+  position: relative;
+}
+.tableHeaderdefault {
+  align-self: stretch;
+  background-color: #fafafa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 16px 32px 16px 0;
+  position: relative;
+  gap: 4px;
+}
+.componentstableColumntext {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}

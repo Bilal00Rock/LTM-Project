@@ -1,0 +1,99 @@
+.analyzing {
+  text-decoration: none;
+  position: relative;
+  line-height: 24px;
+  font-weight: 500;
+  color: inherit;
+  display: inline-block;
+  min-width: 71px;
+}
+.closeIcon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.closeWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 4px 0 0;
+}
+.header,
+.progressCirclestatusNormalWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.header {
+  align-self: stretch;
+  box-shadow: 0-1px 0#f0f0f0 inset;
+  background-color: #fff;
+  justify-content: space-between;
+  padding: 16px 24px;
+  gap: 20px;
+}
+.progressCirclestatusNormalWrapper {
+  width: 170px;
+  justify-content: flex-start;
+  padding: 0 25px;
+  box-sizing: border-box;
+}
+.analyzingPleaseWait {
+  position: relative;
+  line-height: 24px;
+  font-weight: 500;
+}
+.content {
+  align-self: stretch;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px 20px;
+  gap: 10px;
+  text-align: left;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}
+.footer,
+.modalprogress1analyze {
+  background-color: #fff;
+  display: flex;
+  align-items: flex-start;
+}
+.footer {
+  align-self: stretch;
+  box-shadow: 0 1px 0#f0f0f0 inset;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 10px 16px;
+  gap: 8px;
+}
+.modalprogress1analyze {
+  width: 546px;
+  position: relative;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px rgba(0, 0, 0, 0.08),
+    0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: flex-start;
+  line-height: normal;
+  letter-spacing: normal;
+  max-width: 100%;
+  max-height: 100%;
+  text-align: left;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}
+@media screen and (max-width: 160px) {
+  .footer {
+    flex-wrap: wrap;
+  }
+}

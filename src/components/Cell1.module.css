@@ -1,0 +1,30 @@
+.div,
+.label {
+  position: relative;
+  line-height: 22px;
+  display: inline-block;
+  min-width: 90px;
+}
+.div {
+  min-width: 4px;
+}
+.cell,
+.colon {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.colon {
+  width: 14px;
+  padding: 0 2px;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+}
+.cell {
+  padding: 0 3px 16px 0;
+  text-align: left;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.55);
+  font-family: Roboto;
+}

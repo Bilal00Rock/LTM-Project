@@ -1,0 +1,115 @@
+.total85Items {
+  align-self: stretch;
+  height: 22px;
+  position: relative;
+  line-height: 22px;
+  display: inline-block;
+}
+.totalItems {
+  width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 5px 0 0;
+  box-sizing: border-box;
+}
+.leftIcon {
+  height: 12px;
+  width: 12px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.componentspaginationPrev {
+  width: 32px;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 9px;
+}
+.componentspaginationNext,
+.content {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.componentspaginationNext {
+  width: 32px;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  padding: 8px 9px;
+}
+.content {
+  flex: 1;
+  gap: 8px;
+  min-width: 423px;
+  max-width: 100%;
+  color: rgba(0, 0, 0, 0.25);
+  font-family: Poppins;
+}
+.goTo {
+  position: relative;
+  line-height: 22px;
+}
+.quickJumper,
+.suffix {
+  align-self: stretch;
+  display: none;
+}
+.quickJumper {
+  overflow: hidden;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  text-align: right;
+}
+.suffix {
+  width: 14px;
+  position: relative;
+  line-height: 32px;
+  font-family: Poppins;
+}
+.advancedlegacy,
+.paginationOptions {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.paginationOptions {
+  height: 32px;
+  width: 93.2px;
+  overflow: hidden;
+  flex-shrink: 0;
+  gap: 8px;
+  text-align: left;
+}
+.advancedlegacy {
+  width: 667.2px;
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}
+@media screen and (max-width: 750px) {
+  .advancedlegacy {
+    overflow-x: auto;
+  }
+}

@@ -1,0 +1,73 @@
+.avatarIcon {
+  height: 16px;
+  width: 16px;
+  position: relative;
+  border-radius: 999px;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.homeIcon,
+.status {
+  position: relative;
+  display: none;
+}
+.homeIcon {
+  height: 12px;
+  width: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.status {
+  height: 6px;
+  width: 6px;
+  border-radius: 999px;
+  background-color: #6b7280;
+}
+.placeholder1 {
+  align-self: stretch;
+  position: relative;
+  letter-spacing: 0.01em;
+  line-height: 20px;
+  font-weight: 500;
+}
+.placeholder {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 4px;
+  gap: 7px;
+}
+.xIcon {
+  height: 8px;
+  width: 8px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.badgeAndTag,
+.closeIcon {
+  border-radius: 999px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.closeIcon {
+  height: 15px;
+  width: 15px;
+  background-color: #e5e7eb;
+  justify-content: center;
+}
+.badgeAndTag {
+  align-self: stretch;
+  border: 1px solid #e5e7eb;
+  justify-content: flex-start;
+  padding: 6px 5px;
+  gap: 1px;
+  text-align: left;
+  font-size: 14px;
+  color: #6b7280;
+  font-family: Inter;
+}

@@ -1,0 +1,58 @@
+.password {
+  position: relative;
+  display: inline-block;
+  min-width: 77px;
+}
+.enterYourPassword {
+  align-self: stretch;
+  position: relative;
+}
+.enterYourPasswordWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 13px 0 0;
+  box-sizing: border-box;
+  min-width: 218px;
+  max-width: 100%;
+}
+.icon {
+  height: 50px;
+  width: 50px;
+  position: relative;
+  border-radius: 8px;
+}
+.input,
+.inputField {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.input {
+  border-radius: 8px;
+  background-color: rgba(143, 186, 243, 0.5);
+  flex-direction: row;
+  padding: 0 0 0 19px;
+  box-sizing: border-box;
+  gap: 6px;
+}
+.inputField {
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+  font-size: 16px;
+  color: #555;
+  font-family: Poppins;
+}
+@media screen and (max-width: 450px) {
+  .input {
+    flex-wrap: wrap;
+    padding-right: 19px;
+    padding-bottom: 19px;
+    box-sizing: border-box;
+  }
+}

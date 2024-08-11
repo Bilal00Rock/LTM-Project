@@ -1,0 +1,30 @@
+.heading,
+.pageHeaderlegacy {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+}
+.heading {
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0;
+  row-gap: 20px;
+}
+.pageHeaderlegacy {
+  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #cee4f9;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 14px 23px;
+  gap: 8px;
+  top: 0;
+  z-index: 99;
+  position: sticky;
+  text-align: left;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}

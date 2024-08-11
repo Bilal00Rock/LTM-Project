@@ -1,0 +1,298 @@
+.dashboardTitle {
+  text-decoration: none;
+  position: relative;
+  line-height: 24px;
+  font-weight: 700;
+  color: inherit;
+}
+.accountCircleIcon {
+  height: 56px;
+  width: 56px;
+  position: relative;
+}
+.title {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+}
+.head,
+.titleWrapper {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100%;
+}
+.titleWrapper {
+  justify-content: center;
+  padding: 16px 24px;
+  box-sizing: border-box;
+  gap: 10px;
+}
+.head {
+  background-color: #fff;
+  justify-content: flex-start;
+}
+.bodySeparator {
+  width: 354px;
+  height: 16px;
+  position: relative;
+  border-top: 1px solid #c2c2c2;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.dataLabels,
+.row {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  row-gap: 20px;
+}
+.dataLabels {
+  flex-wrap: wrap;
+  align-items: flex-start;
+  max-width: 100%;
+}
+.bodypi,
+.view {
+  flex-direction: column;
+  max-width: 100%;
+}
+.view {
+  width: 856px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+}
+.bodypi {
+  align-self: stretch;
+  background-color: #fff;
+  padding: 13px 24px 18px;
+  gap: 6px;
+}
+.bodypi,
+.cardhead,
+.stepsContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+.cardhead {
+  align-self: stretch;
+  border-radius: 6px;
+  background-color: #cee4f9;
+  border: 1px solid #cee4f9;
+  overflow-y: auto;
+  flex-shrink: 0;
+  flex-direction: column;
+  max-width: 100%;
+}
+.stepsContainer {
+  flex-direction: row;
+  padding: 0 58px;
+}
+.formWrapper,
+.lineIcon,
+.stepsContainer {
+  align-self: stretch;
+  max-width: 100%;
+}
+.formWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.lineIcon {
+  position: relative;
+  overflow: hidden;
+  max-height: 100%;
+}
+.divider {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0 24px;
+}
+.text {
+  position: relative;
+  line-height: 24px;
+  display: inline-block;
+  min-width: 85px;
+}
+.texttext {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.anEnglishUppercase {
+  margin-bottom: 0;
+}
+.anEnglishUppercaseCharacter {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  padding-left: 19px;
+}
+.text1 {
+  position: relative;
+  line-height: 22px;
+  display: inline-block;
+  max-width: 100%;
+}
+.subFooter,
+.texttext1 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100%;
+}
+.texttext1 {
+  overflow: hidden;
+  justify-content: center;
+  padding: 0 20px 0 0;
+  box-sizing: border-box;
+}
+.subFooter {
+  justify-content: flex-start;
+  font-size: 14px;
+}
+.footer {
+  align-self: stretch;
+  padding: 0 56px;
+  box-sizing: border-box;
+  gap: 12px;
+}
+.footer,
+.formContainer,
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.formContainer {
+  align-self: stretch;
+}
+.wrapper {
+  flex: 1;
+  background-color: #fff;
+  overflow: hidden;
+  padding: 40px 24px 24px;
+  box-sizing: border-box;
+  gap: 16px;
+}
+.cardpassword,
+.dashboard {
+  align-self: stretch;
+  max-width: 100%;
+}
+.cardpassword {
+  border-radius: 6px;
+  border: 1px solid #cee4f9;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.45);
+  font-family: Roboto;
+}
+.dashboard {
+  border-radius: 20px;
+  background-color: #f2fcfc;
+  overflow-y: auto;
+  flex-direction: column;
+  padding: 25px 35px 29px;
+  gap: 16px;
+  text-align: left;
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Poppins;
+}
+.contentPanel,
+.dashboard,
+.dashboarduppi1 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+.contentPanel {
+  flex: 1;
+  flex-direction: column;
+  padding: 32px 0 0;
+  max-width: calc(100% - 325px);
+}
+.dashboarduppi1 {
+  width: 100%;
+  position: relative;
+  background-color: #3f72af;
+  overflow: hidden;
+  flex-direction: row;
+  padding: 0 24px 0 0;
+  gap: 25px;
+  line-height: normal;
+  letter-spacing: normal;
+}
+@media screen and (max-width: 975px) {
+  .row {
+    flex-wrap: wrap;
+  }
+  .stepsContainer {
+    padding-left: 29px;
+    padding-right: 29px;
+  }
+  .dashboard,
+  .footer,
+  .stepsContainer {
+    box-sizing: border-box;
+  }
+  .footer {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  .dashboard {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .contentPanel {
+    max-width: 100%;
+  }
+  .dashboarduppi1 {
+    padding-left: 24px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 700px) {
+  .wrapper {
+    padding-top: 26px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .dashboardTitle {
+    font-size: 19px;
+    line-height: 19px;
+  }
+}

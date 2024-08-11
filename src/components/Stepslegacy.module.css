@@ -1,0 +1,138 @@
+.title {
+  position: relative;
+  line-height: 24px;
+}
+.stepTitleContainers {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 4px 0 0;
+  box-sizing: border-box;
+  min-width: 108px;
+}
+.tail,
+.tailChild {
+  align-self: stretch;
+}
+.tailChild {
+  height: 1px;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.tail {
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 0 8px;
+  box-sizing: border-box;
+}
+.item01,
+.stepTailContainers {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.stepTailContainers {
+  flex-direction: column;
+  padding: 16px 0 0;
+  box-sizing: border-box;
+  min-width: 105px;
+}
+.item01 {
+  overflow: hidden;
+  flex-direction: row;
+  gap: 8px;
+  min-width: 244px;
+  max-width: 100%;
+}
+.title1 {
+  position: relative;
+  line-height: 22px;
+  white-space: nowrap;
+  display: inline-block;
+  min-width: 117px;
+}
+.tailWrapper,
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 5px 0 0;
+}
+.tailWrapper {
+  flex: 1;
+  padding: 16px 0 0;
+  box-sizing: border-box;
+  min-width: 136px;
+}
+.item02,
+.tailInner {
+  max-width: 100%;
+  overflow: hidden;
+}
+.item02 {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 8px;
+  min-width: 244px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
+}
+.tailInner {
+  align-self: stretch;
+  height: 0;
+  position: relative;
+  flex-shrink: 0;
+}
+.tail2 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 0 8px;
+  box-sizing: border-box;
+  min-width: 153px;
+}
+.item03,
+.stepslegacy {
+  flex-direction: row;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.item03 {
+  width: 365px;
+  overflow: hidden;
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+.stepslegacy {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px;
+  text-align: left;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}
+@media screen and (max-width: 700px) {
+  .item01,
+  .item02,
+  .item03 {
+    flex-wrap: wrap;
+  }
+}

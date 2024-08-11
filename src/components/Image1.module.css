@@ -1,0 +1,41 @@
+.heightIcon {
+  height: 254px;
+  width: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.widthChild {
+  height: 0;
+  width: 0;
+  position: relative;
+}
+.image,
+.width {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  max-width: 100%;
+}
+.width {
+  flex: 1;
+  overflow: hidden;
+  justify-content: space-between;
+  min-width: 492px;
+  gap: 20px;
+}
+.image {
+  align-self: stretch;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  background-image: url(/public/image@3x.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+  row-gap: 20px;
+}
+@media screen and (max-width: 750px) {
+  .width {
+    min-width: 100%;
+  }
+}

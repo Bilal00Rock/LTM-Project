@@ -1,0 +1,33 @@
+.sider{
+    box-shadow: 29px 25px 50.1px 19px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction:row;
+    align-items: center;
+}
+.logo{
+    width: 600px;
+    position: relative;
+    object-fit: cover;
+    max-width: 50%;
+    margin: auto;
+    
+}
+.layout2{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+}
+.contextcol{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}

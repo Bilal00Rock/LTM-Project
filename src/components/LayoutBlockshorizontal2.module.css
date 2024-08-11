@@ -1,0 +1,93 @@
+.heightIcon {
+  height: 72px;
+  width: 0;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.widthChild {
+  height: 0;
+  width: 0;
+  position: relative;
+}
+.image,
+.width {
+  flex-direction: row;
+}
+.width {
+  height: 0;
+  width: 72px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.image {
+  height: 32px;
+  width: 32px;
+  display: none;
+  align-items: flex-start;
+  justify-content: flex-start;
+  background-image: url(/public/image1@3x.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+.text {
+  margin: 0;
+  position: relative;
+  font-size: inherit;
+  line-height: 28px;
+  font-weight: 700;
+  font-family: inherit;
+}
+.texttext {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.text1 {
+  height: 22px;
+  position: relative;
+  line-height: 22px;
+  display: inline-block;
+  max-width: 1719%;
+  flex-shrink: 0;
+}
+.texttext1 {
+  width: 32px;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
+}
+.layoutblockshorizontal22,
+.layoutblocksvertical2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  max-width: 100%;
+}
+.layoutblockshorizontal22 {
+  flex-direction: row;
+  gap: 24px;
+  text-align: left;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}
+@media screen and (max-width: 450px) {
+  .text {
+    font-size: 16px;
+    line-height: 22px;
+  }
+}

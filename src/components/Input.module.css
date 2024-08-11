@@ -1,0 +1,101 @@
+.text {
+  position: relative;
+  line-height: 22px;
+}
+.inputAddonlabel,
+.wrapper {
+  overflow: hidden;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.wrapper {
+  height: 30px;
+  display: flex;
+}
+.inputAddonlabel {
+  align-self: stretch;
+  border-radius: 2px 0 0 2px;
+  background-color: #fafafa;
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  border-left: 1px solid #d9d9d9;
+  padding: 0 12px;
+}
+.inputPrefixIcon {
+  height: 14px;
+  width: 14px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+  display: none;
+}
+.input1,
+.placeholder,
+.placeholder1 {
+  align-self: stretch;
+  align-items: center;
+}
+.placeholder1 {
+  width: 53px;
+  position: relative;
+  line-height: 22px;
+}
+.input1,
+.placeholder {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.placeholder {
+  overflow: hidden;
+}
+.input1 {
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  padding: 5px 11px;
+  gap: 4px;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.25);
+}
+.iconWrapper {
+  height: 14px;
+  width: 14px;
+  position: relative;
+  object-fit: cover;
+}
+.input,
+.inputAddonicon {
+  box-sizing: border-box;
+  flex-direction: row;
+  align-items: center;
+}
+.inputAddonicon {
+  width: 38px;
+  border-radius: 0 2px 2px 0;
+  background-color: #fafafa;
+  border-top: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: none;
+  justify-content: center;
+  padding: 7px 11px;
+}
+.input {
+  align-self: stretch;
+  width: 50px;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}

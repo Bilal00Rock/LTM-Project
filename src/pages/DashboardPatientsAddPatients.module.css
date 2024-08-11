@@ -1,0 +1,271 @@
+.arrowleftIcon {
+  height: 16px;
+  width: 16.3px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.title {
+  text-decoration: none;
+  position: relative;
+  line-height: 28px;
+  font-weight: 500;
+  color: inherit;
+  white-space: nowrap;
+}
+.wrapper {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.headingLeft,
+.pageHeaderlegacy {
+  align-self: stretch;
+  display: flex;
+  justify-content: flex-start;
+}
+.headingLeft {
+  overflow: hidden;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 739px 12px 0;
+  gap: 16px;
+}
+.pageHeaderlegacy {
+  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #cee4f9;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 14px 23px;
+  gap: 8px;
+  top: 0;
+  z-index: 99;
+  position: sticky;
+  max-width: 100%;
+}
+.div,
+.title1 {
+  position: absolute;
+  top: 0;
+  line-height: 22px;
+  display: inline-block;
+}
+.title1 {
+  left: 0;
+  min-width: 79px;
+  width: 100%;
+  height: 100%;
+}
+.div {
+  left: 83px;
+  width: 4px;
+  min-width: 4px;
+}
+.titleParent {
+  height: 22px;
+  flex: 1;
+  position: relative;
+}
+.label {
+  position: absolute;
+  top: calc(50% + 11px);
+  left: 93px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 6px 0 0;
+  transform: rotate(-180deg);
+  transform-origin: 0 0;
+}
+.labelWrapper {
+  width: 0;
+  height: 32px;
+  position: relative;
+  transform: rotate(180deg);
+  display: none;
+}
+.placeholderLeft {
+  flex: 1;
+  position: relative;
+  line-height: 24px;
+  display: inline-block;
+  min-width: 63px;
+}
+.unionIcon {
+  width: 12.5px;
+  height: 12.5px;
+  position: relative;
+}
+.dateIcon,
+.datePicker,
+.input {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.dateIcon {
+  flex-direction: column;
+  padding: 5.8px 0 0;
+}
+.datePicker,
+.input {
+  flex-direction: row;
+}
+.input {
+  flex: 1;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+.datePicker {
+  align-self: stretch;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  padding: 6px 11px;
+}
+.dateRadioWrapper {
+  width: 256px;
+  flex-direction: column;
+  gap: 11px;
+  text-align: left;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.4);
+}
+.buttonGroup,
+.dateRadioWrapper,
+.wrapper1 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.buttonGroup {
+  width: 77px;
+  flex-direction: row;
+  cursor: pointer;
+}
+.wrapper1 {
+  flex: 1;
+  border-radius: 6px;
+  background-color: #fff;
+  border: 1px solid #cee4f9;
+  box-sizing: border-box;
+  flex-direction: column;
+  padding: 65px 201px 41px 265px;
+  gap: 19px;
+  max-width: 100%;
+}
+.cardBody,
+.dashboard {
+  align-self: stretch;
+  max-width: 100%;
+}
+.cardBody {
+  border-radius: 6px;
+  border: 1px solid #cee4f9;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: right;
+  font-size: 14px;
+}
+.dashboard {
+  border-radius: 20px;
+  background-color: #f2fcfc;
+  overflow-y: auto;
+  flex-direction: column;
+  padding: 48.5px 35px 40.5px;
+  gap: 5px;
+  text-align: left;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}
+.dashboard,
+.dashboardWrapper,
+.dashboardpatientsaddpatients {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+.dashboardWrapper {
+  flex: 1;
+  flex-direction: column;
+  padding: 32px 0 0;
+  max-width: calc(100% - 325px);
+}
+.dashboardpatientsaddpatients {
+  width: 100%;
+  position: relative;
+  background-color: #3f72af;
+  overflow: hidden;
+  flex-direction: row;
+  padding: 0 24px 0 0;
+  gap: 25px;
+  line-height: normal;
+  letter-spacing: normal;
+}
+@media screen and (max-width: 1025px) {
+  .wrapper1 {
+    padding-left: 132px;
+    padding-right: 100px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 975px) {
+  .headingLeft {
+    padding-right: 369px;
+    box-sizing: border-box;
+  }
+  .dashboard,
+  .wrapper1 {
+    padding-top: 42px;
+    padding-bottom: 27px;
+    box-sizing: border-box;
+  }
+  .dashboard {
+    padding-top: 32px;
+    padding-bottom: 26px;
+  }
+  .dashboardWrapper {
+    max-width: 100%;
+  }
+  .dashboardpatientsaddpatients {
+    padding-left: 24px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 725px) {
+  .headingLeft,
+  .wrapper1 {
+    padding-right: 184px;
+    box-sizing: border-box;
+  }
+  .wrapper1 {
+    padding-left: 66px;
+    padding-right: 50px;
+  }
+  .dashboard {
+    padding-top: 21px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .wrapper1 {
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+}

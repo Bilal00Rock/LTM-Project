@@ -1,0 +1,182 @@
+.headerLogoWithoutBack1Icon {
+  height: auto;
+  flex: 1;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  object-fit: cover;
+}
+.subHeader {
+  
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 140px;
+}
+.loginIntoYour {
+  align-self: stretch;
+  position: relative;
+  font-size: 32px;
+  text-align: center;
+}
+.checkboxContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 1px 0 0;
+}
+.wrapperIcon {
+  width: 14px;
+  height: 14px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+.iconWrapper {
+  background-color: transparent;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.text {
+  position: relative;
+  text-decoration: underline;
+  line-height: 24px;
+  display: inline-block;
+  min-width: 129px;
+  cursor: pointer;
+}
+.button,
+.checkboxContainerParent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.button {
+  border-radius: 2px;
+  overflow: hidden;
+  justify-content: flex-start;
+  gap: 10px;
+  text-align: center;
+  font-size: 16px;
+  color: rgba(30, 39, 114, 0.87);
+}
+.checkboxContainerParent {
+  flex: 1;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: 20px;
+}
+.frameChild,
+.frameWrapper {
+  align-self: stretch;
+  box-sizing: border-box;
+}
+.frameWrapper {
+  
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 25px;
+  max-width: 100%;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}
+.frameChild {
+  height: 1px;
+  position: relative;
+  border-top: 1px solid #c2c2c2;
+}
+.lineWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 11px 0 0;
+  box-sizing: border-box;
+  min-width: 114px;
+}
+.or {
+  position: relative;
+  display: inline-block;
+  min-width: 20px;
+}
+.frameParent,
+.subHeaderParent {
+  display: flex;
+  align-items: flex-start;
+}
+.frameParent {
+  align-self: stretch;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  color: #c2c2c2;
+}
+.subHeaderParent {
+  width: 'inherit';
+  background-color: #f2fcfc;
+  flex-direction: column;
+  justify-content: center;
+  padding: 96px 46px 46px 46px;
+  box-sizing: border-box;
+  gap: 25px;
+  text-align: left;
+  font-size: 14px;
+  color: #000;
+  font-family: Poppins;
+  height: inherit;
+}
+@media screen and (max-width: 1625px) {
+  .subHeaderParent {
+    flex: 1;
+    padding: 96px 26px 26px 26px;
+  }
+  .loginIntoYour {
+    font-size: 24px;
+  }
+  .subHeader{
+    padding: 0 100px;  }
+}
+@media screen and (max-width: 1050px) {
+  .subHeaderParent {
+    padding-top: 62px;
+    padding-bottom: 191px;
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 750px) {
+  .subHeaderParent {
+    padding-left: 23px;
+    padding-right: 23px;
+    box-sizing: border-box;
+    min-width: 100%;
+  }
+}
+@media screen and (max-width: 450px) {
+  .subHeader {
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+  .loginIntoYour {
+    font-size: 16px;
+  }
+  .checkboxContainerParent,
+  .frameParent {
+    flex-wrap: wrap;
+  }
+  .subHeaderParent {
+    padding-top: 40px;
+    padding-bottom: 124px;
+    box-sizing: border-box;
+  }
+}

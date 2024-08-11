@@ -1,0 +1,67 @@
+.downIcon,
+.text {
+  position: relative;
+  flex-shrink: 0;
+}
+.text {
+  height: 30px;
+  width: 39px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.downIcon {
+  height: 12px;
+  width: 12px;
+  overflow: hidden;
+}
+.inputAddonLeft {
+  align-self: stretch;
+  box-shadow: 1px 0 0#d9d9d9 inset, 0 1px 0#d9d9d9 inset, 0-1px 0#d9d9d9 inset;
+  border-radius: 2px 0 0 2px;
+  background-color: #fff;
+  overflow: hidden;
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 12px;
+  gap: 11px;
+}
+.input1 {
+  position: relative;
+  line-height: 22px;
+  display: inline-block;
+  min-width: 67px;
+}
+.field,
+.input,
+.inputField {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.field,
+.inputField {
+  background-color: #fff;
+}
+.inputField {
+  border-radius: 0 2px 2px 0;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  padding: 3px 11px;
+  text-align: left;
+}
+.field {
+  border-radius: 2px;
+  min-width: 248px;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}

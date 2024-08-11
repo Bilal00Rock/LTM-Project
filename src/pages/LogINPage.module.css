@@ -1,0 +1,46 @@
+.headerLogoWithoutBack2Icon {
+  width: 800px;
+  height: 350px;
+  position: relative;
+  object-fit: cover;
+  max-width: 50%;
+
+}
+.loginPage,
+.main {
+  overflow: hidden;
+  display: flex;
+
+}
+.main {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+}
+.loginPage {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+  background-color: #cee4f9;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  line-height: normal;
+  letter-spacing: normal;
+  row-gap: 20px;
+}
+@media screen and (max-width: 1920px) {
+  .loginPage {
+    flex-wrap: nowrap;
+  }
+}
+@media screen and (max-width: 1920px) {
+  .main {
+    min-width: 100%;
+  }
+}

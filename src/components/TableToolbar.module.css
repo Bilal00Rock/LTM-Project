@@ -1,0 +1,39 @@
+.text {
+  position: relative;
+  line-height: 24px;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 90px;
+  white-space: nowrap;
+}
+.tableToolbar,
+.title,
+.titleWrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.title {
+  overflow: hidden;
+  flex-direction: row;
+}
+.tableToolbar,
+.titleWrapper {
+  flex-direction: column;
+  padding: 8.5px 0 0;
+}
+.tableToolbar {
+  align-self: stretch;
+  background-color: transparent;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px 8px;
+  top: 0;
+  z-index: 99;
+  position: sticky;
+  gap: 20px;
+  text-align: left;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}

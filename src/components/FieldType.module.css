@@ -1,0 +1,200 @@
+.emptyInputTitles,
+.title {
+  position: relative;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: Roboto;
+  color: rgba(0, 0, 0, 0.85);
+  text-align: right;
+  display: inline-block;
+}
+.title {
+  min-width: 112px;
+  white-space: nowrap;
+}
+.emptyInputTitles {
+  min-width: 4px;
+}
+.formIteminput,
+.label,
+.labelWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.label {
+  margin-left: -126px;
+  overflow: hidden;
+  gap: 2px;
+  transform: rotate(-180deg);
+  flex-shrink: 0;
+}
+.formIteminput,
+.labelWrapper {
+  box-sizing: border-box;
+}
+.labelWrapper {
+  width: 0;
+  padding: 5px 0;
+  transform: rotate(180deg);
+}
+.formIteminput {
+  align-self: stretch;
+  flex-wrap: wrap;
+  padding: 0 0 24px;
+  max-width: 100%;
+  row-gap: 20px;
+}
+.title1 {
+  position: relative;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: Roboto;
+  color: rgba(0, 0, 0, 0.85);
+  text-align: right;
+  display: inline-block;
+  min-width: 94px;
+  white-space: nowrap;
+}
+.label1 {
+  margin-left: -108px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2px;
+  transform: rotate(-180deg);
+  flex-shrink: 0;
+}
+.title2 {
+  flex: 1;
+  position: relative;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: Roboto;
+  color: rgba(0, 0, 0, 0.85);
+  text-align: right;
+}
+.label2 {
+  margin-left: -171px;
+  width: 163px;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2px;
+  transform: rotate(-180deg);
+}
+.text {
+  position: relative;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: Roboto;
+  color: rgba(0, 0, 0, 0.85);
+  text-align: center;
+}
+.inputAddonlabel,
+.wrapper {
+  overflow: hidden;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.wrapper {
+  height: 30px;
+  display: flex;
+}
+.inputAddonlabel {
+  align-self: stretch;
+  border-radius: 2px 0 0 2px;
+  background-color: #fafafa;
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  border-left: 1px solid #d9d9d9;
+  display: none;
+  padding: 0 12px;
+}
+.inputPrefixIcon {
+  height: 14px;
+  width: 14px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  object-fit: cover;
+  display: none;
+}
+.input1,
+.input2 {
+  flex: 1;
+  max-width: 100%;
+}
+.input2 {
+  position: relative;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: Roboto;
+  color: rgba(0, 0, 0, 0.85);
+  text-align: left;
+  display: inline-block;
+}
+.input1 {
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 3px 11px;
+  gap: 4px;
+}
+.iconWrapper {
+  height: 14px;
+  width: 14px;
+  position: relative;
+  object-fit: cover;
+}
+.inputAddonicon {
+  width: 38px;
+  border-radius: 0 2px 2px 0;
+  background-color: #fafafa;
+  border-top: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 11px;
+}
+.fieldType,
+.input {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.input {
+  flex: 1;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-direction: row;
+  min-width: 248px;
+}
+.fieldType {
+  margin: 0;
+  width: 382px;
+  flex-direction: column;
+}

@@ -1,0 +1,17 @@
+.bg {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  border-radius: 2px;
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+}
+.checkboxInput {
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 0;
+}

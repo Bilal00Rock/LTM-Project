@@ -1,0 +1,23 @@
+.cell,
+.description {
+  flex: 1;
+  max-width: 100%;
+}
+.description {
+  position: relative;
+  line-height: 22px;
+  display: inline-block;
+}
+.cell {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 0 16px;
+  box-sizing: border-box;
+  min-width: 313px;
+  text-align: left;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Roboto;
+}
