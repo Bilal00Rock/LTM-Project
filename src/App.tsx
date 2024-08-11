@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import {
+  BrowserRouter as Router,
   Routes,
   Route,
   useNavigationType,
@@ -15,6 +16,7 @@ import DashboardMain from "./pages/DashboardMain";
 import ForgotPassword from "./pages/ForgotPassword";
 import SignUPPage from "./pages/SignUPPage";
 import DashboardUPPI from "./pages/DashboardUPPI";
+import { ForgotPassPage } from "./pages/ForgotPassPage";
 
 function App() {
   const action = useNavigationType();
@@ -36,7 +38,7 @@ function App() {
         title = "Log Into Your Account";
         metaDescription = "User Account Login";
         break;
-      
+
       case "/dashboardpatientsaddpatients":
         title = "";
         metaDescription = "";
@@ -57,6 +59,10 @@ function App() {
         title = "Forgot PassWord!?";
         metaDescription = "did you";
         break;
+      case "/forgot-password-new":
+        title = "new Forgot PassWord!?";
+        metaDescription = "did you";
+        break;
       case "/signup-page":
         title = "";
         metaDescription = "";
@@ -65,7 +71,7 @@ function App() {
         title = "";
         metaDescription = "";
         break;
-      default: 
+      default:
         break;
     }
 
@@ -84,25 +90,28 @@ function App() {
   }, [pathname]);
 
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route
-        path="/dashboardpatientsaddpatients"
-        element={<DashboardPatientsAddPatients />}
-      />
-      <Route
-        path="/dashboardpatientsprofile"
-        element={<DashboardPatientsProfile />}
-      />
-      <Route
-        path="/dashboardpatientsprofileresults"
-        element={<DashboardPatientsProfileRes />}
-      />
-      <Route path="/dashboardmain" element={<DashboardMain />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/signup-page" element={<SignUPPage />} />
-      <Route path="/dashboarduppi1" element={<DashboardUPPI />} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login-page" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassPage />} />
+        <Route
+          path="/dashboardpatientsaddpatients"
+          element={<DashboardPatientsAddPatients />}
+        />
+        <Route
+          path="/dashboardpatientsprofile"
+          element={<DashboardPatientsProfile />}
+        />
+        <Route
+          path="/dashboardpatientsprofileresults"
+          element={<DashboardPatientsProfileRes />}
+        />
+        <Route path="/dashboardmain" element={<DashboardMain />} />
+        <Route path="/forgot-password-old" element={<ForgotPassword />} />
+
+        <Route path="/signup-page" element={<SignUPPage />} />
+        <Route path="/dashboarduppi1" element={<DashboardUPPI />} />
+      </Routes>
   );
 }
 export default App;

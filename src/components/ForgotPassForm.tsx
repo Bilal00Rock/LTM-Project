@@ -1,44 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FunctionComponent, useCallback } from "react";
-import { InfoCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Flex, Tooltip, ConfigProvider, Space } from 'antd';
+import { InfoCircleOutlined , MailOutlined} from '@ant-design/icons';
+import { Button, Form, Input, Flex, Tooltip, ConfigProvider } from 'antd';
 import styles from "./FrameComponent.module.css";
+
+import styles2 from "../pages/ForgotPassPage.module.css";
 import { useNavigate } from 'react-router-dom';
 
-export type LoginComponentType = {
+export type FrgpassComponentType = {
     className?: string;
 };
-
-const LoginForm: FunctionComponent<LoginComponentType> = ({
+const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({
     className = "",
 }) => {
-    //#region Functions
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     const navigate = useNavigate();
 
-    const onTextClick = useCallback(() => {
-        navigate("/forgot-password");
+    const onBackClick = useCallback(() => {
+        navigate("/login-page");
     }, [navigate]);
-    const onBRClick = useCallback(() => {
-        navigate("/signup-page");
-    }, [navigate]);
-
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
     };
-    //#endregion
+    const smallWidth = windowWidth < 1700;
+    const titleFont: React.CSSProperties = {
+        fontSize: smallWidth ? '22px' : '24px',
+        fontFamily: 'poppins'
+    };
     return (
-
-        <div className={[styles.subHeaderParent, className].join(" ")}>
-            <div className={styles.subHeader}>
-                <img
-                    className={styles.headerLogoWithoutBack1Icon}
-                    loading="lazy"
-                    alt=""
-                    src="../headerlogowithoutback-2@2x.png"
-                />
+        <div>
+            <b className={styles2.forgotPassword1} style={titleFont}>Forgot Password?!</b>
+            <div className={styles2.pleaseEnterYourEmailToResWrapper}>
+                <div className={styles2.pleaseEnterYour}>
+                    Please enter your email to reset the password
+                </div>
             </div>
-            <b className={styles.loginIntoYour}>Login into your account</b>
-
             <Form
                 name="login"
                 initialValues={{ remember: true }}
@@ -50,7 +51,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                     components: {
                         Input: {
                             /* here is your component tokens */
-                            inputFontSizeLG: 23,
+                            inputFontSizeLG: 25,
                         },
                     },
                 }}
@@ -61,7 +62,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                     >
                         <Input
                             placeholder="Enter your Email Address"
-                            prefix={<UserOutlined style={{ color: 'rgba(0,0,0,.55)' }} />}
+                            prefix={<MailOutlined  style={{ color: 'rgba(0,0,0,.55)' }} />}
                             suffix={
                                 <Tooltip title="example: info@neurosina.com">
                                     <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
@@ -69,22 +70,8 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                             }
                         />
                     </Form.Item>
-                    <Form.Item
-                        name="password"
-                        rules={[{ required: true, message: 'Please input your Password!' }]}
-                    >
-                        <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
-                    </Form.Item>
-                </ConfigProvider>
-                <Form.Item>
-                    <Flex justify="space-between" align="center">
-                        <Form.Item name="remember" valuePropName="checked" noStyle>
-                            <Checkbox style={{ fontSize: '18px' }}>Remember me</Checkbox>
-                        </Form.Item>
-                        <Button type='link' onClick={onTextClick} style={{ fontSize: '18px' }}>Forgot password</Button>
-                    </Flex>
-                </Form.Item>
 
+                </ConfigProvider>
                 <Form.Item>
 
                     <ConfigProvider
@@ -92,7 +79,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                             components: {
                                 Button: {
                                     /* here is your component tokens */
-                                    contentFontSizeLG: 20,
+                                    contentFontSizeLG: 21,
                                     fontWeight: 800,
                                     controlHeightLG: 55,
                                 },
@@ -101,9 +88,9 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                     >
                         <Button block type="primary"
                             htmlType="submit"
-                            style={{ fontWeight: 'bold', fontSize: 'large' }}
+                            style={{ fontWeight: 'bold'}}
                         >
-                            Login Now
+                            Reset Password
                         </Button>
 
                         <div className={styles.frameParent} style={{ margin: 10 }}>
@@ -117,9 +104,9 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                         </div>
                         <Button block
                             type="default"
-                            onClick={onBRClick}
+                            onClick={onBackClick}
                         >
-                            Register Now
+                            Back to Login
                         </Button>
                     </ConfigProvider>
                 </Form.Item>
@@ -127,5 +114,4 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
         </div>
     );
 };
-
-export default LoginForm;
+export default ForgotPassForm;
