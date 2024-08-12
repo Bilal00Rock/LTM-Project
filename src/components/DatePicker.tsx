@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./DatePicker.module.css";
+import styles from "./Styles/DatePicker.module.css";
 
 export type DatePickerType = {
   className?: string;

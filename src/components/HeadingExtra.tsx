@@ -1,6 +1,6 @@
 import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./HeadingExtra.module.css";
+import styles from "./Styles/HeadingExtra.module.css";
 
 export type HeadingExtraType = {
   className?: string;

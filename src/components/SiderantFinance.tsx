@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback } from "react";
 import Menu from "./Menu";
 import { useNavigate } from "react-router-dom";
-import styles from "./SiderantFinance.module.css";
+import styles from "./Styles/SiderantFinance.module.css";
 
 export type SiderantFinanceType = {
   className?: string;

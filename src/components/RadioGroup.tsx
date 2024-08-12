@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import RadioOption from "./RadioOption";
-import styles from "./RadioGroup.module.css";
+import styles from "./Styles/RadioGroup.module.css";
 
 export type RadioGroupType = {
   className?: string;

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./TextParagraph.module.css";
+import styles from "./Styles/TextParagraph.module.css";
 
 export type TextParagraphType = {
   className?: string;

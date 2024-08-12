@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./BadgeAndTag.module.css";
+import styles from "./Styles/BadgeAndTag.module.css";
 
 export type BadgeAndTagType = {
   className?: string;

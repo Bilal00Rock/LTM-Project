@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import LayoutBlocksvertical from "./LayoutBlocksvertical";
 import TextText from "./TextText";
-import styles from "./Body.module.css";
+import styles from "./Styles/Body.module.css";
 
 export type BodyType = {
   className?: string;

@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./LayoutBlocksbase.module.css";
+import styles from "./Styles/LayoutBlocksbase.module.css";
 
 export type LayoutBlocksbaseType = {
   className?: string;

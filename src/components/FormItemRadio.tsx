@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import RadioGroup from "./RadioGroup";
-import styles from "./FormItemRadio.module.css";
+import styles from "./Styles/FormItemRadio.module.css";
 
 export type FormItemRadioType = {
   className?: string;

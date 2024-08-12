@@ -1,6 +1,6 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import InputSmall1 from "./InputSmall1";
-import styles from "./InputSmall.module.css";
+import styles from "./Styles/InputSmall.module.css";
 
 export type InputSmallType = {
   className?: string;

@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import TableCellheader from "./TableCellheader";
 import TableCellaction from "./TableCellaction";
-import styles from "./ComponentsTableColumnAction.module.css";
+import styles from "./Styles/ComponentsTableColumnAction.module.css";
 
 export type ComponentsTableColumnActionType = {
   className?: string;

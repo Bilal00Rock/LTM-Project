@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import FrameComponent1 from "../components/FrameComponent1";
 import Plan from "../components/Plan";
-import styles from "./SignUPPage.module.css";
+import styles from "./Styles/SignUPPage.module.css";
 
 const SignUPPage: FunctionComponent = () => {
   return (

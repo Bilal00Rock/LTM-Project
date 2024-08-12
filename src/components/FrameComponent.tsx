@@ -3,7 +3,7 @@ import InputField from "./InputField";
 import Checkbox from "./Checkbox";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import styles from "./FrameComponent.module.css";
+import styles from "./Styles/FrameComponent.module.css";
 
 export type FrameComponentType = {
   className?: string;

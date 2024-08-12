@@ -3,7 +3,7 @@ import SiderantFinance from "../components/SiderantFinance";
 import { useNavigate } from "react-router-dom";
 import TextText from "../components/TextText";
 import TableColumnBased from "../components/TableColumnBased";
-import styles from "./DashboardPatientsProfile.module.css";
+import styles from "./Styles/DashboardPatientsProfile.module.css";
 
 const DashboardPatientsProfile: FunctionComponent = () => {
   const navigate = useNavigate();

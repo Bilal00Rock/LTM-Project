@@ -2,7 +2,7 @@ import React from 'react';
 import { FunctionComponent, useCallback } from "react";
 import { InfoCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Flex, Tooltip, ConfigProvider, Space } from 'antd';
-import styles from "./FrameComponent.module.css";
+import styles from "./Styles/FrameComponent.module.css";
 import { useNavigate } from 'react-router-dom';
 
 export type LoginComponentType = {

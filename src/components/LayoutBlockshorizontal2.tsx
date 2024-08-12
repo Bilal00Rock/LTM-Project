@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./LayoutBlockshorizontal2.module.css";
+import styles from "./Styles/LayoutBlockshorizontal2.module.css";
 
 export type LayoutBlockshorizontal2Type = {
   className?: string;

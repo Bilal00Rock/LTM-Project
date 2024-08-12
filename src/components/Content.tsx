@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import LayoutBlockshorizontal2 from "./LayoutBlockshorizontal2";
-import styles from "./Content.module.css";
+import styles from "./Styles/Content.module.css";
 
 export type ContentType = {
   className?: string;

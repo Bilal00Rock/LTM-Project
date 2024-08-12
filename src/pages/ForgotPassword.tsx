@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import InputField from "../components/InputField";
 import Button from "../components/Button";
-import styles from "./ForgotPassword.module.css";
+import styles from "./Styles/ForgotPassword.module.css";
 
 const ForgotPassword: FunctionComponent = () => {
   return (

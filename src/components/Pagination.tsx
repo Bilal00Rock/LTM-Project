@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import AdvancedLegacy from "./AdvancedLegacy";
-import styles from "./Pagination.module.css";
+import styles from "./Styles/Pagination.module.css";
 
 export type PaginationType = {
   className?: string;

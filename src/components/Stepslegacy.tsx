@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import ComponentsStepsItemIcon from "./ComponentsStepsItemIcon";
 import Item from "./Item";
-import styles from "./Stepslegacy.module.css";
+import styles from "./Styles/Stepslegacy.module.css";
 
 export type StepslegacyType = {
   className?: string;

@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import Breadcrumb from "./Breadcrumb";
 import HeadingLeft from "./HeadingLeft";
 import HeadingExtra from "./HeadingExtra";
-import styles from "./PageHeaderLegacy.module.css";
+import styles from "./Styles/PageHeaderLegacy.module.css";
 
 export type PageHeaderLegacyType = {
   className?: string;

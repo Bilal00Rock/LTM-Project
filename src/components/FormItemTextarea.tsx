@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import Textarea from "./Textarea";
-import styles from "./FormItemTextarea.module.css";
+import styles from "./Styles/FormItemTextarea.module.css";
 
 export type FormItemTextareaType = {
   className?: string;

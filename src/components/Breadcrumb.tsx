@@ -1,6 +1,6 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import ComponentsSeparator from "./ComponentsSeparator";
-import styles from "./Breadcrumb.module.css";
+import styles from "./Styles/Breadcrumb.module.css";
 
 export type BreadcrumbType = {
   className?: string;

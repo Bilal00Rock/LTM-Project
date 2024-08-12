@@ -3,7 +3,7 @@ import Body2 from "./Body2";
 import TextText from "./TextText";
 import LayoutBlocksbase from "./LayoutBlocksbase";
 import Body1 from "./Body1";
-import styles from "./Head.module.css";
+import styles from "./Styles/Head.module.css";
 
 export type HeadType = {
   className?: string;

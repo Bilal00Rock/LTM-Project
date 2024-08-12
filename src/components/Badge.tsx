@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import BadgeAndTag from "./BadgeAndTag";
-import styles from "./Badge.module.css";
+import styles from "./Styles/Badge.module.css";
 
 export type BadgeType = {
   className?: string;

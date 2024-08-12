@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./Checkbox.module.css";
+import styles from "./Styles/Checkbox.module.css";
 
 export type CheckboxType = {
   className?: string;

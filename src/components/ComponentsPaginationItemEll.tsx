@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./ComponentsPaginationItemEll.module.css";
+import styles from "./Styles/ComponentsPaginationItemEll.module.css";
 
 export type ComponentsPaginationItemEllType = {
   className?: string;

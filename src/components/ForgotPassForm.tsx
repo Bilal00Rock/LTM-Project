@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { FunctionComponent, useCallback } from "react";
 import { InfoCircleOutlined , MailOutlined} from '@ant-design/icons';
 import { Button, Form, Input, Flex, Tooltip, ConfigProvider } from 'antd';
-import styles from "./FrameComponent.module.css";
+import styles from "./Styles/FrameComponent.module.css";
 
-import styles2 from "../pages/ForgotPassPage.module.css";
+import styles2 from "../pages/Styles/ForgotPassPage.module.css";
 import { useNavigate } from 'react-router-dom';
 
 export type FrgpassComponentType = {

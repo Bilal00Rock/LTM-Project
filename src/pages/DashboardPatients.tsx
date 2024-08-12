@@ -10,7 +10,7 @@ import ComponentsTableColumnText from "../components/ComponentsTableColumnText";
 import ComponentsTableColumnStatus from "../components/ComponentsTableColumnStatus";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../components/Pagination";
-import styles from "./DashboardPatients.module.css";
+import styles from "./Styles/DashboardPatients.module.css";
 
 const DashboardPatients: FunctionComponent = () => {
   const navigate = useNavigate();

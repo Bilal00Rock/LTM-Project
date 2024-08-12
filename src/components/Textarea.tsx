@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./Textarea.module.css";
+import styles from "./Styles/Textarea.module.css";
 
 export type TextareaType = {
   className?: string;

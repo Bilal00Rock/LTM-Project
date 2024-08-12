@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./Cell.module.css";
+import styles from "./Styles/Cell.module.css";
 
 export type CellType = {
   className?: string;

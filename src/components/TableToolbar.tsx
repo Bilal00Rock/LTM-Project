@@ -1,6 +1,6 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import InputSmall from "./InputSmall";
-import styles from "./TableToolbar.module.css";
+import styles from "./Styles/TableToolbar.module.css";
 
 export type TableToolbarType = {
   className?: string;

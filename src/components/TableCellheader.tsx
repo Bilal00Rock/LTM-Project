@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./TableCellheader.module.css";
+import styles from "./Styles/TableCellheader.module.css";
 
 export type TableCellheaderType = {
   className?: string;

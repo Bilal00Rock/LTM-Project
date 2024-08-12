@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import ComponentsTableCellCheckbox from "./ComponentsTableCellCheckbox";
-import styles from "./ComponentsTableColumnCheck.module.css";
+import styles from "./Styles/ComponentsTableColumnCheck.module.css";
 
 export type ComponentsTableColumnCheckType = {
   className?: string;

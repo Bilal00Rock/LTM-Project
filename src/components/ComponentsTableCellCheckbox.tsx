@@ -1,6 +1,6 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import CheckboxInput from "./CheckboxInput";
-import styles from "./ComponentsTableCellCheckbox.module.css";
+import styles from "./Styles/ComponentsTableCellCheckbox.module.css";
 
 export type ComponentsTableCellCheckboxType = {
   className?: string;

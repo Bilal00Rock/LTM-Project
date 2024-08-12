@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./ComponentsTab.module.css";
+import styles from "./Styles/ComponentsTab.module.css";
 
 export type ComponentsTabType = {
   className?: string;

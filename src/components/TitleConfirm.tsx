@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./TitleConfirm.module.css";
+import styles from "./Styles/TitleConfirm.module.css";
 
 export type TitleConfirmType = {
   className?: string;

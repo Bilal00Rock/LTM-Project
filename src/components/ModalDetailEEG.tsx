@@ -1,7 +1,7 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import TitleConfirm from "./TitleConfirm";
 import Button from "./Button";
-import styles from "./ModalDetailEEG.module.css";
+import styles from "./Styles/ModalDetailEEG.module.css";
 
 export type ModalDetailEEGType = {
   className?: string;

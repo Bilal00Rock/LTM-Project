@@ -1,7 +1,7 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import Badge from "./Badge";
 import BadgeAndTag from "./BadgeAndTag";
-import styles from "./InputSmall1.module.css";
+import styles from "./Styles/InputSmall1.module.css";
 
 export type InputSmall1Type = {
   className?: string;

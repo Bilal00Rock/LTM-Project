@@ -1,7 +1,7 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import TableCelltext from "./TableCelltext";
 import TableCellaction from "./TableCellaction";
-import styles from "./TableCelltext1.module.css";
+import styles from "./Styles/TableCelltext1.module.css";
 
 export type TableCelltext1Type = {
   className?: string;

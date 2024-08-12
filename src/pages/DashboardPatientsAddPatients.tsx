@@ -9,7 +9,7 @@ import FormItemTextarea from "../components/FormItemTextarea";
 import FormItemRadio from "../components/FormItemRadio";
 import TextText from "../components/TextText";
 import Button from "../components/Button";
-import styles from "./DashboardPatientsAddPatients.module.css";
+import styles from "./Styles/DashboardPatientsAddPatients.module.css";
 
 const DashboardPatientsAddPatients: FunctionComponent = () => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import TextText from "./TextText";
-import styles from "./ComponentsTabLegacy.module.css";
+import styles from "./Styles/ComponentsTabLegacy.module.css";
 
 export type ComponentsTabLegacyType = {
   className?: string;

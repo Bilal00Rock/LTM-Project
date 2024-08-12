@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import Head1 from "./Head1";
 import Body from "./Body";
-import styles from "./Cardlegacy.module.css";
+import styles from "./Styles/Cardlegacy.module.css";
 
 export type CardlegacyType = {
   className?: string;

@@ -11,7 +11,7 @@ import {
 } from "react";
 
 import { createPortal } from "react-dom";
-import styles from "./PortalPopup.module.css";
+import styles from "./Styles/PortalPopup.module.css";
 
 type PopupProps = {
   overlayColor?: string;

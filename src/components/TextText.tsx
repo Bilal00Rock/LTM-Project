@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./TextText.module.css";
+import styles from "./Styles/TextText.module.css";
 
 export type TextTextType = {
   className?: string;

@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import TabsTopLegacy from "./TabsTopLegacy";
 import LayoutBlockshorizontal from "./LayoutBlockshorizontal";
 import DatePicker from "./DatePicker";
-import styles from "./Head1.module.css";
+import styles from "./Styles/Head1.module.css";
 
 export type Head1Type = {
   className?: string;

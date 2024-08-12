@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./Field.module.css";
+import styles from "./Styles/Field.module.css";
 
 export type FieldType = {
   className?: string;

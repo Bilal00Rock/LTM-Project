@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./InputField.module.css";
+import styles from "./Styles/InputField.module.css";
 
 export type InputFieldType = {
   className?: string;

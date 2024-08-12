@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import SizeChanger from "./SizeChanger";
 import Field from "./Field";
 import Button from "./Button";
-import styles from "./FieldType.module.css";
+import styles from "./Styles/FieldType.module.css";
 
 export type FieldTypeType = {
   className?: string;

@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import FrameComponent from "../components/FrameComponent";
-import styles from "./LogINPage.module.css";
+import styles from "./Styles/LogINPage.module.css";
 
 const LogINPage: FunctionComponent = () => {
   return (

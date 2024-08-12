@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import LinkSmall from "./LinkSmall";
-import styles from "./Links.module.css";
+import styles from "./Styles/Links.module.css";
 
 export type LinksType = {
   className?: string;

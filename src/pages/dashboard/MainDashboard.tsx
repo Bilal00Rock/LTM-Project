@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./MainDashboard.module.css";
+import styles from "../Styles/MainDashboard.module.css";
 import React, { useState } from 'react';
 import {
     DesktopOutlined,
@@ -9,7 +9,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, ConfigProvider, Layout, Menu, theme } from 'antd';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -53,7 +53,7 @@ const MainDashboard: FunctionComponent = () => {
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={siderStyle}>
+            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} >
                 <div className="demo-logo-vertical" >
                     <img
                         className={styles.logo}
@@ -63,12 +63,24 @@ const MainDashboard: FunctionComponent = () => {
                         style={{ maxWidth: '100%', height: 'auto' }}
                     />
                 </div>
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                <ConfigProvider
+                    theme={{
+                        components: {
+                            Menu: {
+                                /* here is your component tokens */
+
+                            },
+                        },
+                    }}
+                >
+
+                    <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                </ConfigProvider>
             </Sider>
-            <Layout>
-                <Header style={{ padding: 0, background: "#3F72AF" }} />
-                <Content style={{ margin: '0 16px' }}>
-                    <Breadcrumb style={{ margin: '16px 0' }}>
+            <Layout style={{ background: "#3F72AF" }} >
+                {/* <Header style={{ padding: 0, background: "#3F72AF" }} /> */}
+                <Content style={{ margin: '0 16px', background: "#F2FCFC" }}>
+                    {/* <Breadcrumb style={{ margin: '16px 0' }}>
                         <Breadcrumb.Item>User</Breadcrumb.Item>
                         <Breadcrumb.Item>Bill</Breadcrumb.Item>
                     </Breadcrumb>
@@ -81,11 +93,13 @@ const MainDashboard: FunctionComponent = () => {
                         }}
                     >
                         Bill is a cat.
-                    </div>
+                    </div> */}
+
+
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
+                {/* <Footer style={{ textAlign: 'center' }}>
                     Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer>
+                </Footer> */}
             </Layout>
         </Layout>
     );

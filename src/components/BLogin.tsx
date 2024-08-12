@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./BLogin.module.css";
+import styles from "./Styles/BLogin.module.css";
 
 export type BLoginType = {
   className?: string;

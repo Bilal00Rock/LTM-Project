@@ -1,6 +1,6 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import Input from "./Input";
-import styles from "./FormItemInput.module.css";
+import styles from "./Styles/FormItemInput.module.css";
 
 export type FormItemInputType = {
   className?: string;

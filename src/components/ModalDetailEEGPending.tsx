@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import ModalDetailEEGReject from "./ModalDetailEEGReject";
-import styles from "./ModalDetailEEGPending.module.css";
+import styles from "./Styles/ModalDetailEEGPending.module.css";
 
 export type ModalDetailEEGPendingType = {
   className?: string;

@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import ProgressCircleStatusNormal from "./ProgressCircleStatusNormal";
 import Button from "./Button";
-import styles from "./Modalprogress1Analyze.module.css";
+import styles from "./Styles/Modalprogress1Analyze.module.css";
 
 export type Modalprogress1AnalyzeType = {
   className?: string;

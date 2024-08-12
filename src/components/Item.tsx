@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import ComponentsStepsItemIcon from "./ComponentsStepsItemIcon";
-import styles from "./Item.module.css";
+import styles from "./Styles/Item.module.css";
 
 export type ItemType = {
   className?: string;

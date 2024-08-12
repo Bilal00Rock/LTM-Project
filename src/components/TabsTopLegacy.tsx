@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import ItemsCount from "./ItemsCount";
-import styles from "./TabsTopLegacy.module.css";
+import styles from "./Styles/TabsTopLegacy.module.css";
 
 export type TabsTopLegacyType = {
   className?: string;

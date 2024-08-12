@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./ComponentsStepsItemIcon.module.css";
+import styles from "./Styles/ComponentsStepsItemIcon.module.css";
 
 export type ComponentsStepsItemIconType = {
   className?: string;

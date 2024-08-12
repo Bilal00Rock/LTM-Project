@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { Layout } from 'antd';
-import styles from "./ForgotPassPage.module.css";
-import ForgotPassForm from "../components/ForgotPassForm";
+import styles from "../Styles/ForgotPassPage.module.css";
+import ForgotPassForm from "../../components/ForgotPassForm";
 
 export const ForgotPassPage: FunctionComponent = () => {
     const { Content } = Layout;

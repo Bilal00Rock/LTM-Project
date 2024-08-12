@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import styles from "./FrameComponent1.module.css";
+import styles from "./Styles/FrameComponent1.module.css";
 
 export type FrameComponent1Type = {
   className?: string;

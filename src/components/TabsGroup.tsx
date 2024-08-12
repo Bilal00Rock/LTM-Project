@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import ComponentsTab from "./ComponentsTab";
-import styles from "./TabsGroup.module.css";
+import styles from "./Styles/TabsGroup.module.css";
 
 export type TabsGroupType = {
   className?: string;

@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./RadioOption.module.css";
+import styles from "./Styles/RadioOption.module.css";
 
 export type RadioOptionType = {
   className?: string;

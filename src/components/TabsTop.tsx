@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import TabsGroup from "./TabsGroup";
-import styles from "./TabsTop.module.css";
+import styles from "./Styles/TabsTop.module.css";
 
 export type TabsTopType = {
   className?: string;

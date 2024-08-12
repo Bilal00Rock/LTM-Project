@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import BLogin from "./BLogin";
-import styles from "./Bplan.module.css";
+import styles from "./Styles/Bplan.module.css";
 
 export type BplanType = {
   className?: string;

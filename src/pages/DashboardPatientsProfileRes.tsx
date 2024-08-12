@@ -5,7 +5,7 @@ import TextText from "../components/TextText";
 import TableToolbar from "../components/TableToolbar";
 import Columns1 from "../components/Columns1";
 import Pagination from "../components/Pagination";
-import styles from "./DashboardPatientsProfileRes.module.css";
+import styles from "./Styles/DashboardPatientsProfileRes.module.css";
 
 const DashboardPatientsProfileRes: FunctionComponent = () => {
   const navigate = useNavigate();

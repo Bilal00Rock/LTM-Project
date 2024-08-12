@@ -1,6 +1,6 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import ModalDetailEEG from "./ModalDetailEEG";
-import styles from "./ModalDetailEEGReject.module.css";
+import styles from "./Styles/ModalDetailEEGReject.module.css";
 
 export type ModalDetailEEGRejectType = {
   className?: string;

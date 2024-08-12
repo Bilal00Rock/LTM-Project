@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./BadgeDot.module.css";
+import styles from "./Styles/BadgeDot.module.css";
 
 export type BadgeDotType = {
   className?: string;

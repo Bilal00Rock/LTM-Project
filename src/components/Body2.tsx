@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import TextText from "./TextText";
-import styles from "./Body2.module.css";
+import styles from "./Styles/Body2.module.css";
 
 export type Body2Type = {
   className?: string;

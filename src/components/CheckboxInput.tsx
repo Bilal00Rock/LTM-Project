@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./CheckboxInput.module.css";
+import styles from "./Styles/CheckboxInput.module.css";
 
 export type CheckboxInputType = {
   className?: string;

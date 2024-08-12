@@ -1,13 +1,13 @@
 import { FunctionComponent } from "react";
 import React from 'react';
 import { Layout, Row, Col, Flex } from 'antd';
-import styles from "./Login.module.css";
-import LoginForm from "../components/LoginForm";
+import styles from "../Styles/Login.module.css";
+import LoginForm from "../../components/LoginForm";
 
 const { Content } = Layout;
 
 
-const LogINPage: FunctionComponent = () => {
+const Login: FunctionComponent = () => {
     return (
         <Layout style={layoutStyle}>
             <Row style={{ height: '100%' }}>
@@ -66,4 +66,4 @@ const layoutStyle: React.CSSProperties = {
     backgroundColor: '#CEE4F9',
 };
 //#endregion
-export default LogINPage;
+export default Login;

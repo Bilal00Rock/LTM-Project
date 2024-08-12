@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./Avatar.module.css";
+import styles from "./Styles/Avatar.module.css";
 
 export type AvatarType = {
   className?: string;

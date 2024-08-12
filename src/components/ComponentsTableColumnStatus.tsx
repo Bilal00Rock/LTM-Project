@@ -1,7 +1,7 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import TableCellheader from "./TableCellheader";
 import TableCell from "./TableCell";
-import styles from "./ComponentsTableColumnStatus.module.css";
+import styles from "./Styles/ComponentsTableColumnStatus.module.css";
 
 export type ComponentsTableColumnStatusType = {
   className?: string;

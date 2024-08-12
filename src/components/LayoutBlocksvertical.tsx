@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import TextText from "./TextText";
 import Image1 from "./Image1";
-import styles from "./LayoutBlocksvertical.module.css";
+import styles from "./Styles/LayoutBlocksvertical.module.css";
 
 export type LayoutBlocksverticalType = {
   className?: string;

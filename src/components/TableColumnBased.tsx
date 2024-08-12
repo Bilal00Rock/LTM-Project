@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import Columns from "./Columns";
 import Pagination from "./Pagination";
-import styles from "./TableColumnBased.module.css";
+import styles from "./Styles/TableColumnBased.module.css";
 
 export type TableColumnBasedType = {
   className?: string;

@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./Button.module.css";
+import styles from "./Styles/Button.module.css";
 
 export type ButtonType = {
   className?: string;

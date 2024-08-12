@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./Image1.module.css";
+import styles from "./Styles/Image1.module.css";
 
 export type Image1Type = {
   className?: string;

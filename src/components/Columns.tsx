@@ -8,7 +8,7 @@ import TableCelltext1 from "./TableCelltext1";
 import ComponentsTableColumnText from "./ComponentsTableColumnText";
 import ComponentsTableColumnStatus1 from "./ComponentsTableColumnStatus1";
 import { useNavigate } from "react-router-dom";
-import styles from "./Columns.module.css";
+import styles from "./Styles/Columns.module.css";
 
 export type ColumnsType = {
   className?: string;

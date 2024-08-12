@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import styles from "./ProgressCircleStatusNormal.module.css";
+import styles from "./Styles/ProgressCircleStatusNormal.module.css";
 
 export type ProgressCircleStatusNormalType = {
   className?: string;

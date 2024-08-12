@@ -1,6 +1,6 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import Bplan from "./Bplan";
-import styles from "./Plan.module.css";
+import styles from "./Styles/Plan.module.css";
 
 export type PlanType = {
   className?: string;

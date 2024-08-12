@@ -7,7 +7,7 @@ import Cell1 from "../components/Cell1";
 import Cell from "../components/Cell";
 import Stepslegacy from "../components/Stepslegacy";
 import Form from "../components/Form";
-import styles from "./DashboardUPPI.module.css";
+import styles from "./Styles/DashboardUPPI.module.css";
 
 const DashboardUPPI: FunctionComponent = () => {
   return (

@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import FieldType from "./FieldType";
-import styles from "./Form.module.css";
+import styles from "./Styles/Form.module.css";
 
 export type FormType = {
   className?: string;

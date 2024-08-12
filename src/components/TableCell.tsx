@@ -1,6 +1,6 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
 import BadgeStatus from "./BadgeStatus";
-import styles from "./TableCell.module.css";
+import styles from "./Styles/TableCell.module.css";
 
 export type TableCellType = {
   className?: string;

@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./LinkSmall.module.css";
+import styles from "./Styles/LinkSmall.module.css";
 
 export type LinkSmallType = {
   className?: string;

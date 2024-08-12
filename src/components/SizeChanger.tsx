@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./SizeChanger.module.css";
+import styles from "./Styles/SizeChanger.module.css";
 
 export type SizeChangerType = {
   className?: string;

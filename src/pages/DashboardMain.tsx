@@ -11,7 +11,7 @@ import ComponentsTableColumnText from "../components/ComponentsTableColumnText";
 import ComponentsTableColumnStatus from "../components/ComponentsTableColumnStatus";
 import ComponentsTableColumnAction from "../components/ComponentsTableColumnAction";
 import Pagination from "../components/Pagination";
-import styles from "./DashboardMain.module.css";
+import styles from "./Styles/DashboardMain.module.css";
 
 const DashboardMain: FunctionComponent = () => {
   return (

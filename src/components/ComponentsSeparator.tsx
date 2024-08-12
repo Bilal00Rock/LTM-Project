@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./ComponentsSeparator.module.css";
+import styles from "./Styles/ComponentsSeparator.module.css";
 
 export type ComponentsSeparatorType = {
   className?: string;

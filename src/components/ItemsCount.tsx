@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import ComponentsTabLegacy from "./ComponentsTabLegacy";
 import TextText from "./TextText";
-import styles from "./ItemsCount.module.css";
+import styles from "./Styles/ItemsCount.module.css";
 
 export type ItemsCountType = {
   className?: string;

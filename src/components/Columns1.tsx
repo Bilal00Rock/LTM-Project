@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import Links from "./Links";
-import styles from "./Columns1.module.css";
+import styles from "./Styles/Columns1.module.css";
 
 export type Columns1Type = {
   className?: string;

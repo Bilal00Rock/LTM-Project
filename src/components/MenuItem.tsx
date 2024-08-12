@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import styles from "./MenuItem.module.css";
+import styles from "./Styles/MenuItem.module.css";
 
 export type MenuItemType = {
   className?: string;

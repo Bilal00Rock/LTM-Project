@@ -3,7 +3,7 @@ import ComponentsPaginationItem from "./ComponentsPaginationItem";
 import ComponentsPaginationItemEll from "./ComponentsPaginationItemEll";
 import SizeChanger from "./SizeChanger";
 import Input from "./Input";
-import styles from "./AdvancedLegacy.module.css";
+import styles from "./Styles/AdvancedLegacy.module.css";
 
 export type AdvancedLegacyType = {
   className?: string;
