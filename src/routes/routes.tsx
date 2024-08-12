@@ -10,9 +10,13 @@ import ForgotPassword from "../pages/ForgotPassword";
 import SignUPPage from "../pages/SignUPPage";
 import DashboardUPPI from "../pages/DashboardUPPI";
 import { ForgotPassPage } from "../pages/auth/ForgotPassPage";
-import MainDashboard from "../pages/dashboard/MainDashboard";
+import MainDashboard from "../pages/dashboard/dashboardLayout/MainDashboard";
 import React, { ReactNode, useEffect } from 'react';
-import ErrorPage from '../pages/errors/Error'
+import ErrorPage from '../pages/errors/Error';
+import MainDashboardLayout from "../pages/dashboard/dashboardLayout/MainDashboard";
+import { DashboardLayout } from "../pages/dashboard/dashboardLayout";
+import Testpage from "../pages/dashboard/Testpage";
+
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
     const { pathname } = useLocation();
@@ -100,15 +104,13 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <PageWrapper children={<MainDashboard />} />,
+        element: <PageWrapper children={<DashboardLayout />} />,
         errorElement: <ErrorPage />,
         children: [
             {
-                index: true,
-                path: 'default',
-                element: <MainDashboard />,
-            },
-            
+                path: 'test',
+                element: <Testpage />
+            }
         ]
     },
     {

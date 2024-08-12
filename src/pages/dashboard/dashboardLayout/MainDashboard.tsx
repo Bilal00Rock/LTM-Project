@@ -1,5 +1,5 @@
-import { FunctionComponent } from "react";
-import styles from "../Styles/MainDashboard.module.css";
+import { FunctionComponent, ReactNode, useRef } from "react";
+import styles from "../../Styles/MainDashboard.module.css";
 import React, { useState } from 'react';
 import {
     DesktopOutlined,
@@ -14,6 +14,12 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Button, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { Outlet, useLocation } from "react-router-dom";
+import {
+    CSSTransition,
+    SwitchTransition,
+    TransitionGroup,
+  } from 'react-transition-group';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -55,7 +61,7 @@ const contentStyle: React.CSSProperties = {
     margin: '32px 24px',
     background: "#F2FCFC",
     borderRadius: '20px',
-     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)'
+    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)'
 };
 const collapseBstyle: React.CSSProperties = {
 
@@ -66,12 +72,17 @@ const collapseBstyle: React.CSSProperties = {
     bottom: '0px',
     left: '5px'
 };
-const MainDashboard: FunctionComponent = () => {
-
+type DashboardLayoutProps = {
+    children: ReactNode;
+};
+const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
+    const nodeRef = useRef(null);
     const [collapsed, setCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+    const location = useLocation();
+    const [isLoading, setIsLoading] = useState(false);
 
     return (
         <ConfigProvider
@@ -100,7 +111,7 @@ const MainDashboard: FunctionComponent = () => {
                             loading="lazy"
                             alt="Logo"
                             src="/headerlogowithoutback-2@2x.png"
-                            style={{ boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)',maxWidth: '100%', height: 'auto' }}
+                            style={{ boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)', maxWidth: '100%', height: 'auto' }}
                         />
                     </div>
 
@@ -115,12 +126,34 @@ const MainDashboard: FunctionComponent = () => {
                 </Sider>
                 <Layout style={{}} >
                     <Content style={contentStyle}>
+                        <TransitionGroup>
+                            <SwitchTransition>
+                                <CSSTransition
+                                    key={`css-transition-${location.key}`}
+                                    nodeRef={nodeRef}
+                                    onEnter={() => {
+                                        setIsLoading(true);
+                                    }}
+                                    onEntered={() => {
+                                        setIsLoading(false);
+                                    }}
+                                    timeout={300}
+                                    classNames="bottom-to-top"
+                                    unmountOnExit
+                                >
+                                    {() => (
+                                        <div ref={nodeRef} style={{ background: 'none' }}>
+                                            {children}
+                                        </div>
+                                    )}
+                                </CSSTransition>
+                            </SwitchTransition>
+                        </TransitionGroup>
                     </Content>
                 </Layout>
             </Layout>
         </ConfigProvider>
-
     );
 };
 
-export default MainDashboard;
+export default MainDashboardLayout;

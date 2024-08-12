@@ -18,7 +18,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import SignUPPage from "./pages/SignUPPage";
 import DashboardUPPI from "./pages/DashboardUPPI";
 import { ForgotPassPage } from "./pages/auth/ForgotPassPage";
-import MainDashboard from "./pages/dashboard/MainDashboard";
+import MainDashboard from "./pages/dashboard/dashboardLayout/MainDashboard";
 import routes from "./routes/routes"
 import { useSelector } from "react-redux";
 function App() {
