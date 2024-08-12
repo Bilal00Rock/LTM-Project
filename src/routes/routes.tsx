@@ -21,13 +21,6 @@ import Testpage from "../pages/dashboard/Testpage";
 export const ScrollToTop: React.FC = () => {
     const { pathname } = useLocation();
     const action = useNavigationType();
-    // useEffect(() => {
-    //     window.scrollTo({
-    //         top: 0,
-    //         left: 0,
-    //         behavior: 'smooth',
-    //     }); // Scroll to the top when the location changes
-    // }, [pathname]);
     useEffect(() => {
         if (action !== "POP") {
           window.scrollTo(0, 0);

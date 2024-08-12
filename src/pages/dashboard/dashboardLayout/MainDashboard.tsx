@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Button, ConfigProvider, Layout, Menu, theme } from 'antd';
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import {
     CSSTransition,
     SwitchTransition,
@@ -31,17 +31,21 @@ function getItem(
     key: React.Key,
     icon?: React.ReactNode,
     children?: MenuItem[],
+    type?: 'group'
 ): MenuItem {
     return {
         key,
         icon,
         children,
         label,
+        type,
     } as MenuItem;
 }
 
-const items: MenuItem[] = [
-    getItem('Option 1', '1', <PieChartOutlined />),
+const items: MenuProps['items'] = [
+    getItem('Dashboards', 'dashboard', <PieChartOutlined />,[
+        getItem(<Link to={'/dashboard/test'}>Test</Link>, 'test',null),
+    ]),
     getItem('Option 2', '2', <DesktopOutlined />),
     getItem('User', '3', <UserOutlined />),
     getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
