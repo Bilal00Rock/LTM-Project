@@ -1,4 +1,4 @@
-import { createBrowserRouter, useLocation } from "react-router-dom";
+import { createBrowserRouter, useLocation, useNavigationType } from "react-router-dom";
 import Login from "../pages/auth/Login";
 import LogINPage from "../pages/LogINPage";
 import DashboardPatients from "../pages/DashboardPatients";
@@ -16,15 +16,20 @@ import ErrorPage from '../pages/errors/Error'
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
     const { pathname } = useLocation();
-
+    const action = useNavigationType();
+    // useEffect(() => {
+    //     window.scrollTo({
+    //         top: 0,
+    //         left: 0,
+    //         behavior: 'smooth',
+    //     }); // Scroll to the top when the location changes
+    // }, [pathname]);
     useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            left: 0,
-            behavior: 'smooth',
-        }); // Scroll to the top when the location changes
-    }, [pathname]);
-
+        if (action !== "POP") {
+          window.scrollTo(0, 0);
+        }
+      }, [action, pathname]);
+    
     useEffect(() => {
         let title = "";
         let metaDescription = "";
@@ -95,6 +100,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
+                index: true,
                 path: 'login-page',
                 element: <Login />,
             },
@@ -109,12 +115,18 @@ const router = createBrowserRouter([
         element: <PageWrapper children={<MainDashboard />} />,
         errorElement: <ErrorPage />,
         children: [
-            // {
-            //     index: true,
-            //     path: 'default',
-            //     element: <DefaultDashboardPage />,
-            // }
+            {
+                index: true,
+                path: 'default',
+                element: <MainDashboard />,
+            },
+            
         ]
+    },
+    {
+        path: '/olddashboard',
+        element: <PageWrapper children= {<DashboardMain/>}/>,
+        errorElement: <ErrorPage/>
     }
 
 

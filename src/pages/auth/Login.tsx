@@ -13,7 +13,7 @@ const Login: FunctionComponent = () => {
             <Row style={{ height: '100%' }}>
                 {/* Left Side - Form */}
                 <Col xs={24} md={10} lg={8} style={siderStyle} className={styles.sider}>
-                {/* Component */}
+                    {/* Component */}
                     <LoginForm />
                 </Col>
 
@@ -27,7 +27,7 @@ const Login: FunctionComponent = () => {
                                     loading="lazy"
                                     alt="Logo"
                                     src="/headerlogowithoutback-2@2x.png"
-                                    style={{ maxWidth: '100%', height: 'auto' }}
+                                    style={{ maxWidth: '100vw   ', height: 'auto' }}
                                 />
                             </Col>
                         </Row>

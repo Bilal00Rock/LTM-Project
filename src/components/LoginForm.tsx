@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FunctionComponent, useCallback } from "react";
 import { InfoCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Flex, Tooltip, ConfigProvider, Space } from 'antd';
+import { Button, Checkbox, Form, Input, Flex, Tooltip, ConfigProvider, Space, Divider } from 'antd';
 import styles from "./Styles/FrameComponent.module.css";
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,15 @@ export type LoginComponentType = {
 const LoginForm: FunctionComponent<LoginComponentType> = ({
     className = "",
 }) => {
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+
+    const smallWidth = windowWidth < 1050;
     //#region Functions
     const navigate = useNavigate();
 
@@ -42,9 +51,9 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
             <Form
                 name="login"
                 initialValues={{ remember: true }}
-                style={{ minWidth: '-webkit-fill-available', padding: '46px' }}
+                className={[styles.formsize, className].join(" ")}
                 onFinish={onFinish}
-                size='large'
+                size={smallWidth ? 'middle': 'large'}
             >
                 <ConfigProvider theme={{
                     components: {
@@ -105,16 +114,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                         >
                             Login Now
                         </Button>
-
-                        <div className={styles.frameParent} style={{ margin: 10 }}>
-                            <div className={styles.lineWrapper}>
-                                <div className={styles.frameChild} />
-                            </div>
-                            <div className={styles.or} style={{ fontWeight: 'bold', fontSize: 'large' }}>OR</div>
-                            <div className={styles.lineWrapper}>
-                                <div className={styles.frameChild} />
-                            </div>
-                        </div>
+                        <Divider plain>OR</Divider>
                         <Button block
                             type="default"
                             onClick={onBRClick}

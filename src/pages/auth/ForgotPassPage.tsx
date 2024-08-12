@@ -16,6 +16,7 @@ export const ForgotPassPage: FunctionComponent = () => {
 
 
     const smallWidth = windowWidth < 1700;
+    const toosmallWidth = windowWidth < 1300;
     const titleFont: React.CSSProperties = {
         fontSize: smallWidth ? '22px' : '24px',
         fontFamily: 'poppins'
@@ -30,11 +31,11 @@ export const ForgotPassPage: FunctionComponent = () => {
     };
     const contentStyle: React.CSSProperties = {
         textAlign: 'center',
-        display: 'flex',
+        display: toosmallWidth? 'grid':'flex',
         justifyContent: 'center',
         margin: smallWidth ? '6% 15% 6% 15%' : '10% 25% 10% 25%',
         height: '100%',
-        minHeight: '650px',
+        minHeight: toosmallWidth? '500px':'650px',
         borderRadius: '50px',
         boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25), 0-4px 50.1px 19px rgba(0, 0, 0, 0.1)',
         color: '#F2FCFC',

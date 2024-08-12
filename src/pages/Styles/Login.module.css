@@ -8,7 +8,7 @@
     align-items: center;
 }
 .logo{
-    width: 600px;
+    width: 400px;
     position: relative;
     object-fit: cover;
     max-width: 50%;

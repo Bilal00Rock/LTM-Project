@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FunctionComponent, useCallback } from "react";
 import { InfoCircleOutlined , MailOutlined} from '@ant-design/icons';
-import { Button, Form, Input, Flex, Tooltip, ConfigProvider } from 'antd';
+import { Button, Form, Input, Flex, Tooltip, ConfigProvider, Divider } from 'antd';
 import styles from "./Styles/FrameComponent.module.css";
 
 import styles2 from "../pages/Styles/ForgotPassPage.module.css";
@@ -28,6 +28,7 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({
         console.log('Received values of form: ', values);
     };
     const smallWidth = windowWidth < 1700;
+    const toosmallWidth = windowWidth < 1300;
     const titleFont: React.CSSProperties = {
         fontSize: smallWidth ? '22px' : '24px',
         fontFamily: 'poppins'
@@ -43,9 +44,9 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({
             <Form
                 name="login"
                 initialValues={{ remember: true }}
-                style={{ minWidth: '-webkit-fill-available', padding: '46px' }}
+                style={{ minWidth: '-webkit-fill-available', ...{padding: toosmallWidth? '0px' :'46px'} }}
                 onFinish={onFinish}
-                size='large'
+                size={toosmallWidth? 'middle':'large'}
             >
                 <ConfigProvider theme={{
                     components: {
@@ -93,15 +94,7 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({
                             Reset Password
                         </Button>
 
-                        <div className={styles.frameParent} style={{ margin: 10 }}>
-                            <div className={styles.lineWrapper}>
-                                <div className={styles.frameChild} />
-                            </div>
-                            <div className={styles.or} style={{ fontWeight: 'bold', fontSize: 'large' }}>OR</div>
-                            <div className={styles.lineWrapper}>
-                                <div className={styles.frameChild} />
-                            </div>
-                        </div>
+                       <Divider>OR</Divider>
                         <Button block
                             type="default"
                             onClick={onBackClick}

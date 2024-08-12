@@ -6,10 +6,14 @@ import {
     FileOutlined,
     PieChartOutlined,
     TeamOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    UploadOutlined,
     UserOutlined,
+    VideoCameraOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Button, ConfigProvider, Layout, Menu, theme } from 'antd';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -41,8 +45,26 @@ const siderStyle: React.CSSProperties = {
     textAlign: 'center',
     backgroundColor: '#F2FCFC',
     color: '#F2FCFC',
-    height: '100%',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
 
+};
+const contentStyle: React.CSSProperties = {
+    margin: '32px 24px',
+    background: "#F2FCFC",
+    borderRadius: '20px',
+     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)'
+};
+const collapseBstyle: React.CSSProperties = {
+
+    fontSize: '16px',
+    width: 64,
+    height: 64,
+    position: 'fixed',
+    bottom: '0px',
+    left: '5px'
 };
 const MainDashboard: FunctionComponent = () => {
 
@@ -52,35 +74,50 @@ const MainDashboard: FunctionComponent = () => {
     } = theme.useToken();
 
     return (
-        <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} >
-                <div className="demo-logo-vertical" >
-                    <img
-                        className={styles.logo}
-                        loading="lazy"
-                        alt="Logo"
-                        src="/headerlogowithoutback-2@2x.png"
-                        style={{ maxWidth: '100%', height: 'auto' }}
-                    />
-                </div>
-                <ConfigProvider
-                    theme={{
-                        components: {
-                            Menu: {
-                                /* here is your component tokens */
+        <ConfigProvider
+            theme={{
+                components: {
+                    Layout: {
+                        /* here is your component tokens */
+                        lightSiderBg: '#F2FCFC',
+                        lightTriggerBg: '#E8E8E8',
+                        bodyBg: "#3F72AF",
+                    },
+                    Menu: {
+                        /* here is your component tokens */
+                        itemBg: '#F2FCFC',
 
-                            },
-                        },
-                    }}
-                >
+                    },
+                },
+            }}
+        >
+
+            <Layout hasSider={true} >
+                <Sider trigger={null} theme="light" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={siderStyle} >
+                    <div className="demo-logo-vertical"  >
+                        <img
+                            className={styles.logo}
+                            loading="lazy"
+                            alt="Logo"
+                            src="/headerlogowithoutback-2@2x.png"
+                            style={{ boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)',maxWidth: '100%', height: 'auto' }}
+                        />
+                    </div>
+
 
                     <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items} />
-                </ConfigProvider>
-            </Sider>
-            <Layout style={{ background: "#3F72AF" }} >
-                {/* <Header style={{ padding: 0, background: "#3F72AF" }} /> */}
-                <Content style={{ margin: '0 16px', background: "#F2FCFC" }}>
-                    {/* <Breadcrumb style={{ margin: '16px 0' }}>
+                    <Button
+                        type="text"
+                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                        onClick={() => setCollapsed(!collapsed)}
+                        style={collapseBstyle}
+                    />
+                </Sider>
+                <Layout style={{}} >
+                    {/* <Header style={{ padding: 0, background: "#3F72AF" }} /> */}
+                    <Content style={contentStyle}>
+                        this is content
+                        {/* <Breadcrumb style={{ margin: '16px 0' }}>
                         <Breadcrumb.Item>User</Breadcrumb.Item>
                         <Breadcrumb.Item>Bill</Breadcrumb.Item>
                     </Breadcrumb>
@@ -96,12 +133,14 @@ const MainDashboard: FunctionComponent = () => {
                     </div> */}
 
 
-                </Content>
-                {/* <Footer style={{ textAlign: 'center' }}>
+                    </Content>
+                    {/* <Footer style={{ textAlign: 'center' }}>
                     Ant Design ©{new Date().getFullYear()} Created by Ant UED
                 </Footer> */}
+                </Layout>
             </Layout>
-        </Layout>
+        </ConfigProvider>
+
     );
 };
 

@@ -122,7 +122,7 @@
   color: #c2c2c2;
 }
 .subHeaderParent {
-  width: 'inherit';
+  width: -webkit-fill-available;
   background-color: #f2fcfc;
   flex-direction: column;
   justify-content: center;
@@ -135,6 +135,10 @@
   font-family: Poppins;
   height: inherit;
 }
+.formsize{
+  min-width: -webkit-fill-available;
+  padding: 46px;
+}
 @media screen and (max-width: 1625px) {
   .subHeaderParent {
     flex: 1;
@@ -146,11 +150,30 @@
   .subHeader{
     padding: 0 100px;  }
 }
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 1300px) {
   .subHeaderParent {
-    padding-top: 62px;
-    padding-bottom: 191px;
+    justify-content: flex-start;
     box-sizing: border-box;
+    width: 100px;
+    height: fit-content;
+  }
+  .formsize{
+    min-width: auto;
+    padding: 0px;
+    max-width: -webkit-fill-available;
+  }
+}
+@media screen and (max-width: 990px) {
+  .subHeaderParent {
+    justify-content: flex-start;
+    box-sizing: border-box;
+    width: 100px;
+    height: fit-content;
+  }
+  .formsize{
+    min-width: auto;
+    padding:unset;
+    max-width: -webkit-fill-available;
   }
 }
 @media screen and (max-width: 750px) {
@@ -160,6 +183,7 @@
     box-sizing: border-box;
     min-width: 100%;
   }
+ 
 }
 @media screen and (max-width: 450px) {
   .subHeader {
