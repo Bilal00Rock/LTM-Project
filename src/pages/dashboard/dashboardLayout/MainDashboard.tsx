@@ -45,6 +45,7 @@ function getItem(
 const items: MenuProps['items'] = [
     getItem('Dashboards', 'dashboard', <PieChartOutlined />,[
         getItem(<Link to={'/dashboard/test'}>Test</Link>, 'test',null),
+        getItem(<Link to={'/dashboard/test2'}>Test2</Link>, 'test2',null),
     ]),
     getItem('Option 2', '2', <DesktopOutlined />),
     getItem('User', '3', <UserOutlined />),

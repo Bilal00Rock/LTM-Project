@@ -15,7 +15,8 @@ import React, { ReactNode, useEffect } from 'react';
 import ErrorPage from '../pages/errors/Error';
 import MainDashboardLayout from "../pages/dashboard/dashboardLayout/MainDashboard";
 import { DashboardLayout } from "../pages/dashboard/dashboardLayout";
-import Testpage from "../pages/dashboard/Testpage";
+import Testpage from "../pages/dashboard/pages/Testpage";
+import Testpage2 from "../pages/dashboard/pages/Testpage2";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
             {
                 path: 'test',
                 element: <Testpage />
+            },
+            {
+                path: 'test2',
+                element: <Testpage2 />
             }
         ]
     },
