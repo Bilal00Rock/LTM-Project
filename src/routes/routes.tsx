@@ -83,18 +83,6 @@ const PageWrapper = ({ children }: PageProps) => {
 };
 
 const router = createBrowserRouter([
-    // {
-    //     path: '/',
-    //     element: <PageWrapper children={<Login />} />,
-    //     errorElement: <ErrorPage />,
-    //     children: [
-    //         {
-    //             index: true,
-    //             path: '',
-    //             element: <Login />,
-    //         },
-    //     ],
-    // },
     {
         path: '/',
         errorElement: <ErrorPage />,

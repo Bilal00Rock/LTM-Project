@@ -114,29 +114,8 @@ const MainDashboard: FunctionComponent = () => {
                     />
                 </Sider>
                 <Layout style={{}} >
-                    {/* <Header style={{ padding: 0, background: "#3F72AF" }} /> */}
                     <Content style={contentStyle}>
-                        this is content
-                        {/* <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>User</Breadcrumb.Item>
-                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                    </Breadcrumb>
-                    <div
-                        style={{
-                            padding: 24,
-                            minHeight: 360,
-                            background: colorBgContainer,
-                            borderRadius: borderRadiusLG,
-                        }}
-                    >
-                        Bill is a cat.
-                    </div> */}
-
-
                     </Content>
-                    {/* <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer> */}
                 </Layout>
             </Layout>
         </ConfigProvider>
