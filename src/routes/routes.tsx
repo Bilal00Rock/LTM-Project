@@ -15,8 +15,9 @@ import React, { ReactNode, useEffect } from 'react';
 import ErrorPage from '../pages/errors/Error';
 import MainDashboardLayout from "../pages/dashboard/dashboardLayout/MainDashboard";
 import { DashboardLayout } from "../pages/dashboard/dashboardLayout";
-import Testpage from "../pages/dashboard/pages/Testpage";
-import Testpage2 from "../pages/dashboard/pages/Testpage2";
+import Testpage from "../pages/dashboard/patient/Testpage";
+import Testpage2 from "../pages/dashboard/patient/Testpage2";
+import PatientsList from "../pages/dashboard/patient/PatientsList";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -24,10 +25,10 @@ export const ScrollToTop: React.FC = () => {
     const action = useNavigationType();
     useEffect(() => {
         if (action !== "POP") {
-          window.scrollTo(0, 0);
+            window.scrollTo(0, 0);
         }
-      }, [action, pathname]);
-    
+    }, [action, pathname]);
+
     useEffect(() => {
         let title = "";
         let metaDescription = "";
@@ -102,19 +103,41 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
-                path: 'test',
-                element: <Testpage />
+                path: 'overview',
+                errorElement: <ErrorPage />,
+                children: [
+                    {
+                        path: 'test',
+                        element: <Testpage />
+                    },
+                    {
+                        path: 'test2',
+                        element: <Testpage2 />
+                    },
+                ]
             },
             {
-                path: 'test2',
-                element: <Testpage2 />
+                path: 'patients',
+                errorElement: <ErrorPage />,
+                children: [
+                    {
+                        
+                        path: 'add-patient',
+                        element: <Testpage />
+                    },
+                    {
+                        
+                        path: 'patients-list',
+                        element: <PatientsList />
+                    }
+                ]
             }
         ]
     },
     {
         path: '/olddashboard',
-        element: <PageWrapper children= {<DashboardMain/>}/>,
-        errorElement: <ErrorPage/>
+        element: <PageWrapper children={<DashboardMain />} />,
+        errorElement: <ErrorPage />
     }
 
 

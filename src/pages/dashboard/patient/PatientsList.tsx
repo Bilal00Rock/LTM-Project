@@ -1,0 +1,72 @@
+import { PageHeader } from "../../PageHeader/PageHeader";
+import { HomeOutlined, PieChartOutlined } from '@ant-design/icons';
+import { ConfigProvider, Layout } from "antd";
+import { Link, Outlet } from 'react-router-dom';
+import { DASHBOARD_ITEMS } from '../../../constants';
+import { PATINETS_ITEMS } from '../../../constants';
+const layoutStyle: React.CSSProperties = {
+    margin: '32px 24px 32px 15px',
+    background: "#F2FCFC",
+    borderRadius: '6px',
+    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)',
+    display: 'flex',
+    padding: '15px',
+    height: 'inherit'
+};
+const PatientsList = () => {
+    return (
+        <ConfigProvider
+            theme={{
+                components: {
+                   
+                   
+                },
+            }}
+        >
+            <Layout style={layoutStyle} >
+                <PageHeader
+                    title="Patients List"
+                    breadcrumbs={[
+                        {
+                            title: (
+                                <>
+                                    <PieChartOutlined />
+                                    <span>Dashboard</span>
+                                </>
+                             ),
+                            // menu: {
+                            //     items: DASHBOARD_ITEMS.map((d) => ({
+                            //         key: d.title,
+                            //         title: <Link to={d.path}>{d.title}</Link>,
+                            //     })),
+                            // },
+                        },
+                        {
+                            title: (
+                                <>
+                                    <PieChartOutlined />
+                                    <span>Patients</span>
+                                </>
+                            ),
+                            menu: {
+                                items: PATINETS_ITEMS.map((d) => ({
+                                    key: d.title,
+                                    title: <Link to={d.path}>{d.title}</Link>,
+                                })),
+                            },
+                        },
+                        {
+                            title: 'Patients list',
+                        },
+
+                    ]}
+                />
+
+                <Outlet/>
+            </Layout>
+
+        </ConfigProvider>
+
+    );
+};
+export default PatientsList;

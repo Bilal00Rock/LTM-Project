@@ -1,27 +1,28 @@
-import { FunctionComponent, ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import styles from "../../Styles/MainDashboard.module.css";
 import { NProgress } from '../../../components/Nprogress';
 import React, { useState } from 'react';
 import {
     QuestionCircleOutlined,
     HomeOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
+    CaretRightOutlined,
+    CaretLeftOutlined,
     ContactsOutlined,
     UserOutlined,
     SettingOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Button, ConfigProvider, Layout, Menu, theme } from 'antd';
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Button, ConfigProvider, Layout, Menu, theme } from 'antd';
+import { Link, useLocation } from "react-router-dom";
 import {
     CSSTransition,
     SwitchTransition,
     TransitionGroup,
 } from 'react-transition-group';
+import { PATH_DASHBOARD, PATH_PATIENTS, PATH_OVERVIEW } from "../../../constants";
+const { Content, Sider } = Layout;
 
-const {  Content, Sider } = Layout;
-
+//#region MenuItem Props
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
@@ -41,19 +42,24 @@ function getItem(
 }
 
 const items: MenuProps['items'] = [
-    getItem('Overview', 'dashboard', <HomeOutlined />, [
-        getItem(<Link to={'/dashboard/test'}>Test</Link>, 'test', null),
-        getItem(<Link to={'/dashboard/test2'}>Test2</Link>, 'test2', null),
+    getItem('Overview', 'overview', <HomeOutlined />, [
+        getItem(<Link to={PATH_OVERVIEW.test}>Test</Link>, 'test', null),
+        getItem(<Link to={PATH_OVERVIEW.test2}>Test2</Link>, 'test2', null),
     ]),
-    getItem('Patients', 'patients', <ContactsOutlined />,[
-        getItem(<Link to={'/dashboard/test'}>Add Patient</Link>, 'addPatient', null),
-        getItem(<Link to={'/dashboard/test2'}>Patients List</Link>, 'patientsList', null),
-
+    getItem('Patients', 'patients', <ContactsOutlined />, [
+        getItem(<Link to={PATH_PATIENTS.addpatient}>Add Patient</Link>, 'addPatient', null),
+        getItem(<Link to={PATH_PATIENTS.patientslist}>Patients List</Link>, 'patientsList', null),
+        
     ]),
     getItem('User', 'user', <UserOutlined />),
-    getItem('Help & Support', 'help', <QuestionCircleOutlined /> ),
-    getItem('Settings', 'setting', <SettingOutlined /> ),
+    getItem('Help & Support', 'help', <QuestionCircleOutlined />),
+    getItem('Settings', 'setting', <SettingOutlined />),
 ];
+//bug menu changing color not working in breadcrumbs
+//const rootSubmenuKeys = ['overview','patients','user','help','setting','addPatient','patientsList'];
+//#endregion
+
+//#region CSS3 Styles
 const siderStyle: React.CSSProperties = {
     textAlign: 'center',
     backgroundColor: '#F2FCFC',
@@ -65,7 +71,7 @@ const siderStyle: React.CSSProperties = {
 
 };
 const contentStyle: React.CSSProperties = {
-    margin: '32px 24px',
+    margin: '32px 24px 32px 15px',
     background: "#F2FCFC",
     borderRadius: '20px',
     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)'
@@ -73,23 +79,53 @@ const contentStyle: React.CSSProperties = {
 const collapseBstyle: React.CSSProperties = {
 
     fontSize: '16px',
-    width: 64,
+    width: 18,
     height: 64,
-    position: 'fixed',
-    bottom: '0px',
-    left: '5px'
+    position: 'relative',
+    top: '45%',
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
 };
+//#endregion
+
 type DashboardLayoutProps = {
     children: ReactNode;
 };
 const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
     const nodeRef = useRef(null);
     const [collapsed, setCollapsed] = useState(false);
+    const [Btcollapsed, setBtCollapsed] = useState(false);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
+    //for bug of menu changing color on click
+    // const onClick: MenuProps['onClick'] = (e) => {
+    //     console.log('click ', e);
+    // };
+    // const { pathname } = useLocation();
+    // const [openKeys, setOpenKeys] = useState(['']);
+    // const [current, setCurrent] = useState('');
+
+    // const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
+    //     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    //     if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+    //         setOpenKeys(keys);
+    //     } else {
+    //         setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+    //     }
+    //     console.log('latestOpenKey',latestOpenKey);
+    //     console.log('rootSubmenuKeys',rootSubmenuKeys);
+    //     console.log(rootSubmenuKeys.indexOf(latestOpenKey!));
+    //     console.log('keys',keys);
+    // };
+
+    // useEffect(() => {
+    //     const paths = pathname.split('/');
+    //     setOpenKeys(paths);
+    //     setCurrent(paths[paths.length - 1]);
+    // }, [pathname]);
 
     return (
         <ConfigProvider
@@ -105,13 +141,34 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
                         /* here is your component tokens */
                         itemBg: '#F2FCFC',
 
+
                     },
+                    Button: {
+                        defaultBg: "#F2FCFC",
+                        defaultHoverBorderColor: "#3F72AF"
+                    }
                 },
             }}
         >
             <Layout hasSider={true} >
-                
-                <Sider trigger={null} theme="light" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={siderStyle} >
+
+                <Sider trigger={null} theme="light" collapsible
+                    collapsed={collapsed}
+                    onCollapse={(value) => setCollapsed(value)}
+                    style={siderStyle}
+                    onMouseEnter={e => {
+                        if (collapsed) {
+                            setCollapsed(false);
+
+                        }
+                    }}
+                    onMouseLeave={e => {
+                        if (!Btcollapsed && !collapsed) {
+                            setCollapsed(true);
+                        }
+                    }}
+                    onClick={() => { setCollapsed(false); setBtCollapsed(true) }}
+                >
                     <div className="demo-logo-vertical"  >
                         <img
                             className={styles.logo}
@@ -123,16 +180,25 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
                     </div>
 
 
-                    <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items} />
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={collapseBstyle}
-                    />
+                    <Menu theme="light"
+                        items={items}
+                        mode="inline" 
+                        // onClick={onClick}
+                        // openKeys={openKeys}
+                        // onOpenChange={onOpenChange}
+                        // selectedKeys={[current]}
+                        />
                 </Sider>
-                <Layout style={{}} >
-                <NProgress isAnimating={isLoading} key={location.key} />
+                <Layout style={{ display: 'flex', flexDirection: 'row' }} >
+                    <Button
+                        type="default"
+                        icon={Btcollapsed && !collapsed ? <CaretLeftOutlined /> : <CaretRightOutlined />}
+                        onClick={() => { setCollapsed(!collapsed); setBtCollapsed(!Btcollapsed) }}
+                        style={collapseBstyle}
+
+
+                    />
+                    <NProgress isAnimating={isLoading} key={location.key} />
 
                     <Content style={contentStyle}>
 

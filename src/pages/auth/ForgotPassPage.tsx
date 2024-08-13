@@ -6,7 +6,6 @@ import ForgotPassForm from "../../components/ForgotPassForm";
 export const ForgotPassPage: FunctionComponent = () => {
     const { Content } = Layout;
 
-    //#region CSS3 Styles
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
@@ -14,7 +13,7 @@ export const ForgotPassPage: FunctionComponent = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-
+    //#region CSS3 Styles
     const smallWidth = windowWidth < 1700;
     const toosmallWidth = windowWidth < 1300;
     const titleFont: React.CSSProperties = {
@@ -31,11 +30,11 @@ export const ForgotPassPage: FunctionComponent = () => {
     };
     const contentStyle: React.CSSProperties = {
         textAlign: 'center',
-        display: toosmallWidth? 'grid':'flex',
+        display: toosmallWidth ? 'grid' : 'flex',
         justifyContent: 'center',
         margin: smallWidth ? '6% 15% 6% 15%' : '10% 25% 10% 25%',
         height: '100%',
-        minHeight: toosmallWidth? '500px':'650px',
+        minHeight: toosmallWidth ? '500px' : '650px',
         borderRadius: '50px',
         boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25), 0-4px 50.1px 19px rgba(0, 0, 0, 0.1)',
         color: '#F2FCFC',
@@ -47,11 +46,9 @@ export const ForgotPassPage: FunctionComponent = () => {
 
     const content2: React.CSSProperties = {
         margin: smallWidth ? '0% 15% 6% 15%' : '0% 20% 10% 20%',
-        flex:'none'
+        flex: 'none'
     }
     //#endregion
-
-
 
     return (
         <Layout style={layoutStyle}>
@@ -66,9 +63,9 @@ export const ForgotPassPage: FunctionComponent = () => {
                     />
                 </div>
                 <Content style={content2}>
-                
-                <ForgotPassForm />
-                    
+
+                    <ForgotPassForm />
+
                 </Content>
 
             </Content>
