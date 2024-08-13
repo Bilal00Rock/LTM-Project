@@ -1,16 +1,15 @@
 import { FunctionComponent, ReactNode, useRef } from "react";
 import styles from "../../Styles/MainDashboard.module.css";
+import { NProgress } from '../../../components/Nprogress';
 import React, { useState } from 'react';
 import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    TeamOutlined,
+    QuestionCircleOutlined,
+    HomeOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
+    ContactsOutlined,
     UserOutlined,
-    VideoCameraOutlined,
+    SettingOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Button, ConfigProvider, Layout, Menu, theme } from 'antd';
@@ -19,10 +18,9 @@ import {
     CSSTransition,
     SwitchTransition,
     TransitionGroup,
-  } from 'react-transition-group';
+} from 'react-transition-group';
 
-
-const { Header, Content, Footer, Sider } = Layout;
+const {  Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -43,14 +41,18 @@ function getItem(
 }
 
 const items: MenuProps['items'] = [
-    getItem('Dashboards', 'dashboard', <PieChartOutlined />,[
-        getItem(<Link to={'/dashboard/test'}>Test</Link>, 'test',null),
-        getItem(<Link to={'/dashboard/test2'}>Test2</Link>, 'test2',null),
+    getItem('Overview', 'dashboard', <HomeOutlined />, [
+        getItem(<Link to={'/dashboard/test'}>Test</Link>, 'test', null),
+        getItem(<Link to={'/dashboard/test2'}>Test2</Link>, 'test2', null),
     ]),
-    getItem('Option 2', '2', <DesktopOutlined />),
-    getItem('User', '3', <UserOutlined />),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />),
+    getItem('Patients', 'patients', <ContactsOutlined />,[
+        getItem(<Link to={'/dashboard/test'}>Add Patient</Link>, 'addPatient', null),
+        getItem(<Link to={'/dashboard/test2'}>Patients List</Link>, 'patientsList', null),
+
+    ]),
+    getItem('User', 'user', <UserOutlined />),
+    getItem('Help & Support', 'help', <QuestionCircleOutlined /> ),
+    getItem('Settings', 'setting', <SettingOutlined /> ),
 ];
 const siderStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -107,8 +109,8 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
                 },
             }}
         >
-
             <Layout hasSider={true} >
+                
                 <Sider trigger={null} theme="light" collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={siderStyle} >
                     <div className="demo-logo-vertical"  >
                         <img
@@ -130,12 +132,16 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
                     />
                 </Sider>
                 <Layout style={{}} >
+                <NProgress isAnimating={isLoading} key={location.key} />
+
                     <Content style={contentStyle}>
+
                         <TransitionGroup>
                             <SwitchTransition>
                                 <CSSTransition
                                     key={`css-transition-${location.key}`}
                                     nodeRef={nodeRef}
+
                                     onEnter={() => {
                                         setIsLoading(true);
                                     }}
