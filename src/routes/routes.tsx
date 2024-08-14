@@ -18,6 +18,7 @@ import { DashboardLayout } from "../pages/dashboard/dashboardLayout";
 import Testpage from "../pages/dashboard/patient/Testpage";
 import Testpage2 from "../pages/dashboard/patient/Testpage2";
 import PatientsList from "../pages/dashboard/patient/PatientsList";
+import { WelcomePage } from "../pages/auth/Welcome";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -86,6 +87,11 @@ const router = createBrowserRouter([
         path: '/',
         errorElement: <ErrorPage />,
         children: [
+            {
+                index: true,
+                path: '/',
+                element: <WelcomePage />,
+            },
             {
                 index: true,
                 path: 'login-page',
