@@ -22,42 +22,6 @@ import {
 import { PATH_DASHBOARD, PATH_PATIENTS, PATH_OVERVIEW } from "../../../constants";
 const { Content, Sider } = Layout;
 
-//#region MenuItem Props
-type MenuItem = Required<MenuProps>['items'][number];
-
-function getItem(
-    label: React.ReactNode,
-    key: React.Key,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-    type?: 'group'
-): MenuItem {
-    return {
-        key,
-        icon,
-        children,
-        label,
-        type,
-    } as MenuItem;
-}
-
-const items: MenuProps['items'] = [
-    getItem('Overview', 'overview', <HomeOutlined />, [
-        getItem(<Link to={PATH_OVERVIEW.test}>Test</Link>, 'test', null),
-        getItem(<Link to={PATH_OVERVIEW.test2}>Test2</Link>, 'test2', null),
-    ]),
-    getItem('Patients', 'patients', <ContactsOutlined />, [
-        getItem(<Link to={PATH_PATIENTS.addpatient}>Add Patient</Link>, 'addPatient', null),
-        getItem(<Link to={PATH_PATIENTS.patientslist}>Patients List</Link>, 'patientsList', null),
-        
-    ]),
-    getItem('User', 'user', <UserOutlined />),
-    getItem('Help & Support', 'help', <QuestionCircleOutlined />),
-    getItem('Settings', 'setting', <SettingOutlined />),
-];
-//bug menu changing color not working in breadcrumbs
-//const rootSubmenuKeys = ['overview','patients','user','help','setting','addPatient','patientsList'];
-//#endregion
 
 //#region CSS3 Styles
 const siderStyle: React.CSSProperties = {
@@ -91,6 +55,42 @@ const collapseBstyle: React.CSSProperties = {
 type DashboardLayoutProps = {
     children: ReactNode;
 };
+//#region MenuItem Props
+type MenuItem = Required<MenuProps>['items'][number];
+
+const getItem = (
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+    type?: 'group'
+): MenuItem => {
+    return {
+        key,
+        icon,
+        children,
+        label,
+        type,
+    } as MenuItem;
+}
+
+const items: MenuProps['items'] = [
+    getItem('Overview', 'overview', <HomeOutlined />, [
+        getItem(<Link to={PATH_OVERVIEW.test}>Test</Link>, 'test', null),
+        getItem(<Link to={PATH_OVERVIEW.test2}>Test2</Link>, 'test2', null),
+    ]),
+    getItem('Patients', 'patients', <ContactsOutlined />, [
+        getItem(<Link to={PATH_PATIENTS.addpatient}>Add Patient</Link>, 'add-patient', null),
+        getItem(<Link to={PATH_PATIENTS.patientslist}>Patients List</Link>, 'patients-list', null),
+
+    ]),
+    getItem('User', 'user', <UserOutlined />),
+    getItem('Help & Support', 'help', <QuestionCircleOutlined />),
+    getItem('Settings', 'setting', <SettingOutlined />),
+];
+//#endregion
+const rootSubmenuKeys = ['overview', 'patients', 'user-user'];
+
 const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
     const nodeRef = useRef(null);
     const [collapsed, setCollapsed] = useState(false);
@@ -100,32 +100,30 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
     } = theme.useToken();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
-    //for bug of menu changing color on click
-    // const onClick: MenuProps['onClick'] = (e) => {
-    //     console.log('click ', e);
-    // };
-    // const { pathname } = useLocation();
-    // const [openKeys, setOpenKeys] = useState(['']);
-    // const [current, setCurrent] = useState('');
+    //for menu
+    const { pathname } = useLocation();
+    const [openKeys, setOpenKeys] = useState(['']);
+    const [current, setCurrent] = useState('');
+    const onClick: MenuProps['onClick'] = (e) => {
+        // console.log('click ', e);
+        // console.log(current);
+        console.log(openKeys);
+    };
+    const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
+        const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+        if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+            setOpenKeys(keys);
+        } else {
+            setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+        }
+        
+    };
+    useEffect(() => {
+        const paths = pathname.split('/');
+        setOpenKeys(paths);
+        setCurrent(paths[paths.length - 1]);
+    }, [pathname]);
 
-    // const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
-    //     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
-    //     if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
-    //         setOpenKeys(keys);
-    //     } else {
-    //         setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
-    //     }
-    //     console.log('latestOpenKey',latestOpenKey);
-    //     console.log('rootSubmenuKeys',rootSubmenuKeys);
-    //     console.log(rootSubmenuKeys.indexOf(latestOpenKey!));
-    //     console.log('keys',keys);
-    // };
-
-    // useEffect(() => {
-    //     const paths = pathname.split('/');
-    //     setOpenKeys(paths);
-    //     setCurrent(paths[paths.length - 1]);
-    // }, [pathname]);
 
     return (
         <ConfigProvider
@@ -182,12 +180,14 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
 
                     <Menu theme="light"
                         items={items}
-                        mode="inline" 
-                        // onClick={onClick}
-                        // openKeys={openKeys}
-                        // onOpenChange={onOpenChange}
-                        // selectedKeys={[current]}
-                        />
+                        mode="inline"
+                        onClick={onClick}
+                        openKeys={openKeys}
+                        onOpenChange={onOpenChange}
+                        selectedKeys={[current]}
+                        
+                    />
+                    
                 </Sider>
                 <Layout style={{ display: 'flex', flexDirection: 'row' }} >
                     <Button

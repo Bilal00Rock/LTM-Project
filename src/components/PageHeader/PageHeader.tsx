@@ -2,6 +2,7 @@ import React from 'react';
 import { Breadcrumb, BreadcrumbProps, Button, Divider, Space, Typography } from 'antd';
 import { LeftCircleOutlined } from '@ant-design/icons';
 import './styles.css';
+import { BackBtn } from '../BackBtn/BackBtn';
 
 type Props = {
   title: string;
@@ -17,7 +18,7 @@ export const PageHeader = ({ breadcrumbs, title, ...others }: Props) => {
           style={{ padding: 0, margin: 3, textTransform: 'capitalize' }}
 
         >
-          <Button type="text" icon={<LeftCircleOutlined /> } style={{width: 30,height: 30}} />
+          <BackBtn type="text" icon={<LeftCircleOutlined /> } style={{width: 30,height: 30}} iconOnly={true}></BackBtn>
           {title}
         </Typography.Title>
         <Breadcrumb items={breadcrumbs} className="page-header-breadcrumbs" />

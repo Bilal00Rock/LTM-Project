@@ -1,9 +1,7 @@
-import { PageHeader } from "../../PageHeader/PageHeader";
-import { HomeOutlined, PieChartOutlined } from '@ant-design/icons';
+import { PageHeader } from "../../../components/PageHeader/PageHeader";
+import { HomeOutlined,ContactsOutlined } from '@ant-design/icons';
 import { ConfigProvider, Layout } from "antd";
 import { Link, Outlet } from 'react-router-dom';
-import { DASHBOARD_ITEMS } from '../../../constants';
-import { PATINETS_ITEMS } from '../../../constants';
 const layoutStyle: React.CSSProperties = {
     margin: '32px 24px 32px 15px',
     background: "#F2FCFC",
@@ -18,8 +16,8 @@ const PatientsList = () => {
         <ConfigProvider
             theme={{
                 components: {
-                   
-                   
+
+
                 },
             }}
         >
@@ -30,30 +28,18 @@ const PatientsList = () => {
                         {
                             title: (
                                 <>
-                                    <PieChartOutlined />
+                                    <HomeOutlined />
                                     <span>Dashboard</span>
                                 </>
-                             ),
-                            // menu: {
-                            //     items: DASHBOARD_ITEMS.map((d) => ({
-                            //         key: d.title,
-                            //         title: <Link to={d.path}>{d.title}</Link>,
-                            //     })),
-                            // },
+                            ),
                         },
                         {
                             title: (
                                 <>
-                                    <PieChartOutlined />
+                                    <ContactsOutlined />
                                     <span>Patients</span>
                                 </>
                             ),
-                            menu: {
-                                items: PATINETS_ITEMS.map((d) => ({
-                                    key: d.title,
-                                    title: <Link to={d.path}>{d.title}</Link>,
-                                })),
-                            },
                         },
                         {
                             title: 'Patients list',
@@ -62,7 +48,7 @@ const PatientsList = () => {
                     ]}
                 />
 
-                <Outlet/>
+                <Outlet />
             </Layout>
 
         </ConfigProvider>
