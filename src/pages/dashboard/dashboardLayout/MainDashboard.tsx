@@ -19,7 +19,7 @@ import {
     SwitchTransition,
     TransitionGroup,
 } from 'react-transition-group';
-import { PATH_DASHBOARD, PATH_PATIENTS, PATH_OVERVIEW } from "../../../constants";
+import { PATH_PATIENTS, PATH_OVERVIEW } from "../../../constants";
 const { Content, Sider } = Layout;
 
 
@@ -38,7 +38,10 @@ const contentStyle: React.CSSProperties = {
     margin: '32px 24px 32px 15px',
     background: "#F2FCFC",
     borderRadius: '20px',
-    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)'
+    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)',
+    maxHeight: '90vh',
+    overflow: 'overlay',
+
 };
 const collapseBstyle: React.CSSProperties = {
 
@@ -200,7 +203,7 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
                     />
                     <NProgress isAnimating={isLoading} key={location.key} />
 
-                    <Content style={contentStyle}>
+                    <Content style={contentStyle} >
 
                         <TransitionGroup>
                             <SwitchTransition>
