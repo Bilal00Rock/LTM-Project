@@ -1,6 +1,6 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbProps, Button, Divider, Space, Typography } from 'antd';
-import { LeftCircleOutlined, UserOutlined, ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
+import { RightCircleOutlined} from '@ant-design/icons';
 import './styles.css';
 import { BackBtn } from '../BackBtn/BackBtn';
 
@@ -22,7 +22,7 @@ export const PageHeader = ({ breadcrumbs, title, icon, ...others }: Props) => {
 
         >
           {/* when dashboard  is implenemted change btn link to dashbaord */}
-          <BackBtn type="text" icon={<LeftCircleOutlined style={{ fontSize: '23px' }} />} style={{ width: 30, height: 30 }} iconOnly={true}></BackBtn>
+          <BackBtn type="text" icon={<RightCircleOutlined style={{ fontSize: '23px' }} />} style={{ width: 30, height: 30 }} iconOnly={true}></BackBtn>
           <Space>
 
             {icon}

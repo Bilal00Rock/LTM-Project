@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import reportWebVitals from "./reportWebVitals";
@@ -8,15 +8,20 @@ import routes from "./routes/routes";
 import { store, persistor } from './redux/store.ts';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ConfigProvider } from 'antd';
+import faIR from 'antd/locale/fa_IR';
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
 
 root.render(
+
   <React.StrictMode>
     <PersistGate persistor={persistor}>
       <Provider store={store}>
-        <App />
+        <ConfigProvider >
+          <App />
+        </ConfigProvider>
       </Provider>
     </PersistGate>
   </React.StrictMode>

@@ -1,9 +1,10 @@
-import { Badge, Button, Col, Flex, Input, InputRef, Popover, Row, Space, Table, TableColumnsType, TableColumnType, Typography } from 'antd';
+import { Badge, Button, Col, ConfigProvider, Flex, Input, InputRef, Popover, Row, Space, Table, TableColumnsType, TableColumnType, Typography } from 'antd';
 import { useRef, useState } from 'react';
 import { SearchOutlined, QuestionOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from 'react-highlight-words';
 import { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
+import fa_IR from 'antd/locale/fa_IR';
 type Props = {
     title: string;
 }
@@ -245,54 +246,56 @@ export const PatientTable = ({ title, ...other }: Props) => {
 
     const getColumnSearchProps = (dataIndex: DataIndex): TableColumnType<DataType> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-            <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
-                <Input
-                    ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
-                    value={selectedKeys[0]}
-                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-                    style={{ marginBottom: 8, display: 'block' }}
-                />
-                <Space>
-                    <Button
-                        type="primary"
-                        onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-                        icon={<SearchOutlined />}
-                        size="small"
-                        style={{ width: 'auto' }}
-                    >
-                        Search
-                    </Button>
-                    <Button
-                        onClick={() => clearFilters && handleReset(clearFilters)}
-                        size="small"
-                        style={{ width: 'auto' }}
-                    >
-                        Reset
-                    </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        onClick={() => {
-                            confirm({ closeDropdown: false });
-                            setSearchText((selectedKeys as string[])[0]);
-                            setSearchedColumn(dataIndex);
-                        }}
-                    >
-                        Filter
-                    </Button>
-                    <Button
-                        type="link"
-                        size="small"
-                        onClick={() => {
-                            close();
-                        }}
-                    >
-                        close
-                    </Button>
-                </Space>
-            </div>
+            <ConfigProvider locale={fa_IR} direction='rtl'>
+                <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
+                    <Input
+                        ref={searchInput}
+                        placeholder={`جستجو `}
+                        value={selectedKeys[0]}
+                        onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                        onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+                        style={{ marginBottom: 8, display: 'block' }}
+                    />
+                    <Space>
+                        <Button
+                            type="primary"
+                            onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+                            icon={<SearchOutlined />}
+                            size="small"
+                            style={{ width: 'auto' }}
+                        >
+                            جستجو
+                        </Button>
+                        <Button
+                            onClick={() => clearFilters && handleReset(clearFilters)}
+                            size="small"
+                            style={{ width: 'auto' }}
+                        >
+                            ریست
+                        </Button>
+                        <Button
+                            type="link"
+                            size="small"
+                            onClick={() => {
+                                confirm({ closeDropdown: false });
+                                setSearchText((selectedKeys as string[])[0]);
+                                setSearchedColumn(dataIndex);
+                            }}
+                        >
+                            فیلتر
+                        </Button>
+                        <Button
+                            type="link"
+                            size="small"
+                            onClick={() => {
+                                close();
+                            }}
+                        >
+                            بستن
+                        </Button>
+                    </Space>
+                </div>
+            </ConfigProvider>
         ),
         filterIcon: (filtered: boolean) => (
             <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
@@ -322,7 +325,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
 
     const columns: TableColumnsType<DataType> = [
         {
-            title: 'Name',
+            title: 'نام ',
             dataIndex: 'name',
             key: 'name',
             width: 'auto',
@@ -331,7 +334,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
 
         },
         {
-            title: 'Age',
+            title: 'سن',
             dataIndex: 'age',
             key: 'age',
             width: 'auto',
@@ -339,7 +342,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
             ...getColumnSearchProps('age'),
         },
         {
-            title: 'Type',
+            title: 'نوع بیماری',
             dataIndex: 'type',
             key: 'type',
             ...getColumnSearchProps('type'),
@@ -359,8 +362,8 @@ export const PatientTable = ({ title, ...other }: Props) => {
                 );
             },
         },
-        {
-            title: 'Last EEG Analyze Time',
+        {//not showing date until search for it 
+            title: 'آخرین الکتروانسفالوگرام آنالیز شده ',
             dataIndex: 'lastEeg',
             key: 'lastEeg',
             ...getColumnSearchProps('lastEeg'),
@@ -369,7 +372,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
             width: 'auto',
         },
         {
-            title: 'Action',
+            title: '',
             key: 'action',
             render: (_, record) => (
                 <Space size="middle">

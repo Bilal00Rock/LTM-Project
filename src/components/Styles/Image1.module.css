@@ -28,7 +28,7 @@
   align-self: stretch;
   flex-wrap: wrap;
   justify-content: flex-start;
-  background-image: url(/public/image@3x.png);
+  /* background-image: url(/public/image@3x.png); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top;

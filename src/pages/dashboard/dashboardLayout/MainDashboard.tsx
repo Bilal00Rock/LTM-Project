@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useRef } from "react";
 import styles from "../../Styles/MainDashboard.module.css";
 import { NProgress } from '../../../components/Nprogress';
 import React, { useState } from 'react';
+import "../../../global.css";
 import {
     QuestionCircleOutlined,
     HomeOutlined,
@@ -20,8 +21,10 @@ import {
     TransitionGroup,
 } from 'react-transition-group';
 import { PATH_PATIENTS, PATH_OVERVIEW } from "../../../constants";
-const { Content, Sider } = Layout;
+import fa_IR from "antd/locale/fa_IR";
+import {sahel} from 'next-persian-fonts'
 
+const { Content, Sider } = Layout;
 
 //#region CSS3 Styles
 const siderStyle: React.CSSProperties = {
@@ -35,12 +38,13 @@ const siderStyle: React.CSSProperties = {
 
 };
 const contentStyle: React.CSSProperties = {
-    margin: '32px 24px 32px 15px',
+    margin: '32px 15px 32px 24px',
     background: "#F2FCFC",
     borderRadius: '20px',
     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)',
     maxHeight: '90vh',
     overflow: 'overlay',
+    padding: '32px 18px 32px 5px'
 
 };
 const collapseBstyle: React.CSSProperties = {
@@ -50,8 +54,9 @@ const collapseBstyle: React.CSSProperties = {
     height: 64,
     position: 'relative',
     top: '45%',
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
+    borderTopRightRadius: '0px',
+    borderBottomRightRadius: '0px',
+
 };
 //#endregion
 
@@ -76,25 +81,26 @@ const getItem = (
         type,
     } as MenuItem;
 }
-
 const items: MenuProps['items'] = [
-    getItem('Overview', 'overview', <HomeOutlined />, [
+    getItem('داشبورد', 'overview', <HomeOutlined />, [
         getItem(<Link to={PATH_OVERVIEW.test}>Test</Link>, 'test', null),
         getItem(<Link to={PATH_OVERVIEW.test2}>Test2</Link>, 'test2', null),
     ]),
-    getItem('Patients', 'patients', <ContactsOutlined />, [
-        getItem(<Link to={PATH_PATIENTS.addpatient}>Add Patient</Link>, 'add-patient', null),
-        getItem(<Link to={PATH_PATIENTS.patientslist}>Patients List</Link>, 'patients-list', null),
+    getItem('مدیرت بیماران', 'patients', <ContactsOutlined />, [
+        getItem(<Link to={PATH_PATIENTS.addpatient}>افزودن بیمار</Link>, 'add-patient', null),
+        getItem(<Link to={PATH_PATIENTS.patientslist}>لیست بیماران</Link>, 'patients-list', null),
 
     ]),
-    getItem('User', 'user', <UserOutlined />),
-    getItem('Help & Support', 'help', <QuestionCircleOutlined />),
-    getItem('Settings', 'setting', <SettingOutlined />),
+    getItem('کاربر', 'user', <UserOutlined />),
+    getItem('پشتیبانی', 'help', <QuestionCircleOutlined />),
+    getItem('تنظیمات', 'setting', <SettingOutlined />),
 ];
 //#endregion
 const rootSubmenuKeys = ['overview', 'patients', 'user-user'];
 
 const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
+   
+const [falang , setLang] = useState(true)
     const nodeRef = useRef(null);
     const [collapsed, setCollapsed] = useState(false);
     const [Btcollapsed, setBtCollapsed] = useState(false);
@@ -121,17 +127,24 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
         }
         
     };
+    
     useEffect(() => {
         const paths = pathname.split('/');
         setOpenKeys(paths);
         setCurrent(paths[paths.length - 1]);
     }, [pathname]);
 
-
+    const TriggerClick = () => { 
+        setCollapsed(!collapsed); setBtCollapsed(!Btcollapsed) 
+    }
     return (
-        <ConfigProvider
+        <ConfigProvider locale={fa_IR} direction= {falang? 'rtl': 'ltr'}
             theme={{
+                token: {
+                    fontFamily: 'Vazirmatn RD',
+                  },
                 components: {
+                    
                     Layout: {
                         /* here is your component tokens */
                         lightSiderBg: '#F2FCFC',
@@ -147,13 +160,15 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
                     Button: {
                         defaultBg: "#F2FCFC",
                         defaultHoverBorderColor: "#3F72AF"
+                        
                     }
                 },
             }}
         >
             <Layout hasSider={true} >
 
-                <Sider trigger={null} theme="light" collapsible
+                <Sider 
+                    trigger={null} theme="light" collapsible
                     collapsed={collapsed}
                     onCollapse={(value) => setCollapsed(value)}
                     style={siderStyle}
@@ -175,7 +190,7 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
                             className={styles.logo}
                             loading="lazy"
                             alt="Logo"
-                            src="/headerlogowithoutback-2@2x.png"
+                            src={process.env.PUBLIC_URL + '/img/logo.png'}
                             style={{ boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)', maxWidth: '100%', height: 'auto' }}
                         />
                     </div>
@@ -188,18 +203,16 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
                         openKeys={openKeys}
                         onOpenChange={onOpenChange}
                         selectedKeys={[current]}
-                        
                     />
                     
                 </Sider>
                 <Layout style={{ display: 'flex', flexDirection: 'row' }} >
                     <Button
                         type="default"
-                        icon={Btcollapsed && !collapsed ? <CaretLeftOutlined /> : <CaretRightOutlined />}
-                        onClick={() => { setCollapsed(!collapsed); setBtCollapsed(!Btcollapsed) }}
+                        
+                        icon={Btcollapsed && !collapsed ? <CaretRightOutlined /> : < CaretLeftOutlined />}
+                        onClick={TriggerClick}
                         style={collapseBstyle}
-
-
                     />
                     <NProgress isAnimating={isLoading} key={location.key} />
 

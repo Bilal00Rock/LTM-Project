@@ -8,7 +8,7 @@ import { useCallback, } from "react";
 import { PatientTable } from "../../../components/Table/PatientTable";
 
 const layoutStyle: React.CSSProperties = {
-    margin: '32px 10px 32px 18px',
+    
     background: "#F2FCFC",
     borderRadius: '6px',
     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.25)',
@@ -38,14 +38,14 @@ const PatientsList = () => {
         >
             <Layout style={layoutStyle} >
                 <PageHeader
-                    title="Patients List"
+                    title="لیست بیماران"
                     icon={<BsPeople size={30} />}
                     breadcrumbs={[
                         {
                             title: (
                                 <>
                                     <HomeOutlined />
-                                    <span>Dashboard</span>
+                                    <span>داشبورد</span>
                                 </>
                             ),
                         },
@@ -53,7 +53,7 @@ const PatientsList = () => {
                             title: (
                                 <>
                                     <ContactsOutlined />
-                                    <span>Patients</span>
+                                    <span>مدیرت بیماران</span>
                                 </>
                             ),
 
@@ -65,13 +65,13 @@ const PatientsList = () => {
                             }
                         },
                         {
-                            title: 'Patients list',
+                            title: 'لیست بیماران',
                         },
 
                     ]}
                 />
-                <Button type={'primary'} icon={<PlusOutlined />} onClick={onClick}>Add Patient</Button>
-                <PatientTable title="Patients Table" />
+                <Button type={'primary'} icon={<PlusOutlined />} onClick={onClick}>افزودن بیمار</Button>
+                <PatientTable title="فهرست بیماران" />
             </Layout>
 
         </ConfigProvider >

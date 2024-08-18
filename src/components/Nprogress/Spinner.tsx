@@ -5,7 +5,7 @@ export const NSpinner = () => (
     style={{
       display: 'block',
       position: 'fixed',
-      right: 30,
+      left: 50,
       top: 40,
       zIndex: 1031,
     }}
@@ -19,8 +19,8 @@ export const NSpinner = () => (
         borderRight: '2px solid transparent',
         borderTop: '2px solid #29d',
         boxSizing: 'border-box',
-        height: 36,
-        width: 36,
+        height: 20,
+        width: 20,
       }}
     />
   </div>
