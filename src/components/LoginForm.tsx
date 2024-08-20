@@ -43,7 +43,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                     className={styles.headerLogoWithoutBack1Icon}
                     loading="lazy"
                     alt=""
-                    src="../headerlogowithoutback-2@2x.png"
+                    src={process.env.PUBLIC_URL + '/img/logo.png'}
                 />
             </div>
             <b className={styles.loginIntoYour}>Login into your account</b>

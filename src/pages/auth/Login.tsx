@@ -26,7 +26,7 @@ const Login: FunctionComponent = () => {
                                     className={styles.logo}
                                     loading="lazy"
                                     alt="Logo"
-                                    src="/headerlogowithoutback-2@2x.png"
+                                    src={process.env.PUBLIC_URL + '/img/logo.png'}
                                     style={{ maxWidth: '100vw   ', height: 'auto' }}
                                 />
                             </Col>

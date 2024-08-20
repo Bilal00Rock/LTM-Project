@@ -59,7 +59,7 @@ export const ForgotPassPage: FunctionComponent = () => {
                         className={styles.headerLogoWithoutBack1Icon}
                         loading="lazy"
                         alt=""
-                        src="/headerlogowithoutback-11@2x.png"
+                        src={process.env.PUBLIC_URL + '/img/logo.png'}
                     />
                 </div>
                 <Content style={content2}>
