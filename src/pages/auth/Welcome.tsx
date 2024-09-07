@@ -22,15 +22,16 @@ export const WelcomePage = () => {
       <Typography.Text style={{ fontSize: 18 }}>
         An Application of FUTURE!!
       </Typography.Text>
-      <Flex>
+      <Flex gap={"middle"}>
         <Link to="/login-page">
           <Button type="primary" size="middle">
             Login Now!
           </Button>
         </Link>
-        <Link to="/login-page">
+
+        <Link to="https://pineu.ir">
           <Button type="primary" size="middle">
-            Login Now!
+            Go to Pineu.ir
           </Button>
         </Link>
       </Flex>
