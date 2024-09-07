@@ -4,6 +4,8 @@ import {
   useNavigationType,
 } from "react-router-dom";
 import Login from "../pages/auth/Login";
+import Singup from "../pages/auth/SignupPage";
+
 import { ForgotPassPage } from "../pages/auth/ForgotPassPage";
 import React, { ReactNode, useEffect } from "react";
 import ErrorPage from "../pages/errors/Error";
@@ -12,6 +14,9 @@ import Testpage from "../pages/dashboard/patient/Testpage";
 import Testpage2 from "../pages/dashboard/patient/Testpage2";
 import PatientsList from "../pages/dashboard/patient/PatientsList";
 import { WelcomePage } from "../pages/auth/Welcome";
+import SignUPPage from "../pages/SignUPPage";
+import { ResetPassword } from "../pages/auth/ResetPassword";
+import { NewPassword } from "../pages/auth/NewPassword";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -92,6 +97,18 @@ const router = createBrowserRouter([
       {
         path: "forgot-password",
         element: <ForgotPassPage />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPassword />,
+      },
+      {
+        path: "new-password",
+        element: <NewPassword/>
+      },
+      {
+        path: "signup-page",
+        element: <Singup />,
       },
     ],
   },

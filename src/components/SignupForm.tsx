@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FunctionComponent, useCallback } from "react";
 import {
   InfoCircleOutlined,
-  LockOutlined,
+  PhoneOutlined,
   UserOutlined,
+  ContactsOutlined 
 } from "@ant-design/icons";
 import {
   Button,
@@ -21,11 +22,11 @@ import { useNavigate } from "react-router-dom";
 import fa_IR from "antd/locale/fa_IR";
 import FormItem from "antd/es/form/FormItem";
 
-export type LoginComponentType = {
+export type SignupComponentType = {
   className?: string;
 };
 
-const LoginForm: FunctionComponent<LoginComponentType> = ({
+const SignupForm: FunctionComponent<SignupComponentType> = ({
   className = "",
 }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -39,11 +40,9 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
   //#region Functions
   const navigate = useNavigate();
 
-  const onTextClick = useCallback(() => {
-    navigate("/forgot-password");
-  }, [navigate]);
+  
   const onBRClick = useCallback(() => {
-    navigate("/signup-page");
+    navigate("/login-page");
   }, [navigate]);
 
   const onFinish = (values: any) => {
@@ -80,9 +79,26 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
               },
             }}
           >
-            <FormItem>
-              برای ورود، نام کاربری و رمز عبور خود را وارد کنید
-            </FormItem>
+            <FormItem>لطفا اطلاعات زیر را برای ثبت نام وارد نمایید.</FormItem>
+            <Form.Item
+              name="D_id"
+              rules={[
+                {
+                  required: true,
+                  message: "!لطفا کد ملی خود را وارد کنید",
+                },
+              ]}
+            >
+              <Input
+                placeholder="کد ملی"
+                prefix={<ContactsOutlined  style={{ color: "rgba(0,0,0,.55)" }} />}
+                suffix={
+                  <Tooltip title="مثال: ۰۱۲۳۴۵۶۷۸۹">
+                    <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
+                  </Tooltip>
+                }
+              />
+            </Form.Item>
             <Form.Item
               name="D_id"
               rules={[
@@ -103,29 +119,26 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
               />
             </Form.Item>
             <Form.Item
-              name="password"
+              name="D_id"
               rules={[
-                { required: true, message: "!لطفا رمز عبود را وارد کنید" },
+                {
+                  required: true,
+                  message: "لطفا تلفن همراه خود را وارد کنید!",
+                },
               ]}
             >
               <Input
-                prefix={<LockOutlined />}
-                type="password"
-                placeholder="رمز عبور"
+                placeholder="تلفن همراه"
+                prefix={<PhoneOutlined style={{ color: "rgba(0,0,0,.55)" }} />}
+                suffix={
+                  <Tooltip title="مثال: ۰۹۱۲۳۴۵۶۷۸۹">
+                    <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
+                  </Tooltip>
+                }
               />
             </Form.Item>
           </ConfigProvider>
-          <Form.Item>
-            <Flex justify="space-between" align="center">
-              <Button
-                type="link"
-                onClick={onTextClick}
-                style={{ fontSize: "18px" }}
-              >
-                رمز عبور را فراموش کرده اید؟
-              </Button>
-            </Flex>
-          </Form.Item>
+          
 
           <Form.Item>
             <ConfigProvider
@@ -146,11 +159,11 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                 htmlType="submit"
                 style={{ fontWeight: "bold", fontSize: "large" }}
               >
-                ورود
+                 ثبت نام پزشک
               </Button>
               <Divider plain>یا</Divider>
               <Button block type="default" onClick={onBRClick}>
-                !ثبت نام کنید
+               بازگشت به صفحه ورود
               </Button>
             </ConfigProvider>
           </Form.Item>
@@ -160,4 +173,4 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
   );
 };
 
-export default LoginForm;
+export default SignupForm;

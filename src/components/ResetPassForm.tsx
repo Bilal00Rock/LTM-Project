@@ -13,14 +13,17 @@ import {
   Tooltip,
   ConfigProvider,
   Divider,
+  Space,
+  Grid,
+  GetProps,
 } from "antd";
 import styles2 from "../pages/Styles/ForgotPassPage.module.css";
 import { useNavigate } from "react-router-dom";
 
-export type FrgpassComponentType = {
+export type RespassComponentType = {
   className?: string;
 };
-const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
+const ResetPassForm: FunctionComponent<RespassComponentType> = ({}) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -30,25 +33,28 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
   const navigate = useNavigate();
 
   const onBackClick = useCallback(() => {
-    navigate("/login-page");
+    navigate("/forgot-password");
   }, [navigate]);
-  const onFinish = useCallback((values: any) => {
+  const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
-    navigate("/reset-password");
-  },[navigate]);
+  };
   const smallWidth = windowWidth < 1700;
   const toosmallWidth = windowWidth < 1300;
   const titleFont: React.CSSProperties = {
     fontSize: smallWidth ? "22px" : "24px",
     fontFamily: "poppins",
   };
+
   return (
     <div>
+      <Flex vertical={true} gap={"middle"}>
       <b className={styles2.forgotPassword1} style={titleFont}>
-        فراموشی رمز عبور!
+        !گذرواژه جدید را انتخاب کنید
       </b>
+
+      </Flex>
       <Form
-        name="forpass"
+        name="respass"
         initialValues={{ remember: true }}
         style={{
           minWidth: "-webkit-fill-available",
@@ -58,6 +64,7 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
         size={toosmallWidth ? "middle" : "large"}
       >
         <ConfigProvider
+        direction="rtl"
           theme={{
             components: {
               Input: {
@@ -68,44 +75,43 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
           }}
         >
           <Form.Item
-            name="D_id"
-            rules={[
-              {
-                required: true,
-                message: "لطفا کد نظام پزشکی خود را وارد کنید!",
-              },
-            ]}
-          >
-            <Input
-              placeholder="کد نظام پزشکی"
-              prefix={<UserOutlined style={{ color: "rgba(0,0,0,.55)" }} />}
-              suffix={
-                <Tooltip title="مثال: ۰۱۲۳۴۵۶">
-                  <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
-                </Tooltip>
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: '!لطفا گذرواژه جدید را وارد کنید',
+          },
+        ]}
+        hasFeedback
+      >
+        <Input.Password placeholder="گذرواژه جدید"/>
+      </Form.Item>
+
+      <Form.Item
+        name="confirm"
+        dependencies={['password']}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: '!لطفا گذرواژه را تکرار کنید',
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve();
               }
-            />
-          </Form.Item>
-          <Form.Item
-            name="Ph_no"
-            rules={[
-              {
-                required: true,
-                message: "لطفا تلفن همراه خود را وارد کنید!",
-              },
-            ]}
-          >
-            <Input
-              placeholder="تلفن همراه"
-              prefix={<PhoneOutlined style={{ color: "rgba(0,0,0,.55)" }} />}
-              suffix={
-                <Tooltip title="مثال: ۰۹۱۲۳۴۵۶۷۸۹">
-                  <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
-                </Tooltip>
-              }
-            />
-          </Form.Item>
+              return Promise.reject(new Error('!گذرواژه ها یکسان نیستند'));
+            },
+          }),
+        ]}
+      >
+        <Input.Password placeholder="تکرار گذرواژه جدید"/>
+      </Form.Item>
+
+          
         </ConfigProvider>
+
         <Form.Item>
           <ConfigProvider
             theme={{
@@ -125,12 +131,12 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
               htmlType="submit"
               style={{ fontWeight: "bold" }}
             >
-              ارسال کد
+              تغییر گذرواژه
             </Button>
 
             <Divider>OR</Divider>
             <Button block type="default" onClick={onBackClick}>
-              برگشت به صفحه ورود
+              برگشت به مرحله قبلی
             </Button>
           </ConfigProvider>
         </Form.Item>
@@ -138,4 +144,4 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
     </div>
   );
 };
-export default ForgotPassForm;
+export default ResetPassForm;
