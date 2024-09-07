@@ -1,7 +1,8 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
-import { Layout } from "antd";
+import { ConfigProvider, Layout } from "antd";
 import styles from "../Styles/ForgotPassPage.module.css";
 import ForgotPassForm from "../../components/ForgotPassForm";
+import fa_IR from "antd/locale/fa_IR";
 
 export const ForgotPassPage: FunctionComponent = () => {
   const { Content } = Layout;
@@ -32,7 +33,7 @@ export const ForgotPassPage: FunctionComponent = () => {
     textAlign: "center",
     display: toosmallWidth ? "grid" : "flex",
     justifyContent: "center",
-    margin: smallWidth ? "6% 15% 6% 15%" : "10% 25% 10% 25%",
+    margin: smallWidth ? "6% 15%" : "10% 25%",
     height: "100%",
     minHeight: toosmallWidth ? "500px" : "650px",
     borderRadius: "50px",
@@ -42,7 +43,6 @@ export const ForgotPassPage: FunctionComponent = () => {
     backgroundColor: "#F2FCFC",
     maxWidth: "1000px",
     flexDirection: "column",
-    gap: "40px",
   };
 
   const content2: React.CSSProperties = {
@@ -52,20 +52,22 @@ export const ForgotPassPage: FunctionComponent = () => {
   //#endregion
 
   return (
-    <Layout style={layoutStyle}>
-      <Content style={contentStyle}>
-        <div className={styles.headerLogoWithoutBack1Wrapper}>
-          <img
-            className={styles.headerLogoWithoutBack1Icon}
-            loading="lazy"
-            alt=""
-            src={process.env.PUBLIC_URL + "/img/logo.png"}
-          />
-        </div>
-        <Content style={content2}>
-          <ForgotPassForm />
+    <ConfigProvider locale={fa_IR} direction={"rtl"}>
+      <Layout style={layoutStyle}>
+        <Content style={contentStyle}>
+          <div className={styles.headerLogoWithoutBack1Wrapper}>
+            <img
+              className={styles.headerLogoWithoutBack1Icon}
+              loading="lazy"
+              alt=""
+              src={process.env.PUBLIC_URL + "/img/logo.png"}
+            />
+          </div>
+          <Content style={content2}>
+            <ForgotPassForm />
+          </Content>
         </Content>
-      </Content>
-    </Layout>
+      </Layout>
+    </ConfigProvider>
   );
 };

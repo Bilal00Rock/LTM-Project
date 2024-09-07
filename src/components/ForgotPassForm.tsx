@@ -1,110 +1,140 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FunctionComponent, useCallback } from "react";
-import { InfoCircleOutlined , MailOutlined} from '@ant-design/icons';
-import { Button, Form, Input, Flex, Tooltip, ConfigProvider, Divider } from 'antd';
-import styles from "./Styles/FrameComponent.module.css";
-
+import {
+  InfoCircleOutlined,
+  UserOutlined,
+  PhoneOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Form,
+  Input,
+  Flex,
+  Tooltip,
+  ConfigProvider,
+  Divider,
+} from "antd";
 import styles2 from "../pages/Styles/ForgotPassPage.module.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export type FrgpassComponentType = {
-    className?: string;
+  className?: string;
 };
-const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({
-    className = "",
-}) => {
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-    useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-    const navigate = useNavigate();
+const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const navigate = useNavigate();
 
-    const onBackClick = useCallback(() => {
-        navigate("/login-page");
-    }, [navigate]);
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-    };
-    const smallWidth = windowWidth < 1700;
-    const toosmallWidth = windowWidth < 1300;
-    const titleFont: React.CSSProperties = {
-        fontSize: smallWidth ? '22px' : '24px',
-        fontFamily: 'poppins'
-    };
-    return (
-        <div>
-            <b className={styles2.forgotPassword1} style={titleFont}>Forgot Password?!</b>
-            <div className={styles2.pleaseEnterYourEmailToResWrapper}>
-                <div className={styles2.pleaseEnterYour}>
-                    Please enter your email to reset the password
-                </div>
-            </div>
-            <Form
-                name="login"
-                initialValues={{ remember: true }}
-                style={{ minWidth: '-webkit-fill-available', ...{padding: toosmallWidth? '0px' :'46px'} }}
-                onFinish={onFinish}
-                size={toosmallWidth? 'middle':'large'}
+  const onBackClick = useCallback(() => {
+    navigate("/login-page");
+  }, [navigate]);
+  const onFinish = (values: any) => {
+    console.log("Received values of form: ", values);
+  };
+  const smallWidth = windowWidth < 1700;
+  const toosmallWidth = windowWidth < 1300;
+  const titleFont: React.CSSProperties = {
+    fontSize: smallWidth ? "22px" : "24px",
+    fontFamily: "poppins",
+  };
+  return (
+    <div>
+      <b className={styles2.forgotPassword1} style={titleFont}>
+        فراموشی رمز عبور!
+      </b>
+      <Form
+        name="forpass"
+        initialValues={{ remember: true }}
+        style={{
+          minWidth: "-webkit-fill-available",
+          ...{ padding: toosmallWidth ? "0px" : "46px" },
+        }}
+        onFinish={onFinish}
+        size={toosmallWidth ? "middle" : "large"}
+      >
+        <ConfigProvider
+          theme={{
+            components: {
+              Input: {
+                /* here is your component tokens */
+                inputFontSizeLG: 25,
+              },
+            },
+          }}
+        >
+          <Form.Item
+            name="D_id"
+            rules={[
+              {
+                required: true,
+                message: "لطفا کد نظام پزشکی خود را وارد کنید!",
+              },
+            ]}
+          >
+            <Input
+              placeholder="کد نظام پزشکی"
+              prefix={<UserOutlined style={{ color: "rgba(0,0,0,.55)" }} />}
+              suffix={
+                <Tooltip title="مثال: 0123456">
+                  <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
+                </Tooltip>
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            name="D_id"
+            rules={[
+              {
+                required: true,
+                message: "لطفا تلفن همراه خود را وارد کنید!",
+              },
+            ]}
+          >
+            <Input
+              placeholder="تلفن همراه"
+              prefix={<PhoneOutlined style={{ color: "rgba(0,0,0,.55)" }} />}
+              suffix={
+                <Tooltip title="مثال: 09123456789">
+                  <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
+                </Tooltip>
+              }
+            />
+          </Form.Item>
+        </ConfigProvider>
+        <Form.Item>
+          <ConfigProvider
+            theme={{
+              components: {
+                Button: {
+                  /* here is your component tokens */
+                  contentFontSizeLG: 21,
+                  fontWeight: 800,
+                  controlHeightLG: 55,
+                },
+              },
+            }}
+          >
+            <Button
+              block
+              type="primary"
+              htmlType="submit"
+              style={{ fontWeight: "bold" }}
             >
-                <ConfigProvider theme={{
-                    components: {
-                        Input: {
-                            /* here is your component tokens */
-                            inputFontSizeLG: 25,
-                        },
-                    },
-                }}
-                >
-                    <Form.Item
-                        name="Email"
-                        rules={[{ required: true, message: 'Please input your Email!' }]}
-                    >
-                        <Input
-                            placeholder="Enter your Email Address"
-                            prefix={<MailOutlined  style={{ color: 'rgba(0,0,0,.55)' }} />}
-                            suffix={
-                                <Tooltip title="example: info@neurosina.com">
-                                    <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-                                </Tooltip>
-                            }
-                        />
-                    </Form.Item>
+              مرحله بعد
+            </Button>
 
-                </ConfigProvider>
-                <Form.Item>
-
-                    <ConfigProvider
-                        theme={{
-                            components: {
-                                Button: {
-                                    /* here is your component tokens */
-                                    contentFontSizeLG: 21,
-                                    fontWeight: 800,
-                                    controlHeightLG: 55,
-                                },
-                            },
-                        }}
-                    >
-                        <Button block type="primary"
-                            htmlType="submit"
-                            style={{ fontWeight: 'bold'}}
-                        >
-                            Reset Password
-                        </Button>
-
-                       <Divider>OR</Divider>
-                        <Button block
-                            type="default"
-                            onClick={onBackClick}
-                        >
-                            Back to Login
-                        </Button>
-                    </ConfigProvider>
-                </Form.Item>
-            </Form>
-        </div>
-    );
+            <Divider>OR</Divider>
+            <Button block type="default" onClick={onBackClick}>
+              برگشت به صفحه ورود
+            </Button>
+          </ConfigProvider>
+        </Form.Item>
+      </Form>
+    </div>
+  );
 };
 export default ForgotPassForm;

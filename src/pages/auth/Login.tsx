@@ -10,12 +10,6 @@ const Login: FunctionComponent = () => {
   return (
     <Layout style={layoutStyle}>
       <Row style={{ height: "100%" }}>
-        {/* Left Side - Form */}
-        <Col xs={24} md={10} lg={8} style={siderStyle} className={styles.sider}>
-          {/* Component */}
-          <LoginForm />
-        </Col>
-
         {/* Right Side - Image */}
         <Col xs={24} md={14} lg={16} style={{ padding: 0 }}>
           <Content style={contentStyle}>
@@ -32,6 +26,13 @@ const Login: FunctionComponent = () => {
             </Row>
           </Content>
         </Col>
+        {/* Left Side - Form */}
+        <Col xs={24} md={10} lg={8} style={siderStyle} className={styles.sider}>
+          {/* Component */}
+          <LoginForm />
+        </Col>
+
+        
       </Row>
     </Layout>
   );
