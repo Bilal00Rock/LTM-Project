@@ -1,7 +1,7 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { ConfigProvider, Layout } from "antd";
 import styles from "../Styles/ForgotPassPage.module.css";
-import ForgotPassForm from "../../components/ForgotPassForm";
+import ForgotPassForm from "../../components/Forms/ForgotPassForm";
 import fa_IR from "antd/locale/fa_IR";
 
 export const ForgotPassPage: FunctionComponent = () => {

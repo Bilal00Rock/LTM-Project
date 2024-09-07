@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import React from "react";
 import { Layout, Row, Col, Flex } from "antd";
 import styles from "../Styles/Login.module.css";
-import SignupForm from "../../components/SignupForm";
+import SignupForm from "../../components/Forms/SignupForm";
 
 const { Content } = Layout;
 

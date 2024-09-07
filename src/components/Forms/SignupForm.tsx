@@ -17,7 +17,7 @@ import {
   Space,
   Divider,
 } from "antd";
-import styles from "./Styles/FrameComponent.module.css";
+import styles from "../Styles/FrameComponent.module.css";
 import { useNavigate } from "react-router-dom";
 import fa_IR from "antd/locale/fa_IR";
 import FormItem from "antd/es/form/FormItem";
