@@ -1,6 +1,6 @@
-import { Badge, Button, Col, ConfigProvider, Flex, Input, InputRef, Popover, Row, Space, Table, TableColumnsType, TableColumnType, Typography } from 'antd';
+import { Badge, Button, ConfigProvider,  Input, InputRef, Space, Table, TableColumnsType, TableColumnType } from 'antd';
 import { useRef, useState } from 'react';
-import { SearchOutlined, QuestionOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import { SearchOutlined,  } from '@ant-design/icons';
 import { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from 'react-highlight-words';
 import { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers';
@@ -12,8 +12,10 @@ type Props = {
 interface DataType {
     key: string;
     name: string;
+    n_id: string;
     age: number;
     description: string;
+    phoneNO: string;
     type: string;
     lastEeg: Date;
     address: string;
@@ -24,201 +26,245 @@ type DataIndex = keyof DataType;
 const data: DataType[] = [
     {
         key: '1',
-        name: 'John Brown',
+        name: 'صادق محمدی',
         age: 32,
-        address: 'New York No. 1 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'General',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '2',
-        name: 'Joe Black',
+        name: 'مهسا حاتمی',
         age: 42,
-        address: 'London No. 1 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Focal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '3',
-        name: 'Jim Green',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-        description: 'this is defualt description',
+        name: 'امیر امیری',
+        age: 15,
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '4',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '5',
-        name: 'Jim Red',
+        name: 'محمدی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '6',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '7',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '8',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '9',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '10',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '11',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '12',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '13',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '14',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '15',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '16',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '17',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۲۱۹۸۸۸۹۹۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '18',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۲۳۳۸۸۷۷',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '19',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '20',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '21',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
     {
         key: '22',
-        name: 'Jim Red',
+        name: 'محمد صادقی',
         age: 32,
-        address: 'London No. 2 Lake Park',
-        description: 'this is defualt description',
+        address: 'مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸',
+        description: 'توضیحات تکمیلی',
         type: 'Temporal',
-        lastEeg: new Date(Date())
+        lastEeg: new Date(Date()),
+        phoneNO: '۰۹۱۲۳۴۵۶۷۸۹',
+        n_id: '۰۱۳۲۲۹۰۱۲۹'
     },
 ];
 //#endregion
@@ -334,6 +380,22 @@ export const PatientTable = ({ title, ...other }: Props) => {
 
         },
         {
+            title: 'کد ملی',
+            dataIndex: 'n_id',
+            key: 'n_id',
+            width: 'auto',
+            ...getColumnSearchProps('n_id'),
+
+        },
+        {
+            title: 'شماره تماس',
+            dataIndex: 'phoneNO',
+            key: 'phoneNO',
+            width: 'auto',
+            ...getColumnSearchProps('phoneNO'),
+
+        },
+        {
             title: 'سن',
             dataIndex: 'age',
             key: 'age',
@@ -342,11 +404,11 @@ export const PatientTable = ({ title, ...other }: Props) => {
             ...getColumnSearchProps('age'),
         },
         {
-            title: 'نوع بیماری',
+            title: 'نوع صرع',
             dataIndex: 'type',
             key: 'type',
             ...getColumnSearchProps('type'),
-            sorter: (a, b) => a.address.length - b.address.length,
+            sorter: (a, b) => a.type.length - b.type.length,
             sortDirections: ['descend', 'ascend'],
             width: 'auto',
             render: function (_, { type }) {
@@ -362,15 +424,15 @@ export const PatientTable = ({ title, ...other }: Props) => {
                 );
             },
         },
-        {//not showing date until search for it 
-            title: 'آخرین الکتروانسفالوگرام آنالیز شده ',
-            dataIndex: 'lastEeg',
-            key: 'lastEeg',
-            ...getColumnSearchProps('lastEeg'),
-            sorter: (a, b) => a.lastEeg.getTime() - b.lastEeg.getTime(),
-            sortDirections: ['descend', 'ascend'],
-            width: 'auto',
-        },
+        // {//not showing date until search for it 
+        //     title: 'آخرین الکتروانسفالوگرام آنالیز شده ',
+        //     dataIndex: 'lastEeg',
+        //     key: 'lastEeg',
+        //     sorter: (a, b) => a.lastEeg.getTime() - b.lastEeg.getTime(),
+        //     sortDirections: ['descend', 'ascend'],
+        //     width: 'auto',
+        //     ...getColumnSearchProps('lastEeg'),
+        // },
         {
             title: '',
             key: 'action',
@@ -398,7 +460,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
                 dataSource={data} style={{ margin: '10px 0' }}
                 pagination={{ responsive: true, position: ['bottomRight'] }}
                 expandable={{
-                    expandedRowRender: (record) => <p style={{ margin: 0, overflow: 'auto', tableLayout: 'auto' }}>{record.description}</p>,
+                    expandedRowRender: (record) => <p style={{ margin: 0, overflow: 'auto', tableLayout: 'auto' }}>{record.description }</p>,
                 }}
                 loading={false}
             />
