@@ -77,10 +77,7 @@ const getItem = (
   } as MenuItem;
 };
 const items: MenuProps["items"] = [
-  getItem("داشبورد", "overview", <HomeOutlined />, [
-    getItem(<Link to={PATH_OVERVIEW.test}>Test</Link>, "test", null),
-    getItem(<Link to={PATH_OVERVIEW.test2}>Test2</Link>, "test2", null),
-  ]),
+  getItem(<Link to={PATH_OVERVIEW.root}>داشبورد</Link>, "overview", <HomeOutlined />),
   getItem("مدیرت بیماران", "patients", <ContactsOutlined />, [
     getItem(
       <Link to={PATH_PATIENTS.addpatient}>افزودن بیمار</Link>,

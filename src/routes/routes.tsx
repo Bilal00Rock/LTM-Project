@@ -10,12 +10,11 @@ import { ForgotPassPage } from "../pages/auth/ForgotPassPage";
 import React, { ReactNode, useEffect } from "react";
 import ErrorPage from "../pages/errors/Error";
 import { DashboardLayout } from "../pages/dashboard/dashboardLayout";
-import Testpage from "../pages/dashboard/patient/Testpage";
-import Testpage2 from "../pages/dashboard/patient/Testpage2";
 import PatientsList from "../pages/dashboard/patient/PatientsList";
 import { WelcomePage } from "../pages/auth/Welcome";
 import { ResetPassword } from "../pages/auth/ResetPassword";
 import { NewPassword } from "../pages/auth/NewPassword";
+import Overview from "../pages/dashboard/patient/Overview";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -119,16 +118,8 @@ const router = createBrowserRouter([
       {
         path: "overview",
         errorElement: <ErrorPage />,
-        children: [
-          {
-            path: "test",
-            element: <Testpage />,
-          },
-          {
-            path: "test2",
-            element: <Testpage2 />,
-          },
-        ],
+        element: <Overview />,
+        
       },
       {
         path: "patients",
@@ -136,7 +127,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "add-patient",
-            element: <Testpage />,
+            element: <Overview />,
           },
           {
             path: "patients-list",

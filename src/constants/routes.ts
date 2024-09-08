@@ -17,8 +17,6 @@ export const PATH_PATIENTS = {
   };
 export const PATH_OVERVIEW = {
     root: PATH_DASHBOARD.overview ,
-    test: path(PATH_DASHBOARD.overview , '/test') ,
-    test2: path(PATH_DASHBOARD.overview, '/test2'),
   };
 
 
