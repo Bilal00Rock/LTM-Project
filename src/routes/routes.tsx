@@ -14,7 +14,6 @@ import Testpage from "../pages/dashboard/patient/Testpage";
 import Testpage2 from "../pages/dashboard/patient/Testpage2";
 import PatientsList from "../pages/dashboard/patient/PatientsList";
 import { WelcomePage } from "../pages/auth/Welcome";
-import SignUPPage from "../pages/SignUPPage";
 import { ResetPassword } from "../pages/auth/ResetPassword";
 import { NewPassword } from "../pages/auth/NewPassword";
 

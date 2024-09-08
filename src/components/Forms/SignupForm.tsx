@@ -79,7 +79,7 @@ const SignupForm: FunctionComponent<SignupComponentType> = ({
               },
             }}
           >
-            <FormItem>لطفا اطلاعات زیر را برای ثبت نام وارد نمایید.</FormItem>
+            <Form.Item ><b style={{fontSize: '20px'}}>لطفا اطلاعات زیر را برای ثبت نام وارد نمایید</b></Form.Item>
             <Form.Item
               name="D_id"
               rules={[

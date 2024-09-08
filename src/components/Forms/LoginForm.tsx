@@ -81,7 +81,9 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
             }}
           >
             <FormItem>
+            <b style={{fontSize: '20px'}}>
               برای ورود، نام کاربری و رمز عبور خود را وارد کنید
+              </b>
             </FormItem>
             <Form.Item
               name="D_id"

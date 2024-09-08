@@ -28,7 +28,9 @@ const Signup: FunctionComponent = () => {
         </Col>
         {/* Left Side - Form */}
         <Col xs={24} md={10} lg={10} style={siderStyle} className={styles.sider}>
+        
           {/* Component */}
+          
           <SignupForm />
         </Col>
 
