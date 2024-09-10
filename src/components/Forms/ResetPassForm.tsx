@@ -17,7 +17,7 @@ import {
   Grid,
   GetProps,
 } from "antd";
-import styles2 from "../pages/Styles/ForgotPassPage.module.css";
+import styles2 from "../../pages/Styles/ForgotPassPage.module.css";
 import { useNavigate } from "react-router-dom";
 
 export type RespassComponentType = {

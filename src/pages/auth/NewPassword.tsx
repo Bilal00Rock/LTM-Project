@@ -2,7 +2,7 @@ import { FunctionComponent, useCallback, useEffect, useState } from "react";
 import { ConfigProvider, Layout } from "antd";
 import styles from "../Styles/ForgotPassPage.module.css";
 import fa_IR from "antd/locale/fa_IR";
-import ResetPassForm from "../../components/ResetPassForm";
+import ResetPassForm from "../../components/Forms/ResetPassForm";
 
 export const NewPassword: FunctionComponent = () => {
   const { Content } = Layout;

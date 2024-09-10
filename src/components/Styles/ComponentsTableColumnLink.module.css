@@ -1,9 +1,0 @@
-.componentstableColumnlink {
-  width: 119px;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
