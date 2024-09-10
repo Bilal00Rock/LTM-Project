@@ -4,11 +4,9 @@ import { PageHeader } from "../../components/PageHeader/PageHeader";
 import ReactApexChart from "react-apexcharts";
 import { useStylesContext } from "../../context";
 import { Card } from "../../components/Card/Card";
-import Chart from "react-apexcharts";
-import Chartw from "../../components/Charts/Chart";
 import EpiTypeChart from "../../components/Charts/EpiTypeChart";
-import SeizuresChart from "../../components/Charts/SeizuresChart";
 import ChartTimeline from "../../components/Charts/Chart";
+import { StatsCard } from "../../components/StatsCard/StatsCard";
 const layoutStyle: React.CSSProperties = {
   background: "#F2FCFC",
   borderRadius: "6px",
@@ -20,7 +18,7 @@ const layoutStyle: React.CSSProperties = {
 
 const Overview = () => {
   const stylesContext = useStylesContext();
-  
+
   return (
     <ConfigProvider>
       <Layout style={layoutStyle}>
@@ -30,26 +28,27 @@ const Overview = () => {
           backbtn={false}
           breadcrumbs={undefined}
         />
-        
-        <Row {...stylesContext?.rowProps}>
-
+        <Row gutter={[12, 24]}>
           <Col xs={24} lg={8}>
+            <StatsCard title={"تعداد تشنج های ثبت شده امروز"} />
+          </Col>
+          <Col xs={24} lg={8}>
+            <StatsCard title={"تعداد بیماران فعال"} />
+          </Col>
+          <Col xs={24} lg={8}>
+            <StatsCard title={"بیماران در حال ثبت نام"} />
+          </Col>
+          <Col xs={24} lg={12}>
             <Card title={"آمار تشنج ها"}>
-            <SeizuresChart/>
+              <ChartTimeline />
             </Card>
           </Col>
-          <Col xs={24} lg={8}>
+          <Col xs={24} lg={12}>
             <Card title={"توزیع انواع صرع"}>
-              <EpiTypeChart/>
-            </Card>
-          </Col>
-          <Col xs={24} lg={8}>
-            <Card title={"توزیع انواع صرع"}>
-              <ChartTimeline/>
+              <EpiTypeChart />
             </Card>
           </Col>
         </Row>
-        
       </Layout>
     </ConfigProvider>
   );

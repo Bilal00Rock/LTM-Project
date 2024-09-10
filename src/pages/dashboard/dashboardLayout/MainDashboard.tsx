@@ -77,16 +77,20 @@ const getItem = (
   } as MenuItem;
 };
 const items: MenuProps["items"] = [
-  getItem(<Link to={PATH_OVERVIEW.root}>داشبورد</Link>, "overview", <HomeOutlined />),
-  getItem("مدیرت بیماران", "patients", <ContactsOutlined />, [
-    getItem(
-      <Link to={PATH_PATIENTS.addpatient}>افزودن بیمار</Link>,
-      "add-patient",
-      null
-    ),
+  getItem(
+    <Link to={PATH_OVERVIEW.root}>داشبورد</Link>,
+    "overview",
+    <HomeOutlined />
+  ),
+  getItem("مدیریت بیماران", "patients", <ContactsOutlined />, [
     getItem(
       <Link to={PATH_PATIENTS.patientslist}>لیست بیماران</Link>,
       "patients-list",
+      null
+    ),
+    getItem(
+      <Link to={PATH_PATIENTS.pendings}>بیماران در انتظار ثبت‌نام</Link>,
+      "pending-patients",
       null
     ),
   ]),

@@ -40,6 +40,7 @@ class SeizuresChart extends React.Component<{}, IState> {
         },
         grid: {
           row: {
+            
             colors: ["#f3f3f3", "transparent"],
             opacity: 0.5,
           },

@@ -9,8 +9,8 @@ const DASHBOARD_ITEMS = [
     { title: 'Settings', path: '' },
 ];
 const PATINETS_ITEMS = [
-    { title: 'Add Patient', path: PATH_PATIENTS.addpatient },
-    { title: 'Patients List', path: PATH_PATIENTS.patientslist },
+    { title: 'لیست انتظار بیماران', path: PATH_PATIENTS.pendings },
+    { title: 'لیست بیماران', path: PATH_PATIENTS.patientslist },
 ];
 export {
     PATH_OVERVIEW,

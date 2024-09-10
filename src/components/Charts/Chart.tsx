@@ -2,9 +2,22 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 import ApexCharts from 'apexcharts';  // Import ApexCharts directly
+import dayjs from 'dayjs';
+import jalaliday from 'jalaliday';
+import 'dayjs/locale/fa'; // Import Persian locale for dayjs
+import { Color } from 'antd/es/color-picker';
+import { Button, Row } from 'antd';
+
+// Extend dayjs to use Jalali (Shamsi) calendar
+dayjs.extend(jalaliday);
 
 const ChartTimeline: React.FC = () => {
-  // Define the chart options and series
+  // Function to convert date to Unix timestamp with optional seconds or milliseconds
+  const toUnixTimestamp = (date: string | Date, inSeconds: boolean = false): number => {
+    const timestamp = dayjs(date).calendar('jalali').valueOf(); // Get timestamp in milliseconds
+    return inSeconds ? Math.floor(timestamp / 1000) : timestamp; // Return timestamp in seconds or milliseconds
+  };
+
   const options: ApexOptions = {
     chart: {
       id: 'area-datetime',
@@ -13,52 +26,48 @@ const ChartTimeline: React.FC = () => {
       zoom: {
         autoScaleYaxis: true,
       },
+      toolbar: {
+        tools: {
+          selection: true,
+          zoom: true,
+          zoomin: true,
+          zoomout: true,
+          pan: true,
+          reset: true,
+        }
+      },
     },
-    annotations: {
-      yaxis: [
-        {
-          y: 30,
-          borderColor: '#999',
-          label: {
-            text: 'Support',
-            style: {
-              color: '#fff',
-              background: '#00E396',
-            },
-          },
-        },
-      ],
-      xaxis: [
-        {
-          x: new Date('14 Nov 2012').getTime(),
-          borderColor: '#999',
-          label: {
-            text: 'Rally',
-            style: {
-              color: '#fff',
-              background: '#775DD0',
-            },
-          },
-        },
-      ],
+    yaxis: {
+      labels: {
+        offsetX: -10, // Add space between Y-axis labels and the chart
+      },
     },
     dataLabels: {
       enabled: false,
     },
     markers: {
-      size: 0,  // Remove the incorrect `style` property
+      size: 0,
     },
     xaxis: {
       type: 'datetime',
-      min: new Date('01 Mar 2012').getTime(),
+      min: dayjs('2023-01-20').calendar('jalali').valueOf(),
       tickAmount: 6,
+      labels: {
+        formatter: (val: string) => dayjs(parseInt(val)).calendar('jalali').locale('fa').format('YYYY/MM/DD'), // Format Jalali dates
+      },
     },
     tooltip: {
       x: {
-        format: 'dd MMM yyyy',
+        formatter: (val: number) => dayjs(val).calendar('jalali').locale('fa').format('YYYY/MM/DD'), // Show Jalali dates in tooltip
       },
     },
+    stroke: {
+      curve: 'smooth', 
+      colors: ['#FF5733'], 
+      width: 3,  
+    },
     fill: {
+      colors: ['#FF5733'], 
       type: 'gradient',
       gradient: {
         shadeIntensity: 1,
@@ -67,72 +76,82 @@ const ChartTimeline: React.FC = () => {
         stops: [0, 100],
       },
     },
+    colors: ['#FF5733'],
+    grid: {
+      row: {
+        colors: ["#f3f3f3", "transparent"],
+        opacity: 0.5,
+      },
+    },
   };
 
   const series = [
     {
-      name: 'Price',
+      name: 'تشنج ها:',
       data: [
-        [1327359600000, 30.95],
-        [1327446000000, 31.34],
-        [1327532400000, 31.18],
-        [1327618800000, 31.05],
-        [1327878000000, 31.0],
-        [1327964400000, 30.95],
-        [1328050800000, 31.24],
-        // ... add the rest of the data here
+        [toUnixTimestamp('2023-02-08T13:00:00'), 30],
+        [toUnixTimestamp('2023-03-08T14:00:00'), 31],
+        [toUnixTimestamp('2023-04-08T15:00:00'), 31],
+        [toUnixTimestamp('2023-05-08T13:00:00'), 30],
+        [toUnixTimestamp('2023-06-08T14:00:00'), 31],
+        [toUnixTimestamp('2023-07-08T15:00:00'), 31],
+        [toUnixTimestamp('2023-08-08T16:00:00'), 31],
+        [toUnixTimestamp('2023-09-08T17:00:00'), 23],
+        [toUnixTimestamp('2024-01-08T18:00:00'), 12],
+        [toUnixTimestamp('2024-02-08T17:00:00'), 32],
+        [toUnixTimestamp('2024-03-08T16:00:00'), 35],
+        [toUnixTimestamp('2024-04-08T15:00:00'), 31],
+        [toUnixTimestamp('2024-05-08T14:00:00'), 23],
+        [toUnixTimestamp('2024-06-08T13:00:00'), 24],
+        [toUnixTimestamp('2024-07-08T12:00:00'), 25],
+        [toUnixTimestamp('2024-08-08T18:00:00'), 31],
+        [toUnixTimestamp('2024-09-08T12:00:00'), 31],
+        [toUnixTimestamp('2024-10-08T13:00:00'), 30],
+        [toUnixTimestamp('2024-11-08T14:00:00'), 23],
+        [toUnixTimestamp('2024-12-08T11:00:00'), 31],
       ],
     },
   ];
 
-  // Reset CSS classes for buttons
   const resetCssClasses = (activeEl: any) => {
     const els = document.querySelectorAll('button');
     Array.prototype.forEach.call(els, function (el) {
       el.classList.remove('active');
     });
-
     activeEl.target.classList.add('active');
   };
 
-  // Handlers for zooming the chart
-  const handleZoom = (startDate: string, endDate: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleZoom = (startDate: string, endDate: string, e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     resetCssClasses(e);
 
     const chart = ApexCharts.getChartByID('area-datetime');
     
     if (chart) {
-      // Only attempt to zoom if the chart is found
-      chart.zoomX(new Date(startDate).getTime(), new Date(endDate).getTime());
+      chart.zoomX(dayjs(startDate).calendar('jalali').valueOf(), dayjs(endDate).calendar('jalali').valueOf());
     } else {
       console.error('Chart not found');
     }
   };
 
   return (
-    <div>
+    <div style={{ direction: 'rtl' }}> {/* Set direction to RTL */}
+      <Row justify="space-evenly" style={{direction: 'ltr'}}
+      >
+        <Button id="one_month" onClick={(e) => handleZoom('2024-01-28', '2024-02-27', e)}>یک ماه</Button>
+        <Button id="six_months" onClick={(e) => handleZoom('2023-09-27', '2024-02-27', e)}>شش ماه</Button>
+        <Button id="one_year" onClick={(e) => handleZoom('2023-02-27', '2024-02-27', e)}>یک سال</Button>
+        <Button id="all" onClick={(e) => handleZoom('2023-02-00', '2024-12-00', e)}>همه</Button>
+      </Row>
       <div id="chart-timeline">
         <ReactApexChart options={options} series={series} type="area" height={350} />
-      </div>
-      <div className="buttons">
-        <button id="one_month" onClick={(e) => handleZoom('28 Jan 2013', '27 Feb 2013', e)}>
-          1M
-        </button>
-        <button id="six_months" onClick={(e) => handleZoom('27 Sep 2012', '27 Feb 2013', e)}>
-          6M
-        </button>
-        <button id="one_year" onClick={(e) => handleZoom('27 Feb 2012', '27 Feb 2013', e)}>
-          1Y
-        </button>
-        <button id="ytd" onClick={(e) => handleZoom('01 Jan 2013', '27 Feb 2013', e)}>
-          YTD
-        </button>
-        <button id="all" onClick={(e) => handleZoom('23 Jan 2012', '27 Feb 2013', e)}>
-          ALL
-        </button>
       </div>
     </div>
   );
 };
 
 export default ChartTimeline;
+
+
+
+
+

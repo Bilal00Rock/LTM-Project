@@ -13,7 +13,7 @@ export const PATH_DASHBOARD = {
 export const PATH_PATIENTS = {
     root: PATH_DASHBOARD.pateints ,
     patientslist: path(PATH_DASHBOARD.pateints ,'/patients-list'),
-    addpatient: path(PATH_DASHBOARD.pateints, '/add-patient'),
+    pendings: path(PATH_DASHBOARD.pateints, '/pending-patients'),
   };
 export const PATH_OVERVIEW = {
     root: PATH_DASHBOARD.overview ,

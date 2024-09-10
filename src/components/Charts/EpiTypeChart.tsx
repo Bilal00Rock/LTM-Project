@@ -70,7 +70,7 @@ class EpiTypeChart extends React.Component<{}, IState> {
             options={this.state.options}
             series={this.state.series}
             type="bar"
-            height={350}
+            height={380}
           />
         </div>
         <div id="html-dist"></div>
