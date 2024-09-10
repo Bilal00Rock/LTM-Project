@@ -1,7 +1,6 @@
 import { Col, ConfigProvider, Layout, Row, Space } from "antd/es";
 import { HomeOutlined } from "@ant-design/icons";
 import { PageHeader } from "../../components/PageHeader/PageHeader";
-import ReactApexChart from "react-apexcharts";
 import { useStylesContext } from "../../context";
 import { Card } from "../../components/Card/Card";
 import EpiTypeChart from "../../components/Charts/EpiTypeChart";

@@ -28,13 +28,10 @@ export const StatsCard = ({
   const Icon = (): ReactElement => {
     let i;
     switch (title) {
-      case 'تعداد بیماران':
-        i = <UserOutlined style={{ fontSize: 30 }} />;
-        break;
-      case 'بیماران در لیست انتظار':
+      case "بیماران در حال ثبت نام":
         i = <UserAddOutlined style={{ fontSize: 30 }} />;
         break;
-      case 'تعداد تشنج های ثبت شده':
+      case 'تعداد تشنج های ثبت شده امروز':
         i  =<LiaBrainSolid  style={{ fontSize: 35 }}/>;
         break;
       default:
