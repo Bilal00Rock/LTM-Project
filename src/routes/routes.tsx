@@ -14,7 +14,8 @@ import PatientsList from "../pages/dashboard/patient/PatientsList";
 import { WelcomePage } from "../pages/auth/Welcome";
 import { ResetPassword } from "../pages/auth/ResetPassword";
 import { NewPassword } from "../pages/auth/NewPassword";
-import Overview from "../pages/dashboard/patient/Overview";
+import Overview from "../pages/dashboard/Overview";
+import Testpage2 from "../pages/dashboard/patient/Testpage2";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -127,7 +128,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "add-patient",
-            element: <Overview />,
+            element: <Testpage2 />,
           },
           {
             path: "patients-list",
