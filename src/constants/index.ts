@@ -2,11 +2,11 @@ import {PATH_DASHBOARD,PATH_PATIENTS, PATH_OVERVIEW} from './routes.ts';
 
 
 const DASHBOARD_ITEMS = [
-    { title: 'Overview', path: PATH_DASHBOARD.overview },
-    { title: 'Patients', path: PATH_DASHBOARD.pateints },
-    { title: 'User', path: '' },
-    { title: 'Help & Support', path: '' },
-    { title: 'Settings', path: '' },
+    { title: 'داشبورد', path: PATH_DASHBOARD.overview },
+    { title: 'بیماران', path: PATH_DASHBOARD.pateints },
+    { title: 'پروفایل', path: '' },
+    { title: 'پشتیبانی', path: '' },
+    { title: 'تنظیمات', path: '' },
 ];
 const PATINETS_ITEMS = [
     { title: 'لیست انتظار بیماران', path: PATH_PATIENTS.pendings },
