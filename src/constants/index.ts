@@ -8,14 +8,9 @@ const DASHBOARD_ITEMS = [
     { title: 'پشتیبانی', path: '' },
     { title: 'تنظیمات', path: '' },
 ];
-const PATINETS_ITEMS = [
-    { title: 'لیست انتظار بیماران', path: PATH_PATIENTS.pendings },
-    { title: 'لیست بیماران', path: PATH_PATIENTS.patientslist },
-];
 export {
     PATH_OVERVIEW,
     PATH_DASHBOARD,
     PATH_PATIENTS,
     DASHBOARD_ITEMS,
-    PATINETS_ITEMS,
 };

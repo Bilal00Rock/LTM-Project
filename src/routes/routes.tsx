@@ -15,7 +15,6 @@ import { WelcomePage } from "../pages/auth/Welcome";
 import { ResetPassword } from "../pages/auth/ResetPassword";
 import { NewPassword } from "../pages/auth/NewPassword";
 import Overview from "../pages/dashboard/Overview";
-import PendingList from "../pages/dashboard/patient/PendingList";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -125,16 +124,8 @@ const router = createBrowserRouter([
       {
         path: "patients",
         errorElement: <ErrorPage />,
-        children: [
-          {
-            path: "pending-patients",
-            element: <PendingList />,
-          },
-          {
-            path: "patients-list",
-            element: <PatientsList />,
-          },
-        ],
+
+        element: <PatientsList />,
       },
     ],
   },

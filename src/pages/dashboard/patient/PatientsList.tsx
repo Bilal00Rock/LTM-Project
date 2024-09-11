@@ -22,7 +22,6 @@ import {
   theme,
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { PATH_PATIENTS, PATINETS_ITEMS } from "../../../constants";
 import { useCallback, useState } from "react";
 import { PatientTable } from "../../../components/Table/PatientTable";
 import AddPatientForm from "../../../components/Forms/AddPatient/AddPatientForm";
@@ -47,7 +46,6 @@ const steps = [
 
 const PatientsList = () => {
   const [open, setOpen] = useState(false);
-
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
 
@@ -72,12 +70,9 @@ const PatientsList = () => {
   const onClose = () => {
     setOpen(false);
   };
-
+  
   const navigate = useNavigate();
 
-  const onClick = useCallback(() => {
-    navigate(PATH_PATIENTS.pendings);
-  }, [navigate]);
   const layoutStyle: React.CSSProperties = {
     background: "#F2FCFC",
     borderRadius: "6px",
@@ -88,6 +83,7 @@ const PatientsList = () => {
     position: "relative",
     overflow: "hidden",
     border: `1px solid ${token.colorBorderSecondary}`,
+
   };
   return (
     <ConfigProvider
@@ -116,13 +112,6 @@ const PatientsList = () => {
                   <span>مدیرت بیماران</span>
                 </>
               ),
-
-              menu: {
-                items: PATINETS_ITEMS.map((d) => ({
-                  key: d.title,
-                  title: <Link to={d.path}>{d.title}</Link>,
-                })),
-              },
             },
             {
               title: "لیست بیماران",
@@ -151,7 +140,7 @@ const PatientsList = () => {
           <Steps current={current} items={items} />
           <div>{steps[current].content}</div>
         </Drawer>
-
+        
         <PatientTable title="فهرست بیماران" />
       </Layout>
     </ConfigProvider>

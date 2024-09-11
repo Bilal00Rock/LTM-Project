@@ -25,6 +25,7 @@ type Props = {
 interface DataType {
   key: string;
   n_id: string;
+  name: string;
   phoneNO: string;
   status: string;
 }
@@ -37,36 +38,42 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "محمد صادقی"
   },
   {
     key: "2",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "امیر رضایی"
   },
   {
     key: "3",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "4",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "5",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "6",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "7",
@@ -74,6 +81,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "8",
@@ -81,6 +89,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "9",
@@ -88,6 +97,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "10",
@@ -95,6 +105,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "11",
@@ -102,6 +113,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "12",
@@ -109,6 +121,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "13",
@@ -116,6 +129,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
   {
     key: "14",
@@ -123,6 +137,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
+    name: "یاسین محمودی"
   },
 ];
 //#endregion
@@ -243,6 +258,14 @@ export const PendingsTable = ({ title, ...other }: Props) => {
 
   const columns: TableColumnsType<DataType> = [
     {
+      title: "نام ",
+      dataIndex: "name",
+      key: "name",
+      width: "auto",
+      sorter: (a, b) => a.name.length - b.name.length,
+      ...getColumnSearchProps("name"),
+    },
+    {
       title: "کد ملی",
       dataIndex: "n_id",
       key: "n_id",
@@ -271,6 +294,9 @@ export const PendingsTable = ({ title, ...other }: Props) => {
 
   return (
     <div>
+      <div>
+      بیمارانی که لینک ثبت‌نام برای آنها ارسال شده، اما هنوز مراحل ثبت‌نام را تکمیل نکرده‌اند.
+      </div>
       <Table
         {...other}
         bordered

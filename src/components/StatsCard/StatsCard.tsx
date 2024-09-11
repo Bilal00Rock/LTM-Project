@@ -10,6 +10,7 @@ import {Loader} from '../Loader/Loader';
 import CountUp from 'react-countup';
 import { LiaBrainSolid } from "react-icons/lia";
 
+import { MdOutlinePendingActions } from "react-icons/md";
 
 type Props = {
   title: 'followers' | 'following' | 'likes' | 'comments' | string;
@@ -29,7 +30,7 @@ export const StatsCard = ({
     let i;
     switch (title) {
       case "بیماران در حال ثبت نام":
-        i = <UserAddOutlined style={{ fontSize: 30 }} />;
+        i = <MdOutlinePendingActions style={{ fontSize: 30 }} />;
         break;
       case 'تعداد تشنج های ثبت شده امروز':
         i  =<LiaBrainSolid  style={{ fontSize: 35 }}/>;

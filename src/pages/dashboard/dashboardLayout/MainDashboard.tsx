@@ -82,18 +82,7 @@ const items: MenuProps["items"] = [
     "overview",
     <HomeOutlined />
   ),
-  getItem("مدیریت بیماران", "patients", <ContactsOutlined />, [
-    getItem(
-      <Link to={PATH_PATIENTS.patientslist}>لیست بیماران</Link>,
-      "patients-list",
-      null
-    ),
-    getItem(
-      <Link to={PATH_PATIENTS.pendings}>بیماران در انتظار ثبت‌نام</Link>,
-      "pending-patients",
-      null
-    ),
-  ]),
+  getItem(<Link to={PATH_PATIENTS.root}>مدیریت بیماران</Link>, "patients", <ContactsOutlined />, ),
   getItem("کاربر", "user", <UserOutlined />),
   getItem("پشتیبانی", "help", <QuestionCircleOutlined />),
   getItem("تنظیمات", "setting", <SettingOutlined />),
