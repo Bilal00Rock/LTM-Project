@@ -28,25 +28,31 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   const navigate = useNavigate();
+  const [current, setCurrent] = useState(0);
 
   const onBackClick = useCallback(() => {
     navigate("/login-page");
   }, [navigate]);
-  const onFinish = useCallback((values: any) => {
+  const onFinish = ((values: any) => {
     console.log("Received values of form: ", values);
-    navigate("/reset-password");
-  },[navigate]);
+    setCurrent(current + 1);
+    console.log(current);
+  });
   const smallWidth = windowWidth < 1700;
   const toosmallWidth = windowWidth < 1300;
   const titleFont: React.CSSProperties = {
     fontSize: smallWidth ? "22px" : "24px",
     fontFamily: "poppins",
   };
+
+  const next = () => {
+    setCurrent(current + 1);
+    
+  };
+
   return (
     <div>
-      <b className={styles2.forgotPassword1} style={titleFont}>
-        فراموشی رمز عبور!
-      </b>
+      
       <Form
         name="forpass"
         initialValues={{ remember: true }}

@@ -1,9 +1,36 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
-import { ConfigProvider, Layout } from "antd";
+import { Button, ConfigProvider, Flex, Layout, message, Steps } from "antd";
 import styles from "../Styles/ForgotPassPage.module.css";
+import {
+  HomeOutlined,
+  ContactsOutlined,
+  PlusOutlined,
+  SolutionOutlined,
+  MessageOutlined,
+  FileDoneOutlined,
+} from "@ant-design/icons";
 import ForgotPassForm from "../../components/Forms/ForgotPassForm";
 import fa_IR from "antd/locale/fa_IR";
 
+import styles2 from "../../pages/Styles/ForgotPassPage.module.css";
+import ResetPassForm from "../../components/Forms/ResetPassForm";
+const steps = [
+  {
+    title: "ورود اطلاعات",
+    content: <ForgotPassForm />,
+    icon: <SolutionOutlined />,
+  },
+  {
+    title: "رمز یکبار مصرف",
+    content: <ResetPassForm />,
+    icon: <MessageOutlined />,
+  },
+  {
+    title: "انجام شد",
+    content: "Last-content",
+    icon: <FileDoneOutlined />,
+  },
+];
 export const ForgotPassPage: FunctionComponent = () => {
   const { Content } = Layout;
 
@@ -50,7 +77,21 @@ export const ForgotPassPage: FunctionComponent = () => {
     flex: "none",
   };
   //#endregion
+  const [current, setCurrent] = useState(0);
 
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+    icon: item.icon,
+  }));
   return (
     <ConfigProvider locale={fa_IR} direction={"rtl"}>
       <Layout style={layoutStyle}>
@@ -64,7 +105,33 @@ export const ForgotPassPage: FunctionComponent = () => {
             />
           </div>
           <Content style={content2}>
-            <ForgotPassForm />
+            <Flex vertical gap={10}>
+              <b className={styles2.forgotPassword1} style={titleFont}>
+                فراموشی رمز عبور!
+              </b>
+              <Steps current={current} items={items} />
+              <div>{steps[current].content}</div>
+              <div style={{ marginTop: 24 }}>
+                {current < steps.length - 1 && (
+                  <Button type="primary" onClick={() => next()}>
+                    Next
+                  </Button>
+                )}
+                {current === steps.length - 1 && (
+                  <Button
+                    type="primary"
+                    onClick={() => message.success("Processing complete!")}
+                  >
+                    Done
+                  </Button>
+                )}
+                {current > 0 && (
+                  <Button style={{ margin: "0 8px" }} onClick={() => prev()}>
+                    Previous
+                  </Button>
+                )}
+              </div>
+            </Flex>
           </Content>
         </Content>
       </Layout>

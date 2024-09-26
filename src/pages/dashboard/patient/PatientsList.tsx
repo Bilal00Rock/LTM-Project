@@ -3,65 +3,17 @@ import {
   HomeOutlined,
   ContactsOutlined,
   PlusOutlined,
-  SolutionOutlined,
-  MessageOutlined,
-  FileDoneOutlined
 } from "@ant-design/icons";
 import { BsPeople } from "react-icons/bs";
-import {
-  Button,
-  Col,
-  ConfigProvider,
-  Drawer,
-  Flex,
-  Layout,
-  Row,
-  Select,
-  Space,
-  Steps,
-  theme,
-} from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useState } from "react";
+import { Button, ConfigProvider, Drawer, Layout, theme } from "antd";
+import { useState } from "react";
 import { PatientTable } from "../../../components/Table/PatientTable";
-import AddPatientForm from "../../../components/Forms/AddPatient/AddPatientForm";
-
-const steps = [
-  {
-    title: "ثبت اطلاعات",
-    content: <AddPatientForm />,
-    icon: <SolutionOutlined />,
-  },
-  {
-    title: "رمز یکبار مصرف",
-    content: "Second-content",
-    icon: <MessageOutlined />,
-  },
-  {
-    title: "انجام شد",
-    content: "Last-content",
-    icon: <FileDoneOutlined />
-  },
-];
+import AddFormLayout from "../../../components/Forms/AddPatient/AddFormLayout";
 
 const PatientsList = () => {
   const [open, setOpen] = useState(false);
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
-
-  const items = steps.map((item) => ({
-    key: item.title,
-    title: item.title,
-    icon: item.icon,
-  }));
 
   const showDrawer = () => {
     setOpen(true);
@@ -69,9 +21,8 @@ const PatientsList = () => {
 
   const onClose = () => {
     setOpen(false);
+    setCurrent(0);
   };
-  
-  const navigate = useNavigate();
 
   const layoutStyle: React.CSSProperties = {
     background: "#F2FCFC",
@@ -83,7 +34,6 @@ const PatientsList = () => {
     position: "relative",
     overflow: "hidden",
     border: `1px solid ${token.colorBorderSecondary}`,
-
   };
   return (
     <ConfigProvider
@@ -137,10 +87,9 @@ const PatientsList = () => {
           }}
           extra={<Button onClick={onClose}>بازگشت</Button>}
         >
-          <Steps current={current} items={items} />
-          <div>{steps[current].content}</div>
+          <AddFormLayout open={open} setOpen={setOpen} />
         </Drawer>
-        
+
         <PatientTable title="فهرست بیماران" />
       </Layout>
     </ConfigProvider>

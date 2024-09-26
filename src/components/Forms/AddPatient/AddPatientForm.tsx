@@ -1,22 +1,24 @@
 import { Button, Col, Form, Input, Row, Select, Space } from "antd";
-import { DatePicker } from "antd-jalali";
 import { FunctionComponent, useState } from "react";
 
 export type FrgpassComponentType = {};
 
-const { Option } = Select;
-
-const AddPatientForm: FunctionComponent<FrgpassComponentType> = () => {
-  const [open, setOpen] = useState(false);
-
-  const onClose = () => {
-    setOpen(false);
+interface AddPatientFormComponentProps {
+  current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
+}
+const AddPatientForm: FunctionComponent<AddPatientFormComponentProps> = ({
+  current,
+  setCurrent,
+}) => {
+  const next = () => {
+    setCurrent(current + 1);
   };
 
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    next();
   };
-
   return (
     <Form
       name="AddPatient"
@@ -52,7 +54,9 @@ const AddPatientForm: FunctionComponent<FrgpassComponentType> = () => {
           <Form.Item
             name="n_id"
             label="کد ملی"
-            rules={[{ required: true, message: "لطفا کد ملی بیمار را وارد کنید" }]}
+            rules={[
+              { required: true, message: "لطفا کد ملی بیمار را وارد کنید" },
+            ]}
           >
             <Input
               style={{ width: "100%" }}
@@ -63,7 +67,7 @@ const AddPatientForm: FunctionComponent<FrgpassComponentType> = () => {
       </Row>
       <Row gutter={16}>
         <Col span={12}>
-        <Form.Item
+          <Form.Item
             name="Ph_no"
             label="تلفن همراه بیمار"
             rules={[
@@ -73,9 +77,7 @@ const AddPatientForm: FunctionComponent<FrgpassComponentType> = () => {
               },
             ]}
           >
-            <Input
-              placeholder="شماره تماس بیمار را وارد کنید"
-            />
+            <Input placeholder="شماره تماس بیمار را وارد کنید" />
           </Form.Item>
         </Col>
       </Row>

@@ -40,7 +40,7 @@ const contentStyle: React.CSSProperties = {
   background: "#F2FCFC",
   borderRadius: "20px",
   boxShadow: "0 2px 5px rgba(0, 0, 0, 0.25)",
-  maxHeight: "90vh",
+  maxHeight: "93vh",
   overflow: "overlay",
   padding: "32px 18px 32px 5px",
 };

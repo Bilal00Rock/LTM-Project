@@ -4,6 +4,7 @@ import {
   BreadcrumbProps,
   Button,
   Divider,
+  Flex,
   Space,
   Typography,
 } from "antd";
@@ -47,8 +48,14 @@ export const PageHeader = ({
           )}
           <Space>
             {icon}
-            {title}
+            {title} 
           </Space>
+          
+          {/* {msg ? (
+            <b>به سامانه یکپارچه پاینو خوش آمدید دکتر {drname} </b>
+          ) : (
+            <></>
+          )} */}
         </Typography.Title>
       </Space>
       <Divider plain></Divider>
