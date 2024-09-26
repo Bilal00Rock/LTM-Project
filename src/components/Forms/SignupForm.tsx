@@ -81,7 +81,7 @@ const SignupForm: FunctionComponent<SignupComponentType> = ({
           >
             <Form.Item ><b style={{fontSize: '20px'}}>لطفا اطلاعات زیر را برای ثبت نام وارد نمایید</b></Form.Item>
             <Form.Item
-              name="D_id"
+              name="N_id"
               rules={[
                 {
                   required: true,
@@ -119,7 +119,7 @@ const SignupForm: FunctionComponent<SignupComponentType> = ({
               />
             </Form.Item>
             <Form.Item
-              name="D_id"
+              name="phone"
               rules={[
                 {
                   required: true,

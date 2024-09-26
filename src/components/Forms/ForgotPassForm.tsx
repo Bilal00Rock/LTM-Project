@@ -20,7 +20,14 @@ import { useNavigate } from "react-router-dom";
 export type FrgpassComponentType = {
   className?: string;
 };
-const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
+interface FrogotpassComponentProps {
+  current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
+}
+const ForgotPassForm: FunctionComponent<FrogotpassComponentProps> = ({
+  current,
+  setCurrent,
+}) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -28,11 +35,10 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   const navigate = useNavigate();
-  const [current, setCurrent] = useState(0);
-
   const onBackClick = useCallback(() => {
     navigate("/login-page");
   }, [navigate]);
+
   const onFinish = ((values: any) => {
     console.log("Received values of form: ", values);
     setCurrent(current + 1);
@@ -68,7 +74,7 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
             components: {
               Input: {
                 /* here is your component tokens */
-                inputFontSizeLG: 25,
+                inputFontSizeLG: 20,
               },
             },
           }}
@@ -134,7 +140,7 @@ const ForgotPassForm: FunctionComponent<FrgpassComponentType> = ({}) => {
               ارسال کد
             </Button>
 
-            <Divider>OR</Divider>
+            <Divider>یا</Divider>
             <Button block type="default" onClick={onBackClick}>
               برگشت به صفحه ورود
             </Button>

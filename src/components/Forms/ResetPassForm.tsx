@@ -23,7 +23,12 @@ import { useNavigate } from "react-router-dom";
 export type RespassComponentType = {
   className?: string;
 };
-const ResetPassForm: FunctionComponent<RespassComponentType> = ({}) => {
+interface RespassComponentProps {
+  current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
+}
+const ResetPassForm: FunctionComponent<RespassComponentProps> = ({ current,
+  setCurrent,}) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -31,12 +36,16 @@ const ResetPassForm: FunctionComponent<RespassComponentType> = ({}) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   const navigate = useNavigate();
+  const next = () => {
+    setCurrent(current + 1);
+  };
 
-  const onBackClick = useCallback(() => {
-    navigate("/forgot-password");
-  }, [navigate]);
+  const prev = () => {
+    setCurrent(current - 1);
+  };
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    next();
   };
   const smallWidth = windowWidth < 1700;
   const toosmallWidth = windowWidth < 1300;
@@ -126,7 +135,7 @@ const ResetPassForm: FunctionComponent<RespassComponentType> = ({}) => {
             }}
           >
             <Button
-              block
+              block 
               type="primary"
               htmlType="submit"
               style={{ fontWeight: "bold" }}
@@ -134,8 +143,8 @@ const ResetPassForm: FunctionComponent<RespassComponentType> = ({}) => {
               تغییر گذرواژه
             </Button>
 
-            <Divider>OR</Divider>
-            <Button block type="default" onClick={onBackClick}>
+            <Divider>یا</Divider>
+            <Button block type="default" onClick={prev}>
               برگشت به مرحله قبلی
             </Button>
           </ConfigProvider>

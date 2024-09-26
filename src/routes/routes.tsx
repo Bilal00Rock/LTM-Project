@@ -12,8 +12,6 @@ import ErrorPage from "../pages/errors/Error";
 import { DashboardLayout } from "../pages/dashboard/dashboardLayout";
 import PatientsList from "../pages/dashboard/patient/PatientsList";
 import { WelcomePage } from "../pages/auth/Welcome";
-import { ResetPassword } from "../pages/auth/ResetPassword";
-import { NewPassword } from "../pages/auth/NewPassword";
 import Overview from "../pages/dashboard/Overview";
 
 // Custom scroll restoration function
@@ -95,14 +93,6 @@ const router = createBrowserRouter([
       {
         path: "forgot-password",
         element: <ForgotPassPage />,
-      },
-      {
-        path: "reset-password",
-        element: <ResetPassword />,
-      },
-      {
-        path: "new-password",
-        element: <NewPassword/>
       },
       {
         path: "signup-page",

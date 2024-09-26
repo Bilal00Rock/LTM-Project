@@ -89,7 +89,7 @@ const ConfirmOTP: FunctionComponent<ConfirmOTPComponentProps> = ({
               </Button>
               <Button htmlType="submit" type="primary">
                 مرحله بعد
-              </Button>useCallback, 
+              </Button>
             </Space>
           </Form.Item>
         </Col>

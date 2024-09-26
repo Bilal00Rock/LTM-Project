@@ -1,15 +1,12 @@
-import { Input, Result, Steps } from "antd";
+import { Result, Steps } from "antd";
 import { FunctionComponent, useEffect, useState } from "react";
 import {
   SolutionOutlined,
   MessageOutlined,
   FileDoneOutlined,
 } from "@ant-design/icons";
-import type { GetProps } from "antd";
 import AddPatientForm from "./AddPatientForm";
 import ConfirmOTP from "./ConfirmOTP";
-
-type OTPProps = GetProps<typeof Input.OTP>;
 
 export type FrgpassComponentType = {};
 interface AddFormLayoutComponentProps {
@@ -28,24 +25,6 @@ const AddFormLayout: FunctionComponent<AddFormLayoutComponentProps> = ({
     } else {
     }
   }, [open]);
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
-  const onFinish1 = (values: any) => {
-    console.log("Received values of form: ", values);
-    next();
-  };
-  const onChange: OTPProps["onChange"] = (text) => {
-    console.log("onChange:", text);
-  };
-
-  const sharedProps: OTPProps = {
-    onChange,
-  };
   const steps = [
     {
       title: "ثبت اطلاعات",
