@@ -17,7 +17,7 @@ import {
   Space,
   Divider,
 } from "antd";
-import styles from "../Styles/FrameComponent.module.css";
+import styles from "../../Styles/FrameComponent.module.css";
 import { useNavigate } from "react-router-dom";
 import fa_IR from "antd/locale/fa_IR";
 import FormItem from "antd/es/form/FormItem";
@@ -25,9 +25,15 @@ import FormItem from "antd/es/form/FormItem";
 export type SignupComponentType = {
   className?: string;
 };
-
-const SignupForm: FunctionComponent<SignupComponentType> = ({
-  className = "",
+interface SignupComponentProps {
+  className?: string;
+  current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
+}
+const SignupForm: FunctionComponent<SignupComponentProps> = ({
+  current,
+  setCurrent,
+  className
 }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -44,9 +50,16 @@ const SignupForm: FunctionComponent<SignupComponentType> = ({
   const onBRClick = useCallback(() => {
     navigate("/login-page");
   }, [navigate]);
+  const next = () => {
+    setCurrent(current + 1);
+  };
 
+  const prev = () => {
+    setCurrent(current - 1);
+  };
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    next();
   };
   //#endregion
   return (

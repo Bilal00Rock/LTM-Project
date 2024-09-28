@@ -1,12 +1,63 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback, useState } from "react";
 import React from "react";
-import { Layout, Row, Col, Flex } from "antd";
+import { Layout, Row, Col, Flex, Result, Button } from "antd";
 import styles from "../Styles/Login.module.css";
-import SignupForm from "../../components/Forms/SignupForm";
+import SignupForm from "../../components/Forms/Signup/SignupForm";
+import SignupOTPForm from "../../components/Forms/Signup/SignupOTPForm";
+import NewPassForm from "../../components/Forms/Signup/NewPassForm";
+import { useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 
 const Signup: FunctionComponent = () => {
+  const [current, setCurrent] = useState(0);
+  const navigate = useNavigate();
+  const onBackClick = useCallback(() => {
+    navigate("/login-page");
+  }, [navigate]);
+
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+  const steps = [
+    {
+      title: "ورود اطلاعات",
+      content: <SignupForm current={current} setCurrent={setCurrent} />,
+    },
+    {
+      title: "رمز یکبارمصرف",
+      content: <SignupOTPForm current={current} setCurrent={setCurrent}/>,
+    },
+    {
+      title: "رمز جدید",
+      content: <NewPassForm  current={current} setCurrent={setCurrent}/>,
+    },
+    {
+      title: "انجام شد",
+      content: (
+        <>
+          <Result
+            status="success"
+            title="عملیات با موفقیت انجام شد!"
+            subTitle="رمز شما با موفقیت تغییر یافت!"
+          />
+          <Button block type="default" onClick={onBackClick} >
+            برگشت به صفحه ورود
+          </Button>
+        </>
+      ),
+    },
+  ];
+
+  const items = steps.map((item) => ({
+    key: item.title,
+    title: item.title,
+  }));
+
   return (
     <Layout style={layoutStyle}>
       <Row style={{ height: "100%" }}>
@@ -27,14 +78,16 @@ const Signup: FunctionComponent = () => {
           </Content>
         </Col>
         {/* Left Side - Form */}
-        <Col xs={24} md={10} lg={10} style={siderStyle} className={styles.sider}>
-        
+        <Col
+          xs={24}
+          md={10}
+          lg={10}
+          style={siderStyle}
+          className={styles.sider}
+        >
           {/* Component */}
-          
-          <SignupForm />
+          <div>{steps[current].content}</div>
         </Col>
-
-        
       </Row>
     </Layout>
   );

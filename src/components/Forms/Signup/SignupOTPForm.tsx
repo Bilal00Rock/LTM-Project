@@ -15,19 +15,18 @@ import {
   Row,
   Col,
 } from "antd";
-import styles2 from "../../pages/Styles/ForgotPassPage.module.css";
-import { useNavigate } from "react-router-dom";
+import styles2 from "../../../pages/Styles/ForgotPassPage.module.css";
 import Countdown, { CountdownProps } from "antd/es/statistic/Countdown";
 import { OTPProps } from "antd/es/input/OTP";
 
 export type RespassComponentType = {
   className?: string;
 };
-interface OTPFormComponentProps {
+interface SignupOTPFormProps {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
 }
-const ResetPassOTPForm: FunctionComponent<OTPFormComponentProps> = ({
+const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
   current,
   setCurrent,
 }) => {
@@ -76,7 +75,7 @@ const ResetPassOTPForm: FunctionComponent<OTPFormComponentProps> = ({
     <div>
       <Flex vertical={true} gap={"middle"}>
         <b className={styles2.forgotPassword1} style={titleFont}>
-        لطفارمز یکبار مصرف ارسال شده را وارد کنید
+          لطفارمز یکبار مصرف ارسال شده را وارد کنید
         </b>
       </Flex>
       <Form
@@ -91,46 +90,47 @@ const ResetPassOTPForm: FunctionComponent<OTPFormComponentProps> = ({
         layout="vertical"
         hideRequiredMark
       >
-        
-            <Form.Item
-              name="otp"
-              rules={[
-                {
-                  required: true,
-                  message: "لظفا رمز ارسال شده را وارد کنید",
-                },
-              ]}
-            >
-              <Input.OTP
-                formatter={(str) => str.toUpperCase()}
-                {...sharedProps}
-              />
-            </Form.Item>
-            <Form.Item>
-              {sendButton ? (
-                <Button onClick={resend} type="default">
-                  ارسال مجدد
-                </Button>
-              ) : (
-                <Countdown
-                  value={deadline}
-                  onFinish={onFinishCount}
-                  format="mm:ss"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Space>
-                <Button onClick={prev} type="default">
-                  مرحله قبلی
-                </Button>
-                <Button htmlType="submit" type="primary">
-                  مرحله بعد
-                </Button>
-              </Space>
-            </Form.Item>
+        <Form.Item
+          name="otp"
+          rules={[
+            {
+              required: true,
+              message: "لظفا رمز ارسال شده را وارد کنید",
+            },
+          ]}
+        >
+          <Input.OTP
+            style={{ direction: "ltr" }}
+            formatter={(str) => str.toUpperCase()}
+            {...sharedProps}
+          />
+        </Form.Item>
+        <Form.Item>
+          {sendButton ? (
+            <Button onClick={resend} type="default">
+              ارسال مجدد
+            </Button>
+          ) : (
+            <Countdown
+              value={deadline}
+              onFinish={onFinishCount}
+              format="mm:ss"
+            />
+          )}
+        </Form.Item>
+        <Form.Item>
+          <Space>
+            
+            <Button htmlType="submit" type="primary">
+              مرحله بعد
+            </Button>
+            <Button onClick={prev} type="default">
+              مرحله قبلی
+            </Button>
+          </Space>
+        </Form.Item>
       </Form>
     </div>
   );
 };
-export default ResetPassOTPForm;
+export default SignupOTPForm;

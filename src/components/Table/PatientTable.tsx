@@ -42,14 +42,14 @@ type DataIndex = keyof DataType;
 const data: DataType[] = [
   {
     key: "1",
-    name: "صادق محمدی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
+    name: "محمد مهدی کریمی نیک چترودی",
+    age: 22,
+    address: "چترود، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۵۶",
+    description: "ویندوزش تکمیلی پریده",
     type: "ژنرالیزه",
     lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
+    phoneNO: "۰۹۹۱۳۸۳۵۳۶۳",
+    n_id: "۲۹۸۱۴۲۸۱۲۸",
   },
   {
     key: "2",

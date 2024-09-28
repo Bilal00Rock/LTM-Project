@@ -17,17 +17,17 @@ import {
   Grid,
   GetProps,
 } from "antd";
-import styles2 from "../../pages/Styles/ForgotPassPage.module.css";
+import styles2 from "../../../pages/Styles/ForgotPassPage.module.css";
 import { useNavigate } from "react-router-dom";
 
 export type RespassComponentType = {
   className?: string;
 };
-interface RespassComponentProps {
+interface NewPassFormComponentProps {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
 }
-const ResetPassForm: FunctionComponent<RespassComponentProps> = ({ current,
+const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({ current,
   setCurrent,}) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -153,4 +153,4 @@ const ResetPassForm: FunctionComponent<RespassComponentProps> = ({ current,
     </div>
   );
 };
-export default ResetPassForm;
+export default NewPassForm;

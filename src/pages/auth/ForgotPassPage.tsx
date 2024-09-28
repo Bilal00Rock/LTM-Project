@@ -13,12 +13,12 @@ import {
   MessageOutlined,
   FileDoneOutlined,
 } from "@ant-design/icons";
-import ForgotPassForm from "../../components/Forms/ForgotPassForm";
+import ForgotPassForm from "../../components/Forms/ForgotPass/ForgotPassForm";
 import fa_IR from "antd/locale/fa_IR";
 
 import styles2 from "../../pages/Styles/ForgotPassPage.module.css";
-import ResetPassForm from "../../components/Forms/ResetPassForm";
-import ResetPassOTPForm from "../../components/Forms/ResetPassOTPForm";
+import ResetPassForm from "../../components/Forms/ForgotPass/ResetPassForm";
+import ResetPassOTPForm from "../../components/Forms/ForgotPass/ResetPassOTPForm";
 import { useNavigate } from "react-router-dom";
 
 export const ForgotPassPage: FunctionComponent = () => {
