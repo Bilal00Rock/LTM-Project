@@ -1,22 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FunctionComponent, useCallback } from "react";
-import {
-  InfoCircleOutlined,
-  UserOutlined,
-  PhoneOutlined,
-} from "@ant-design/icons";
-import {
-  Button,
-  Form,
-  Input,
-  Flex,
-  Tooltip,
-  ConfigProvider,
-  Divider,
-  Space,
-  Grid,
-  GetProps,
-} from "antd";
+import { Button, Form, Input, Flex, ConfigProvider, Divider } from "antd";
 import styles2 from "../../../pages/Styles/ForgotPassPage.module.css";
 import { useNavigate } from "react-router-dom";
 
@@ -27,8 +11,10 @@ interface NewPassFormComponentProps {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
 }
-const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({ current,
-  setCurrent,}) => {
+const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
+  current,
+  setCurrent,
+}) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -57,10 +43,9 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({ current,
   return (
     <div>
       <Flex vertical={true} gap={"middle"}>
-      <b className={styles2.forgotPassword1} style={titleFont}>
-        !گذرواژه جدید را انتخاب کنید
-      </b>
-
+        <b className={styles2.forgotPassword1} style={titleFont}>
+          !گذرواژه جدید را انتخاب کنید
+        </b>
       </Flex>
       <Form
         name="respass"
@@ -73,7 +58,7 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({ current,
         size={toosmallWidth ? "middle" : "large"}
       >
         <ConfigProvider
-        direction="rtl"
+          direction="rtl"
           theme={{
             components: {
               Input: {
@@ -84,41 +69,39 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({ current,
           }}
         >
           <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: '!لطفا گذرواژه جدید را وارد کنید',
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password placeholder="گذرواژه جدید"/>
-      </Form.Item>
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "!لطفا گذرواژه جدید را وارد کنید",
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password placeholder="گذرواژه جدید" />
+          </Form.Item>
 
-      <Form.Item
-        name="confirm"
-        dependencies={['password']}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: '!لطفا گذرواژه را تکرار کنید',
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue('password') === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error('!گذرواژه ها یکسان نیستند'));
-            },
-          }),
-        ]}
-      >
-        <Input.Password placeholder="تکرار گذرواژه جدید"/>
-      </Form.Item>
-
-          
+          <Form.Item
+            name="confirm"
+            dependencies={["password"]}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "!لطفا گذرواژه را تکرار کنید",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("!گذرواژه ها یکسان نیستند"));
+                },
+              }),
+            ]}
+          >
+            <Input.Password placeholder="تکرار گذرواژه جدید" />
+          </Form.Item>
         </ConfigProvider>
 
         <Form.Item>
@@ -135,7 +118,7 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({ current,
             }}
           >
             <Button
-              block 
+              block
               type="primary"
               htmlType="submit"
               style={{ fontWeight: "bold" }}

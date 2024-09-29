@@ -109,7 +109,6 @@ const router = createBrowserRouter([
         path: "overview",
         errorElement: <ErrorPage />,
         element: <Overview />,
-        
       },
       {
         path: "patients",

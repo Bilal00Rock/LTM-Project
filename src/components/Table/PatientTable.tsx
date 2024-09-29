@@ -472,7 +472,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a>پروفایل</a>
+          <a onClick={() => console.log(record)}>پروفایل</a>
         </Space>
       ),
       width: "auto",

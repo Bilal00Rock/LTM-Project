@@ -27,12 +27,16 @@ const Login: FunctionComponent = () => {
           </Content>
         </Col>
         {/* Left Side - Form */}
-        <Col xs={24} md={10} lg={10} style={siderStyle} className={styles.sider}>
+        <Col
+          xs={24}
+          md={10}
+          lg={10}
+          style={siderStyle}
+          className={styles.sider}
+        >
           {/* Component */}
           <LoginForm />
         </Col>
-
-        
       </Row>
     </Layout>
   );

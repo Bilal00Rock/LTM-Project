@@ -7,13 +7,11 @@ import {
 } from "@ant-design/icons";
 import {
   Button,
-  Checkbox,
   Form,
   Input,
   Flex,
   Tooltip,
   ConfigProvider,
-  Space,
   Divider,
 } from "antd";
 import styles from "../Styles/FrameComponent.module.css";
@@ -81,8 +79,8 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
             }}
           >
             <FormItem>
-            <b style={{fontSize: '20px'}}>
-              برای ورود، نام کاربری و رمز عبور خود را وارد کنید
+              <b style={{ fontSize: "20px" }}>
+                برای ورود، نام کاربری و رمز عبور خود را وارد کنید
               </b>
             </FormItem>
             <Form.Item

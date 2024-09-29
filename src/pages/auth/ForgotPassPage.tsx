@@ -1,12 +1,5 @@
 import { FunctionComponent, useCallback, useEffect, useState } from "react";
-import {
-  Button,
-  ConfigProvider,
-  Flex,
-  Layout,
-  Result,
-  Steps,
-} from "antd";
+import { Button, ConfigProvider, Flex, Layout, Result, Steps } from "antd";
 import styles from "../Styles/ForgotPassPage.module.css";
 import {
   SolutionOutlined,
@@ -107,8 +100,8 @@ export const ForgotPassPage: FunctionComponent = () => {
             subTitle="رمز شما با موفقیت تغییر یافت!"
           />
           <Button block type="default" onClick={onBackClick}>
-              برگشت به صفحه ورود
-            </Button>
+            برگشت به صفحه ورود
+          </Button>
         </>
       ),
       icon: <FileDoneOutlined />,

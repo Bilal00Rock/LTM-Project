@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { FunctionComponent, useCallback } from "react";
+import { FunctionComponent } from "react";
 
-import {
-  Button,
-  Form,
-  Input,
-  Flex,
-  Tooltip,
-  ConfigProvider,
-  Divider,
-  Space,
-  Grid,
-  GetProps,
-  Row,
-  Col,
-} from "antd";
+import { Button, Form, Input, Flex, Space } from "antd";
 import styles2 from "../../../pages/Styles/ForgotPassPage.module.css";
 import Countdown, { CountdownProps } from "antd/es/statistic/Countdown";
 import { OTPProps } from "antd/es/input/OTP";
@@ -120,7 +107,6 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
         </Form.Item>
         <Form.Item>
           <Space>
-            
             <Button htmlType="submit" type="primary">
               مرحله بعد
             </Button>

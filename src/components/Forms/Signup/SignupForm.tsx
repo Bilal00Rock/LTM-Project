@@ -8,19 +8,15 @@ import {
 } from "@ant-design/icons";
 import {
   Button,
-  Checkbox,
   Form,
   Input,
-  Flex,
   Tooltip,
   ConfigProvider,
-  Space,
   Divider,
 } from "antd";
 import styles from "../../Styles/FrameComponent.module.css";
 import { useNavigate } from "react-router-dom";
 import fa_IR from "antd/locale/fa_IR";
-import FormItem from "antd/es/form/FormItem";
 
 export type SignupComponentType = {
   className?: string;

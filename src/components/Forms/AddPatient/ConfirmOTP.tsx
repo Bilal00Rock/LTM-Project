@@ -48,7 +48,6 @@ const ConfirmOTP: FunctionComponent<ConfirmOTPComponentProps> = ({
   const onFinishCount: CountdownProps["onFinish"] = () => {
     console.log("finished!");
     setSendButton(true);
-    
   };
   const resend = () => {
     setSendButton(false);
@@ -76,7 +75,7 @@ const ConfirmOTP: FunctionComponent<ConfirmOTPComponentProps> = ({
             ]}
           >
             <Input.OTP
-            style={{direction: 'ltr'}}
+              style={{ direction: "ltr" }}
               formatter={(str) => str.toUpperCase()}
               {...sharedProps}
             />

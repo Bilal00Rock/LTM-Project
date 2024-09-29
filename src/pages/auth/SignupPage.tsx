@@ -30,11 +30,11 @@ const Signup: FunctionComponent = () => {
     },
     {
       title: "رمز یکبارمصرف",
-      content: <SignupOTPForm current={current} setCurrent={setCurrent}/>,
+      content: <SignupOTPForm current={current} setCurrent={setCurrent} />,
     },
     {
       title: "رمز جدید",
-      content: <NewPassForm  current={current} setCurrent={setCurrent}/>,
+      content: <NewPassForm current={current} setCurrent={setCurrent} />,
     },
     {
       title: "انجام شد",
@@ -45,7 +45,7 @@ const Signup: FunctionComponent = () => {
             title="عملیات با موفقیت انجام شد!"
             subTitle="رمز شما با موفقیت تغییر یافت!"
           />
-          <Button block type="default" onClick={onBackClick} >
+          <Button block type="default" onClick={onBackClick}>
             برگشت به صفحه ورود
           </Button>
         </>

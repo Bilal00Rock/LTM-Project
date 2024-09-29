@@ -14,9 +14,9 @@ import { SearchOutlined } from "@ant-design/icons";
 import { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import fa_IR from "antd/locale/fa_IR";
-import 'moment-jalaali'
-var moment = require('moment-jalaali')
-moment().format('jYYYY/jM/jD')
+import "moment-jalaali";
+var moment = require("moment-jalaali");
+moment().format("jYYYY/jM/jD");
 
 type Props = {
   title: string;
@@ -38,42 +38,42 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "محمد صادقی"
+    name: "محمد صادقی",
   },
   {
     key: "2",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "امیر رضایی"
+    name: "امیر رضایی",
   },
   {
     key: "3",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "4",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "5",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "6",
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "7",
@@ -81,7 +81,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "8",
@@ -89,7 +89,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "9",
@@ -97,7 +97,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "10",
@@ -105,7 +105,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "11",
@@ -113,7 +113,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "12",
@@ -121,7 +121,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "13",
@@ -129,7 +129,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
   {
     key: "14",
@@ -137,7 +137,7 @@ const data: DataType[] = [
     phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
     n_id: "۰۱۳۲۲۹۰۱۲۹",
     status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی"
+    name: "یاسین محمودی",
   },
 ];
 //#endregion
@@ -284,8 +284,8 @@ export const PendingsTable = ({ title, ...other }: Props) => {
       key: "status",
       width: "auto",
       render: (_, record) => {
-        const persianDate =  moment(record.status, 'YYYY-M-D HH:mm:ss') ; // Format the date as Persian
-        return persianDate.format('در jYYYY/jM/jD ساعت HH:mm:ss')  ;
+        const persianDate = moment(record.status, "YYYY-M-D HH:mm:ss"); // Format the date as Persian
+        return persianDate.format("در jYYYY/jM/jD ساعت HH:mm:ss");
       },
     },
   ];
@@ -295,7 +295,8 @@ export const PendingsTable = ({ title, ...other }: Props) => {
   return (
     <div>
       <div>
-      بیمارانی که لینک ثبت‌نام برای آنها ارسال شده، اما هنوز مراحل ثبت‌نام را تکمیل نکرده‌اند.
+        بیمارانی که لینک ثبت‌نام برای آنها ارسال شده، اما هنوز مراحل ثبت‌نام را
+        تکمیل نکرده‌اند.
       </div>
       <Table
         {...other}

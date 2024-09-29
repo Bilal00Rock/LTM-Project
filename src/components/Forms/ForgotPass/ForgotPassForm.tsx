@@ -5,15 +5,7 @@ import {
   UserOutlined,
   PhoneOutlined,
 } from "@ant-design/icons";
-import {
-  Button,
-  Form,
-  Input,
-  Flex,
-  Tooltip,
-  ConfigProvider,
-  Divider,
-} from "antd";
+import { Button, Form, Input, Tooltip, ConfigProvider, Divider } from "antd";
 import { useNavigate } from "react-router-dom";
 
 export type FrgpassComponentType = {
@@ -38,11 +30,11 @@ const ForgotPassForm: FunctionComponent<FrogotpassComponentProps> = ({
     navigate("/login-page");
   }, [navigate]);
 
-  const onFinish = ((values: any) => {
+  const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
     setCurrent(current + 1);
     console.log(current);
-  });
+  };
   const smallWidth = windowWidth < 1700;
   const toosmallWidth = windowWidth < 1300;
   const titleFont: React.CSSProperties = {
@@ -52,12 +44,10 @@ const ForgotPassForm: FunctionComponent<FrogotpassComponentProps> = ({
 
   const next = () => {
     setCurrent(current + 1);
-    
   };
 
   return (
     <div>
-      
       <Form
         name="forpass"
         initialValues={{ remember: true }}

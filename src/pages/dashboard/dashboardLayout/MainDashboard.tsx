@@ -82,7 +82,11 @@ const items: MenuProps["items"] = [
     "overview",
     <HomeOutlined />
   ),
-  getItem(<Link to={PATH_PATIENTS.root}>مدیریت بیماران</Link>, "patients", <ContactsOutlined />, ),
+  getItem(
+    <Link to={PATH_PATIENTS.root}>مدیریت بیماران</Link>,
+    "patients",
+    <ContactsOutlined />
+  ),
   getItem("کاربر", "user", <UserOutlined />),
   getItem("پشتیبانی", "help", <QuestionCircleOutlined />),
   getItem("تنظیمات", "setting", <SettingOutlined />),

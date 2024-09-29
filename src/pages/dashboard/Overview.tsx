@@ -44,30 +44,32 @@ const Overview = () => {
               children={
                 <Row gutter={[10, 10]}>
                   <Col xs={24} lg={12}>
-                    <Flex  vertical gap={"middle"}>
+                    <Flex vertical gap={"middle"}>
                       <b style={{ fontSize: "25px", color: "#10439F" }}>
                         به پاینو خوش آمدید
                       </b>
-                      <b style={{ fontSize: "20px" }}>سامانه یکپارچه پایش صرع</b>
+                      <b style={{ fontSize: "20px" }}>
+                        سامانه یکپارچه پایش صرع
+                      </b>
                     </Flex>
                     <Col xs={24} lg={24}>
-                    <div>
-                      <h3>امکانات پاینِو</h3>
-                      <ul>
-                        {features.map((feature, index) => (
-                          <li key={index}>
-                            <h4>{feature.title}</h4>
-                            <p style={{ fontSize: "14px" }}>
-                              {feature.description}
-                            </p>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                      <div>
+                        <h3>امکانات پاینِو</h3>
+                        <ul>
+                          {features.map((feature, index) => (
+                            <li key={index}>
+                              <h4>{feature.title}</h4>
+                              <p style={{ fontSize: "14px" }}>
+                                {feature.description}
+                              </p>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </Col>
                   </Col>
-                  </Col>
-                  
-                  <Col xs={24} lg={9} >
+
+                  <Col xs={24} lg={9}>
                     <div className="demo-logo-vertical">
                       <img
                         loading="lazy"
@@ -89,8 +91,6 @@ const Overview = () => {
                       </div>
                     </div>
                   </Col>
-                 
-                  
                 </Row>
               }
             ></Card>
