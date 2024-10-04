@@ -20,7 +20,7 @@ import {
   SwitchTransition,
   TransitionGroup,
 } from "react-transition-group";
-import { PATH_PATIENTS, PATH_OVERVIEW } from "../../../constants";
+import { PATH_PATIENTS, PATH_OVERVIEW, PATH_DASHBOARD } from "../../../constants";
 import fa_IR from "antd/locale/fa_IR";
 
 const { Content, Sider } = Layout;
@@ -87,12 +87,12 @@ const items: MenuProps["items"] = [
     "patients",
     <ContactsOutlined />
   ),
-  getItem("کاربر", "user", <UserOutlined />),
-  getItem("پشتیبانی", "help", <QuestionCircleOutlined />),
+  getItem(<Link to={PATH_DASHBOARD.userprof}> پروفایل</Link>, "userprofile", <UserOutlined />),
+  getItem(<Link to={PATH_DASHBOARD.support}> پشتیبانی</Link>, "help-support", <QuestionCircleOutlined />),
   getItem("تنظیمات", "setting", <SettingOutlined />),
 ];
 //#endregion
-const rootSubmenuKeys = ["overview", "patients", "user-user"];
+const rootSubmenuKeys = ["overview", "patients", "user-profile"];
 
 const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [falang, setLang] = useState(true);

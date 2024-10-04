@@ -123,7 +123,7 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
               htmlType="submit"
               style={{ fontWeight: "bold" }}
             >
-              تغییر گذرواژه
+              ثبت نام
             </Button>
 
             <Divider>یا</Divider>

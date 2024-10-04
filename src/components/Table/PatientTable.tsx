@@ -13,13 +13,14 @@ import {
   TableColumnsType,
   TableColumnType,
 } from "antd";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
 import { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import fa_IR from "antd/locale/fa_IR";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { PendingsTable } from "./PendingsTable";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   title: string;
@@ -314,6 +315,10 @@ export const PatientTable = ({ title, ...other }: Props) => {
     clearFilters();
     setSearchText("");
   };
+  const navigate = useNavigate();
+  const gotoProf = useCallback(() => {
+    navigate("/dashboard/patient-profile");
+  }, [navigate]);
 
   const getColumnSearchProps = (
     dataIndex: DataIndex
@@ -472,7 +477,14 @@ export const PatientTable = ({ title, ...other }: Props) => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => console.log(record)}>پروفایل</a>
+          <a
+            onClick={() => {
+              console.log(record);
+              gotoProf();
+            }}
+          >
+            پروفایل
+          </a>
         </Space>
       ),
       width: "auto",

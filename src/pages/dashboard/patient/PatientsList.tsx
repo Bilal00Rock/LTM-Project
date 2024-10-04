@@ -9,6 +9,8 @@ import { Button, ConfigProvider, Drawer, Layout, theme } from "antd";
 import { useState } from "react";
 import { PatientTable } from "../../../components/Table/PatientTable";
 import AddFormLayout from "../../../components/Forms/AddPatient/AddFormLayout";
+import React from "react";
+import { Outlet } from "react-router-dom";
 
 const PatientsList = () => {
   const [open, setOpen] = useState(false);
@@ -36,63 +38,66 @@ const PatientsList = () => {
     border: `1px solid ${token.colorBorderSecondary}`,
   };
   return (
-    <ConfigProvider
-      theme={{
-        components: {},
-      }}
-    >
-      <Layout style={layoutStyle}>
-        <PageHeader
-          title="لیست بیماران"
-          icon={<BsPeople size={30} />}
-          backbtn={true}
-          breadcrumbs={[
-            {
-              title: (
-                <>
-                  <HomeOutlined />
-                  <span>داشبورد</span>
-                </>
-              ),
-            },
-            {
-              title: (
-                <>
-                  <ContactsOutlined />
-                  <span>مدیرت بیماران</span>
-                </>
-              ),
-            },
-            {
-              title: "لیست بیماران",
-            },
-          ]}
-        />
-        <Button type={"primary"} icon={<PlusOutlined />} onClick={showDrawer}>
-          افزودن بیمار
-        </Button>
+    <React.Fragment>
+      
+      <ConfigProvider
+        theme={{
+          components: {},
+        }}
+      >
+        <Layout style={layoutStyle}>
+          <PageHeader
+            title="لیست بیماران"
+            icon={<BsPeople size={30} />}
+            backbtn={true}
+            breadcrumbs={[
+              {
+                title: (
+                  <>
+                    <HomeOutlined />
+                    <span>داشبورد</span>
+                  </>
+                ),
+              },
+              {
+                title: (
+                  <>
+                    <ContactsOutlined />
+                    <span>مدیرت بیماران</span>
+                  </>
+                ),
+              },
+              {
+                title: "لیست بیماران",
+              },
+            ]}
+          />
+          <Button type={"primary"} icon={<PlusOutlined />} onClick={showDrawer}>
+            افزودن بیمار
+          </Button>
 
-        <Drawer
-          title="افزودن بیمار"
-          placement="left"
-          closable={false}
-          open={open}
-          getContainer={false}
-          width={720}
-          onClose={onClose}
-          styles={{
-            body: {
-              paddingBottom: 80,
-            },
-          }}
-          extra={<Button onClick={onClose}>بازگشت</Button>}
-        >
-          <AddFormLayout open={open} setOpen={setOpen} />
-        </Drawer>
-
-        <PatientTable title="فهرست بیماران" />
-      </Layout>
-    </ConfigProvider>
+          <Drawer
+            title="افزودن بیمار"
+            placement="left"
+            closable={false}
+            open={open}
+            getContainer={false}
+            width={720}
+            onClose={onClose}
+            styles={{
+              body: {
+                paddingBottom: 80,
+              },
+            }}
+            extra={<Button onClick={onClose}>بازگشت</Button>}
+          >
+            <AddFormLayout open={open} setOpen={setOpen} />
+          </Drawer>
+          
+          <PatientTable title="فهرست بیماران" />
+        </Layout>
+      </ConfigProvider>
+    </React.Fragment>
   );
 };
 export default PatientsList;

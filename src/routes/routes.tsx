@@ -13,6 +13,9 @@ import { DashboardLayout } from "../pages/dashboard/dashboardLayout";
 import PatientsList from "../pages/dashboard/patient/PatientsList";
 import { WelcomePage } from "../pages/auth/Welcome";
 import Overview from "../pages/dashboard/Overview";
+import PatitntProfile from "../pages/dashboard/patient/PatitntProfile";
+import Userprofile from "../pages/dashboard/userprofile/Userprofile";
+import Support from "../pages/dashboard/support/Support";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -30,14 +33,14 @@ export const ScrollToTop: React.FC = () => {
 
     switch (pathname) {
       case "/":
-        title = "Log Into Your Account";
+        title = "Pineu";
         metaDescription = "User Account Login";
         break;
       case "/login-page":
         title = "Log Into Your Account";
         metaDescription = "User Account Login";
         break;
-      case "/login-page/forgot-password":
+      case "/forgot-password":
         title = "Forgot PassWord!?";
         metaDescription = "did you";
         break;
@@ -83,20 +86,20 @@ const router = createBrowserRouter([
       {
         index: true,
         path: "/",
-        element: <WelcomePage />,
+        element: <PageWrapper children={<WelcomePage />} />,
       },
       {
         index: true,
         path: "login-page",
-        element: <Login />,
+        element: <PageWrapper children={<Login />} />,
       },
       {
         path: "forgot-password",
-        element: <ForgotPassPage />,
+        element: <PageWrapper children={<ForgotPassPage />} />,
       },
       {
         path: "signup-page",
-        element: <Singup />,
+        element: <PageWrapper children={<Singup />} />,
       },
     ],
   },
@@ -108,14 +111,30 @@ const router = createBrowserRouter([
       {
         path: "overview",
         errorElement: <ErrorPage />,
-        element: <Overview />,
+        element: <PageWrapper children={<Overview />} />,
       },
       {
         path: "patients",
         errorElement: <ErrorPage />,
-
-        element: <PatientsList />,
+        element: <PageWrapper children={<PatientsList />} />,
       },
+      {
+        path: "patient-profile",
+        errorElement: <ErrorPage />,
+        element: <PageWrapper children={<PatitntProfile />} />,
+      },
+      {
+        path: "userprofile",
+        errorElement: <ErrorPage />,
+        element: <PageWrapper children={<Userprofile />} />,
+      },
+      {
+        path: "help-support",
+        errorElement: <ErrorPage />,
+        element: <PageWrapper children={<Support />} />,
+      },
+      
+
     ],
   },
 ]);

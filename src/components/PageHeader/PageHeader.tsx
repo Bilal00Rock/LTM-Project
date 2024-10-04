@@ -34,6 +34,7 @@ export const PageHeader = ({
           level={3}
           style={{ padding: 0, margin: 3, textTransform: "capitalize" }}
         >
+          <Space>
           {/* when dashboard  is implenemted change btn link to dashbaord */}
 
           {backbtn ? (
@@ -46,7 +47,7 @@ export const PageHeader = ({
           ) : (
             <></>
           )}
-          <Space>
+          
             {icon}
             {title} 
           </Space>
@@ -58,6 +59,7 @@ export const PageHeader = ({
           )} */}
         </Typography.Title>
       </Space>
+      
       <Divider plain></Divider>
     </div>
   );
