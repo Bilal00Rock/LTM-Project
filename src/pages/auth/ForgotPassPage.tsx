@@ -43,7 +43,7 @@ export const ForgotPassPage: FunctionComponent = () => {
     textAlign: "center",
     display: toosmallWidth ? "grid" : "flex",
     justifyContent: "center",
-    margin: smallWidth ? "6% 15%" : "10% 25%",
+    margin: smallWidth ? "6% 15%" : "8% 25%",
     height: "100%",
     minHeight: toosmallWidth ? "500px" : "650px",
     borderRadius: "50px",
@@ -53,6 +53,7 @@ export const ForgotPassPage: FunctionComponent = () => {
     backgroundColor: "#F2FCFC",
     maxWidth: "1000px",
     flexDirection: "column",
+    padding: '10%'
   };
 
   const content2: React.CSSProperties = {
@@ -116,7 +117,7 @@ export const ForgotPassPage: FunctionComponent = () => {
     <ConfigProvider locale={fa_IR} direction={"rtl"}>
       <Layout style={layoutStyle}>
         <Content style={contentStyle}>
-          <div className={styles.headerLogoWithoutBack1Wrapper}>
+          <div >
             <img
               className={styles.headerLogoWithoutBack1Icon}
               loading="lazy"
@@ -124,7 +125,6 @@ export const ForgotPassPage: FunctionComponent = () => {
               src={process.env.PUBLIC_URL + "/img/logo.png"}
             />
           </div>
-          <Content style={content2}>
             <Flex vertical gap={10}>
               <b className={styles2.forgotPassword1} style={titleFont}>
                 فراموشی رمز عبور!
@@ -132,7 +132,6 @@ export const ForgotPassPage: FunctionComponent = () => {
               <Steps current={current} items={items} />
               <div>{steps[current].content}</div>
             </Flex>
-          </Content>
         </Content>
       </Layout>
     </ConfigProvider>

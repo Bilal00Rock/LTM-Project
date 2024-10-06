@@ -3,17 +3,21 @@ import themeReducer from './theme/themeSlice';
 import { persistReducer, persistStore, PersistConfig } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+// Define the type for your root state
 const rootReducer = combineReducers({
   theme: themeReducer,
 });
 
-const persistConfig: PersistConfig<any> = {
+export type RootState = ReturnType<typeof rootReducer>;
+
+const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   storage,
   version: 1,
 };
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// Apply the correct typing to persistReducer
+const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,

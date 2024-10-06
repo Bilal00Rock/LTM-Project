@@ -2,6 +2,7 @@ import { PageHeader } from "../../../components/PageHeader/PageHeader";
 import {
   UserOutlined,
   HomeOutlined,
+  QuestionCircleOutlined,
   SolutionOutlined,
   PhoneOutlined,
   UserAddOutlined,
@@ -149,7 +150,7 @@ const TOPICS = [
             <strong>ایمیل پشتیبانی:</strong> info@neurosina.com
           </li>
           <li>
-            <strong>ساعات کاری:</strong> همه روزه از ساعت 8 صبح تا 5 عص ر
+            <strong>ساعات کاری:</strong> همه روزه از ساعت 8 صبح تا 5 عصر
           </li>
           <li>
             <strong>آدرس دفتر مرکزی:</strong>ایران، مشهد، بزرگمهر جنوبی ۱۲/۱،
@@ -226,7 +227,7 @@ const Support = () => {
       <Layout style={layoutStyle}>
         <PageHeader
           title=" پشتیبانی "
-          icon={<UserOutlined size={30} />}
+          icon={<QuestionCircleOutlined size={30} />}
           backbtn={true}
           breadcrumbs={[
             {
@@ -240,7 +241,7 @@ const Support = () => {
             {
               title: (
                 <>
-                  <UserOutlined />
+                  <QuestionCircleOutlined />
                   <span>پشتیبانی</span>
                 </>
               ),
@@ -365,7 +366,7 @@ const Support = () => {
                     <Button
                       type="primary"
                       htmlType="submit"
-                      icon={<SendOutlined rotate={10} />}
+                      icon={<SendOutlined rotate={180} />}
                       iconPosition={"end"}
                     >
                       ارسال نظر

@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 import Login from "../pages/auth/Login";
 import Singup from "../pages/auth/SignupPage";
-
 import { ForgotPassPage } from "../pages/auth/ForgotPassPage";
 import React, { ReactNode, useEffect } from "react";
 import ErrorPage from "../pages/errors/Error";
@@ -14,8 +13,8 @@ import PatientsList from "../pages/dashboard/patient/PatientsList";
 import { WelcomePage } from "../pages/auth/Welcome";
 import Overview from "../pages/dashboard/Overview";
 import PatitntProfile from "../pages/dashboard/patient/PatitntProfile";
-import Userprofile from "../pages/dashboard/userprofile/Userprofile";
 import Support from "../pages/dashboard/support/Support";
+import Settings from "../pages/dashboard/settings/Settings";
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -124,14 +123,14 @@ const router = createBrowserRouter([
         element: <PageWrapper children={<PatitntProfile />} />,
       },
       {
-        path: "userprofile",
-        errorElement: <ErrorPage />,
-        element: <PageWrapper children={<Userprofile />} />,
-      },
-      {
         path: "help-support",
         errorElement: <ErrorPage />,
         element: <PageWrapper children={<Support />} />,
+      },
+      {
+        path: "settings",
+        errorElement: <ErrorPage />,
+        element: <PageWrapper children={<Settings />} />,
       },
       
 

@@ -9,8 +9,8 @@ export const PATH_DASHBOARD = {
     root: ROOTS_DASHBOARD,
     overview: path(ROOTS_DASHBOARD, '/overview'),
     pateints: path(ROOTS_DASHBOARD, '/patients'),
-    userprof: path(ROOTS_DASHBOARD, '/userprofile'),
-    support: path(ROOTS_DASHBOARD, '/help-support')
+    support: path(ROOTS_DASHBOARD, '/help-support'),
+    settings: path(ROOTS_DASHBOARD, '/settings')
   };
 export const PATH_PATIENTS = {
     root: PATH_DASHBOARD.pateints ,

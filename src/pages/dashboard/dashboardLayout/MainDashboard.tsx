@@ -6,6 +6,7 @@ import "../../../global.css";
 import {
   QuestionCircleOutlined,
   HomeOutlined,
+  LogoutOutlined,
   CaretRightOutlined,
   CaretLeftOutlined,
   ContactsOutlined,
@@ -13,14 +14,18 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, ConfigProvider, Layout, Menu, theme } from "antd";
+import { Button, ConfigProvider, Flex, Layout, Menu, theme } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import {
   CSSTransition,
   SwitchTransition,
   TransitionGroup,
 } from "react-transition-group";
-import { PATH_PATIENTS, PATH_OVERVIEW, PATH_DASHBOARD } from "../../../constants";
+import {
+  PATH_PATIENTS,
+  PATH_OVERVIEW,
+  PATH_DASHBOARD,
+} from "../../../constants";
 import fa_IR from "antd/locale/fa_IR";
 
 const { Content, Sider } = Layout;
@@ -87,9 +92,16 @@ const items: MenuProps["items"] = [
     "patients",
     <ContactsOutlined />
   ),
-  getItem(<Link to={PATH_DASHBOARD.userprof}> پروفایل</Link>, "userprofile", <UserOutlined />),
-  getItem(<Link to={PATH_DASHBOARD.support}> پشتیبانی</Link>, "help-support", <QuestionCircleOutlined />),
-  getItem("تنظیمات", "setting", <SettingOutlined />),
+  getItem(
+    <Link to={PATH_DASHBOARD.support}> پشتیبانی</Link>,
+    "help-support",
+    <QuestionCircleOutlined />
+  ),
+  getItem(
+    <Link to={PATH_DASHBOARD.settings}> تنظیمات</Link>,
+    "settings",
+    <SettingOutlined />
+  ),
 ];
 //#endregion
 const rootSubmenuKeys = ["overview", "patients", "user-profile"];
@@ -132,6 +144,10 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
     setCollapsed(!collapsed);
     setBtCollapsed(!Btcollapsed);
   };
+  const handleSignOut = () => {
+    // logic for sign out, e.g., clearing auth tokens, redirecting, etc.
+    console.log("Signing out...");
+  };
   return (
     <ConfigProvider
       locale={fa_IR}
@@ -150,6 +166,7 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
           Menu: {
             /* here is your component tokens */
             itemBg: "#F2FCFC",
+            
           },
           Button: {
             defaultBg: "#F2FCFC",
@@ -158,7 +175,7 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
         },
       }}
     >
-      <Layout hasSider={true}>
+      <Layout style={{ maxHeight: "100vh" }} hasSider={true}>
         <Sider
           trigger={null}
           theme="light"
@@ -181,29 +198,43 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
             setBtCollapsed(true);
           }}
         >
-          <div className="demo-logo-vertical">
-            <img
-              className={styles.logo}
-              loading="lazy"
-              alt="Logo"
-              src={process.env.PUBLIC_URL + "/img/logo.png"}
+            <div>
+              <img
+                className={styles.logo}
+                loading="lazy"
+                alt="Logo"
+                src={process.env.PUBLIC_URL + "/img/logo.svg"}
+                style={{
+                  boxShadow: "0 2px 5px rgba(0, 0, 0, 0.25)",
+                  maxWidth: "100%",
+                  height: "auto",
+                }}
+              />
+              <Menu
+                theme="light"
+                items={items}
+                mode="inline"
+                onClick={onClick}
+                openKeys={openKeys}
+                onOpenChange={onOpenChange}
+                selectedKeys={[current]}
+              />
+            </div>
+            {/* Sign Out button */}
+            <Button
+             type="primary"
+              danger
+              icon={<LogoutOutlined />} // Use logout icon
+              onClick={handleSignOut}
               style={{
-                boxShadow: "0 2px 5px rgba(0, 0, 0, 0.25)",
-                maxWidth: "100%",
-                height: "auto",
+                marginBottom: "16px", // Positioning
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: collapsed ? "80%" : "90%", // Adjust size based on collapse state
               }}
-            />
-          </div>
-
-          <Menu
-            theme="light"
-            items={items}
-            mode="inline"
-            onClick={onClick}
-            openKeys={openKeys}
-            onOpenChange={onOpenChange}
-            selectedKeys={[current]}
-          />
+            >
+              {!collapsed && " خروج از حساب"}
+            </Button>
         </Sider>
         <Layout style={{ display: "flex", flexDirection: "row" }}>
           <Button

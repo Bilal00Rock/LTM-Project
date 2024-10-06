@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FunctionComponent, useCallback } from "react";
 
-import { Button, Form, Input, Flex, Space } from "antd";
+import { Button, Form, Input, Flex, Space, Row, Col } from "antd";
 import styles2 from "../../../pages/Styles/ForgotPassPage.module.css";
 import Countdown, { CountdownProps } from "antd/es/statistic/Countdown";
 import { OTPProps } from "antd/es/input/OTP";
@@ -9,11 +9,11 @@ import { OTPProps } from "antd/es/input/OTP";
 export type RespassComponentType = {
   className?: string;
 };
-interface OTPFormComponentProps {
+interface ChangeNumOTPProps {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
 }
-const ResetPassOTPForm: FunctionComponent<OTPFormComponentProps> = ({
+const ChangeNumOTPform: FunctionComponent<ChangeNumOTPProps> = ({
   current,
   setCurrent,
 }) => {
@@ -59,24 +59,18 @@ const ResetPassOTPForm: FunctionComponent<OTPFormComponentProps> = ({
 
   const toosmallWidth = windowWidth < 1300;
   return (
-    <div>
       <Flex vertical={true} gap={"middle"}>
-        <b className={styles2.forgotPassword1} style={titleFont}>
+        <b  style={titleFont}>
           لطفا رمز یکبار مصرف ارسال شده را وارد کنید
         </b>
-      </Flex>
       <Form
         name="OTP"
         initialValues={{ remember: true }}
-        style={{
-          minWidth: "-webkit-fill-available",
-          ...{ padding: toosmallWidth ? "0px" : "46px" },
-        }}
         onFinish={onFinish}
-        size={toosmallWidth ? "middle" : "large"}
-        layout="vertical"
-        hideRequiredMark
       >
+        <Row>
+          
+        <Col span={10}>
         <Form.Item
           name="otp"
           rules={[
@@ -85,13 +79,15 @@ const ResetPassOTPForm: FunctionComponent<OTPFormComponentProps> = ({
               message: "لظفا رمز ارسال شده را وارد کنید",
             },
           ]}
-        >
+          >
           <Input.OTP
             style={{ direction: "ltr" }}
             formatter={(str) => str.toUpperCase()}
             {...sharedProps}
-          />
+            />
         </Form.Item>
+            </Col>
+            <Col span={10}>
         <Form.Item>
           {sendButton ? (
             <Button onClick={resend} type="default">
@@ -99,13 +95,15 @@ const ResetPassOTPForm: FunctionComponent<OTPFormComponentProps> = ({
             </Button>
           ) : (
             <Countdown
-              value={deadline}
-              onFinish={onFinishCount}
-              format="mm:ss"
+            value={deadline}
+            onFinish={onFinishCount}
+            format="mm:ss"
             />
           )}
         </Form.Item>
-        <Form.Item>
+          </Col>
+          <Col span={24}>
+          <Form.Item>
           <Space>
             <Button onClick={prev} type="default">
               مرحله قبلی
@@ -115,8 +113,10 @@ const ResetPassOTPForm: FunctionComponent<OTPFormComponentProps> = ({
             </Button>
           </Space>
         </Form.Item>
+          </Col>
+        </Row>
       </Form>
-    </div>
+      </Flex>
   );
 };
-export default ResetPassOTPForm;
+export default ChangeNumOTPform;
