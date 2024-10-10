@@ -16,6 +16,7 @@
     "antd": "^5.20.0",
     "antd-jalali": "^2.0.1",
     "apexcharts": "^3.53.0",
+    "axios": "^1.7.7",
     "i18next": "^23.13.0",
     "i18next-http-backend": "^2.5.2",
     "jalali-moment": "^3.3.11",
@@ -60,6 +61,12 @@
   "devDependencies": {
     "@types/react-highlight-words": "^0.20.0",
     "@types/react-transition-group": "^4.4.11",
+    "msw": "^2.4.9",
     "storybook-addon-react-router-v6": "^2.0.15"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

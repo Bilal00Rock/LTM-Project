@@ -1,31 +1,32 @@
 import {
+  Alert,
   Badge,
   Button,
-  Col,
   ConfigProvider,
   Drawer,
   Flex,
   Input,
   InputRef,
-  Row,
   Space,
   Table,
   TableColumnsType,
   TableColumnType,
 } from "antd";
 import { useCallback, useRef, useState } from "react";
-import { SearchOutlined, PlusOutlined } from "@ant-design/icons";
+import { SearchOutlined } from "@ant-design/icons";
 import { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import fa_IR from "antd/locale/fa_IR";
 import { MdOutlinePendingActions } from "react-icons/md";
 import { PendingsTable } from "./PendingsTable";
 import { useNavigate } from "react-router-dom";
-
+import { useFetchData } from "../../hooks";
+import { PatientsApi } from "../../api";
 type Props = {
   title: string;
 };
-//#region test table
+
+//cahnge according to API data types 
 interface DataType {
   key: string;
   name: string;
@@ -34,261 +35,25 @@ interface DataType {
   description: string;
   phoneNO: string;
   type: string;
-  lastEeg: Date;
   address: string;
 }
 
 type DataIndex = keyof DataType;
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "محمد مهدی کریمی نیک چترودی",
-    age: 22,
-    address: "چترود، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۵۶",
-    description: "ویندوزش تکمیلی پریده",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۹۱۳۸۳۵۳۶۳",
-    n_id: "۲۹۸۱۴۲۸۱۲۸",
-  },
-  {
-    key: "2",
-    name: "مهسا حاتمی",
-    age: 42,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "فوکال",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "3",
-    name: "امیر امیری",
-    age: 15,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "فوکال و ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "4",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ناشناخته",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "5",
-    name: "محمدی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "6",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "7",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "8",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "9",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ناشناخته",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "10",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ناشناخته",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "11",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ناشناخته",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "12",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ناشناخته",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "13",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ناشناخته",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "14",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ناشناخته",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "15",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "16",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "17",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۲۱۹۸۸۸۹۹۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "18",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۲۳۳۸۸۷۷",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "19",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "20",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "21",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-  {
-    key: "22",
-    name: "محمد صادقی",
-    age: 32,
-    address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
-    description: "توضیحات تکمیلی",
-    type: "ژنرالیزه",
-    lastEeg: new Date(Date()),
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-  },
-];
-//#endregion
+
 
 export const PatientTable = ({ title, ...other }: Props) => {
+  //fetch data from API
+  const {
+    data: patientdata,
+    loading: patientDataLoading,
+    error: error,
+  } = useFetchData(PatientsApi.get);
+
+
   const [open, setOpen] = useState(false);
-  //#region table
+
+
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
@@ -357,16 +122,10 @@ export const PatientTable = ({ title, ...other }: Props) => {
               جستجو
             </Button>
             <Button
-              onClick={() => clearFilters && handleReset(clearFilters)}
-              size="small"
-              style={{ width: "auto" }}
-            >
-              ریست
-            </Button>
-            <Button
               type="link"
               size="small"
               onClick={() => {
+                clearFilters && handleReset(clearFilters)
                 confirm({ closeDropdown: false });
                 setSearchText((selectedKeys as string[])[0]);
                 setSearchedColumn(dataIndex);
@@ -463,15 +222,6 @@ export const PatientTable = ({ title, ...other }: Props) => {
         return <Badge color={color} text={type} />;
       },
     },
-    // {//not showing date until search for it
-    //     title: 'آخرین الکتروانسفالوگرام آنالیز شده ',
-    //     dataIndex: 'lastEeg',
-    //     key: 'lastEeg',
-    //     sorter: (a, b) => a.lastEeg.getTime() - b.lastEeg.getTime(),
-    //     sortDirections: ['descend', 'ascend'],
-    //     width: 'auto',
-    //     ...getColumnSearchProps('lastEeg'),
-    // },
     {
       title: "",
       key: "action",
@@ -492,9 +242,18 @@ export const PatientTable = ({ title, ...other }: Props) => {
   ];
 
   //#endregion
-
+if(error)
+  return(
+    <Alert
+      message="Error"
+      description={error.toString()}
+      type="error"
+      showIcon
+    />
+  );
   return (
     <div>
+      
       <Table
         {...other}
         bordered
@@ -511,7 +270,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
           </Flex>
         )}
         columns={columns}
-        dataSource={data}
+        dataSource={patientdata}
         style={{ margin: "10px 0" }}
         pagination={{ responsive: true, position: ["bottomRight"] }}
         expandable={{
@@ -521,7 +280,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
             </p>
           ),
         }}
-        loading={false}
+        loading={patientDataLoading}
       />
       <Drawer
         title="بیماران در حال ثبت نام"

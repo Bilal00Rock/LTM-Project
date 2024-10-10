@@ -10,12 +10,12 @@ import { useState } from "react";
 import { PatientTable } from "../../../components/Table/PatientTable";
 import AddFormLayout from "../../../components/Forms/AddPatient/AddFormLayout";
 import React from "react";
-import { Outlet } from "react-router-dom";
 
 const PatientsList = () => {
   const [open, setOpen] = useState(false);
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
+  
 
   const showDrawer = () => {
     setOpen(true);

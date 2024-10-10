@@ -163,7 +163,7 @@ const Settings = () => {
   const tabItems: TabsProps["items"] = [
     {
       key: "1",
-      label: "تنظیمات پروفایل",
+      label: "مدیریت پروفایل",
       children: (
         <Flex vertical>
           <InfoForm />,
@@ -178,7 +178,7 @@ const Settings = () => {
     },
     {
       key: "2",
-      label: "تنظیمات امنیتی",
+      label: "مدیریت امنیتی",
       children: (
         <Card title="تغییر رمز عبور">
           <Col span={20}>
@@ -188,11 +188,11 @@ const Settings = () => {
         </Card>
       ),
     },
-    {
-      key: "3",
-      label: "مدیریت حساب",
-      children: "Content of Tab Pane 3",
-    },
+    // {
+    //   key: "3",
+    //   label: "مدیریت حساب",
+    //   children: "Content of Tab Pane 3",
+    // },
   ];
   return (
     <ConfigProvider

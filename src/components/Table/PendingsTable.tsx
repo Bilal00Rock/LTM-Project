@@ -1,4 +1,5 @@
 import {
+  Alert,
   Badge,
   Button,
   ConfigProvider,
@@ -15,6 +16,8 @@ import { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import fa_IR from "antd/locale/fa_IR";
 import "moment-jalaali";
+import { useFetchData } from "../../hooks";
+import { PendingPatientsApi } from "../../api";
 var moment = require("moment-jalaali");
 moment().format("jYYYY/jM/jD");
 
@@ -22,7 +25,7 @@ type Props = {
   title: string;
 };
 //#region test table
-interface DataType {
+export interface PendingDataType {
   key: string;
   n_id: string;
   name: string;
@@ -30,119 +33,21 @@ interface DataType {
   status: string;
 }
 
-type DataIndex = keyof DataType;
+type DataIndex = keyof PendingDataType;
 
-const data: DataType[] = [
-  {
-    key: "1",
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "محمد صادقی",
-  },
-  {
-    key: "2",
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "امیر رضایی",
-  },
-  {
-    key: "3",
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "4",
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "5",
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "6",
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "7",
-
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "8",
-
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "9",
-
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "10",
-
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "11",
-
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "12",
-
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "13",
-
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-  {
-    key: "14",
-
-    phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
-    n_id: "۰۱۳۲۲۹۰۱۲۹",
-    status: "2024-9-10 16:40:00",
-    name: "یاسین محمودی",
-  },
-];
 //#endregion
 
 export const PendingsTable = ({ title, ...other }: Props) => {
+
+
+ //fetch data from API
+ const {
+  data: pendingpatientdata,
+  loading: pendingpatientDataLoading,
+  error: error,
+} = useFetchData(PendingPatientsApi.get);
+
+
   //#region table
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -165,7 +70,7 @@ export const PendingsTable = ({ title, ...other }: Props) => {
 
   const getColumnSearchProps = (
     dataIndex: DataIndex
-  ): TableColumnType<DataType> => ({
+  ): TableColumnType<PendingDataType> => ({
     filterDropdown: ({
       setSelectedKeys,
       selectedKeys,
@@ -200,16 +105,10 @@ export const PendingsTable = ({ title, ...other }: Props) => {
               جستجو
             </Button>
             <Button
-              onClick={() => clearFilters && handleReset(clearFilters)}
-              size="small"
-              style={{ width: "auto" }}
-            >
-              ریست
-            </Button>
-            <Button
               type="link"
               size="small"
               onClick={() => {
+                clearFilters && handleReset(clearFilters)
                 confirm({ closeDropdown: false });
                 setSearchText((selectedKeys as string[])[0]);
                 setSearchedColumn(dataIndex);
@@ -256,7 +155,7 @@ export const PendingsTable = ({ title, ...other }: Props) => {
       ),
   });
 
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<PendingDataType> = [
     {
       title: "نام ",
       dataIndex: "name",
@@ -291,7 +190,15 @@ export const PendingsTable = ({ title, ...other }: Props) => {
   ];
 
   //#endregion
-
+  if(error)
+    return(
+      <Alert
+        message="Error"
+        description={error.toString()}
+        type="error"
+        showIcon
+      />
+    );
   return (
     <div>
       <div>
@@ -303,10 +210,10 @@ export const PendingsTable = ({ title, ...other }: Props) => {
         bordered
         title={() => title}
         columns={columns}
-        dataSource={data}
+        dataSource={pendingpatientdata}
         style={{ margin: "10px 0" }}
         pagination={{ responsive: true, position: ["bottomRight"] }}
-        loading={false}
+        loading={pendingpatientDataLoading}
       />
     </div>
   );
