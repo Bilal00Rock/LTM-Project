@@ -121,9 +121,6 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [openKeys, setOpenKeys] = useState([""]);
   const [current, setCurrent] = useState("");
   const onClick: MenuProps["onClick"] = (e) => {
-    // console.log('click ', e);
-    // console.log(current);
-    console.log(openKeys);
   };
   const onOpenChange: MenuProps["onOpenChange"] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);

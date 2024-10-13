@@ -1,14 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
-import axios from 'axios';
+import { useCallback, useEffect, useRef, useState } from "react";
+import axios from "../api/axios";
 
-const useFetchData = (url: string) => {
+// your API call func
+
+const useFetchData = (url: string, params?: any) => {
   const [data, setData] = useState<any>([]);
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(url, { params: params });
 
       setData(response.data);
     } catch (error) {
@@ -17,11 +19,9 @@ const useFetchData = (url: string) => {
       setLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    fetchData();
-  }, [url]);
-
+    useEffect(() => {
+      fetchData();
+    }, []);
   return { data, error, loading };
 };
 

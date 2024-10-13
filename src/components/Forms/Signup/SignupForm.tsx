@@ -4,7 +4,7 @@ import {
   InfoCircleOutlined,
   PhoneOutlined,
   UserOutlined,
-  ContactsOutlined 
+  ContactsOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -13,10 +13,13 @@ import {
   Tooltip,
   ConfigProvider,
   Divider,
+  message,
 } from "antd";
 import styles from "../../Styles/FrameComponent.module.css";
 import { useNavigate } from "react-router-dom";
 import fa_IR from "antd/locale/fa_IR";
+import { axios, REGISTER_URL } from "../../../api";
+import { delay } from "msw";
 
 export type SignupComponentType = {
   className?: string;
@@ -29,7 +32,7 @@ interface SignupComponentProps {
 const SignupForm: FunctionComponent<SignupComponentProps> = ({
   current,
   setCurrent,
-  className
+  className,
 }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -42,7 +45,6 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
   //#region Functions
   const navigate = useNavigate();
 
-  
   const onBRClick = useCallback(() => {
     navigate("/login-page");
   }, [navigate]);
@@ -53,13 +55,60 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
   const prev = () => {
     setCurrent(current - 1);
   };
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
-    next();
+  //message handeling 
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const msgSuccess = (content: string) => {
+    loading? (messageApi.open({
+      type: "loading",
+      content: " در حال بررسی...",
+      //duration: 2.5,
+    })): (
+    messageApi.open({
+      type: "success",
+      content: content,
+      duration: 5
+    }));
+  };
+
+  const errormsg = (content: string) => {
+    messageApi.open({
+      type: "error",
+      content: content,
+      duration: 5
+    });
+  };
+  //API Post
+  const [Error, setError] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const onFinish = async (values: any) => {
+    //console.log("Received values of form: ", values);
+    try {
+      const response = await axios.post(
+        REGISTER_URL.postNO,
+        JSON.stringify({ values }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      
+      //console.log(response.data);
+      //console.log(JSON.stringify(response));
+      msgSuccess('رمز یکبار مصرف ارسال شد');
+      await delay(1000);
+      next();
+    } catch (error) {
+      setError(error);
+      if(Error) errormsg(`خطایی رخ داده است:${Error}`);
+    } finally {
+      setLoading(false);
+    }
   };
   //#endregion
   return (
     <ConfigProvider locale={fa_IR} direction={"rtl"}>
+      {contextHolder}
       <div className={[styles.subHeaderParent, className].join(" ")}>
         <div className={styles.subHeader}>
           <img
@@ -88,7 +137,11 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
               },
             }}
           >
-            <Form.Item ><b style={{fontSize: '20px'}}>لطفا اطلاعات زیر را برای ثبت نام وارد نمایید</b></Form.Item>
+            <Form.Item>
+              <b style={{ fontSize: "20px" }}>
+                لطفا اطلاعات زیر را برای ثبت نام وارد نمایید
+              </b>
+            </Form.Item>
             <Form.Item
               name="N_id"
               rules={[
@@ -100,7 +153,9 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
             >
               <Input
                 placeholder="کد ملی"
-                prefix={<ContactsOutlined  style={{ color: "rgba(0,0,0,.55)" }} />}
+                prefix={
+                  <ContactsOutlined style={{ color: "rgba(0,0,0,.55)" }} />
+                }
                 suffix={
                   <Tooltip title="مثال: ۰۱۲۳۴۵۶۷۸۹">
                     <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
@@ -147,7 +202,6 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
               />
             </Form.Item>
           </ConfigProvider>
-          
 
           <Form.Item>
             <ConfigProvider
@@ -168,11 +222,11 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
                 htmlType="submit"
                 style={{ fontWeight: "bold", fontSize: "large" }}
               >
-                 ثبت نام پزشک
+                ثبت نام پزشک
               </Button>
               <Divider plain>یا</Divider>
               <Button block type="default" onClick={onBRClick}>
-               بازگشت به صفحه ورود
+                بازگشت به صفحه ورود
               </Button>
             </ConfigProvider>
           </Form.Item>

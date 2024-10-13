@@ -16,13 +16,7 @@ const Signup: FunctionComponent = () => {
     navigate("/login-page");
   }, [navigate]);
 
-  const next = () => {
-    setCurrent(current + 1);
-  };
-
-  const prev = () => {
-    setCurrent(current - 1);
-  };
+  
   const steps = [
     {
       title: "ورود اطلاعات",
@@ -43,7 +37,7 @@ const Signup: FunctionComponent = () => {
           <Result
             status="success"
             title="عملیات با موفقیت انجام شد!"
-            subTitle="رمز شما با موفقیت تغییر یافت!"
+            subTitle="ثبت نام شما با موفقیت انجام شد!"
           />
           <Button block type="default" onClick={onBackClick}>
             برگشت به صفحه ورود

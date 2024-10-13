@@ -1,11 +1,12 @@
 import { Col, ConfigProvider, Flex, Layout, Row, Space } from "antd/es";
 import { HomeOutlined } from "@ant-design/icons";
 import { PageHeader } from "../../components/PageHeader/PageHeader";
-import { useStylesContext } from "../../context";
 import { Card } from "../../components/Card/Card";
-import EpiTypeChart from "../../components/Charts/EpiTypeChart";
-import ChartTimeline from "../../components/Charts/Chart";
+import EpiTypeChart from "../../components/Charts/Dashbaord/EpiTypeChart";
+import ChartTimeline from "../../components/Charts/Dashbaord/Chart";
 import { StatsCard } from "../../components/StatsCard/StatsCard";
+import { useFetchData } from "../../hooks";
+import { DashDataApi } from "../../api";
 const layoutStyle: React.CSSProperties = {
   background: "#F2FCFC",
   borderRadius: "6px",
@@ -16,7 +17,15 @@ const layoutStyle: React.CSSProperties = {
 };
 
 const Overview = () => {
-  const stylesContext = useStylesContext();
+
+  //APIs
+  const {
+    data: dashData,
+    loading: dashDataLoading,
+    error: error,
+  } = useFetchData(DashDataApi.get);
+
+
   const features = [
     {
       title: "مشاهده گزارش‌های جامع از وضعیت بیمار",
@@ -96,13 +105,13 @@ const Overview = () => {
             ></Card>
           </Col>
           <Col xs={24} lg={8}>
-            <StatsCard title={"تعداد تشنج های ثبت شده امروز"} />
+            <StatsCard title={"تعداد تشنج های ثبت شده امروز"} value={dashData.SumSeizureToday} error={error} loading={dashDataLoading}/>
           </Col>
           <Col xs={24} lg={8}>
-            <StatsCard title={"تعداد بیماران فعال"} />
+            <StatsCard title={"تعداد بیماران فعال"} value={dashData.CountPatients} error={error} loading={dashDataLoading}/>
           </Col>
           <Col xs={24} lg={8}>
-            <StatsCard title={"بیماران در حال ثبت نام"} />
+            <StatsCard title={"بیماران در حال ثبت نام"} value={dashData.CountPendings} error={error} loading={dashDataLoading}/>
           </Col>
           <Col xs={24} lg={12}>
             <Card title={"آمار تشنج ها"}>

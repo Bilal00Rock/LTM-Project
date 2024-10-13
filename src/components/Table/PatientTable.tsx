@@ -81,8 +81,8 @@ export const PatientTable = ({ title, ...other }: Props) => {
     setSearchText("");
   };
   const navigate = useNavigate();
-  const gotoProf = useCallback(() => {
-    navigate("/dashboard/patient-profile");
+  const gotoProf = useCallback((id: string) => {
+    navigate(`/dashboard/patient/${id}`);
   }, [navigate]);
 
   const getColumnSearchProps = (
@@ -230,7 +230,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
           <a
             onClick={() => {
               console.log(record);
-              gotoProf();
+              gotoProf(record.phoneNO);
             }}
           >
             پروفایل

@@ -1,10 +1,11 @@
 import {
   createBrowserRouter,
+  Navigate,
   useLocation,
   useNavigationType,
 } from "react-router-dom";
 import Login from "../pages/auth/Login";
-import Singup from "../pages/auth/SignupPage";
+import Signup from "../pages/auth/SignupPage";
 import { ForgotPassPage } from "../pages/auth/ForgotPassPage";
 import React, { ReactNode, useEffect } from "react";
 import ErrorPage from "../pages/errors/Error";
@@ -12,56 +13,32 @@ import { DashboardLayout } from "../pages/dashboard/dashboardLayout";
 import PatientsList from "../pages/dashboard/patient/PatientsList";
 import { WelcomePage } from "../pages/auth/Welcome";
 import Overview from "../pages/dashboard/Overview";
-import PatitntProfile from "../pages/dashboard/patient/PatitntProfile";
+import PatientProfile from "../pages/dashboard/patient/PatientProfile";
 import Support from "../pages/dashboard/support/Support";
 import Settings from "../pages/dashboard/settings/Settings";
+import { useDocumentTitle } from "../hooks";
 
 // Custom scroll restoration function
+// Custom hook to handle document title
+
+
+// ScrollToTop component
 export const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
   const action = useNavigationType();
+
   useEffect(() => {
     if (action !== "POP") {
       window.scrollTo(0, 0);
     }
   }, [action, pathname]);
 
-  useEffect(() => {
-    let title = "";
-    let metaDescription = "";
+  // Use custom hook for document title
+  useDocumentTitle(pathname);
 
-    switch (pathname) {
-      case "/":
-        title = "Pineu";
-        metaDescription = "User Account Login";
-        break;
-      case "/login-page":
-        title = "Log Into Your Account";
-        metaDescription = "User Account Login";
-        break;
-      case "/forgot-password":
-        title = "Forgot PassWord!?";
-        metaDescription = "did you";
-        break;
-      default:
-        break;
-    }
-
-    if (title) {
-      document.title = title;
-    }
-
-    if (metaDescription) {
-      const metaDescriptionTag: HTMLMetaElement | null = document.querySelector(
-        'head > meta[name="description"]'
-      );
-      if (metaDescriptionTag) {
-        metaDescriptionTag.content = metaDescription;
-      }
-    }
-  }, [pathname]);
-  return null; // This component doesn't render anything
+  return null;
 };
+
 
 type PageProps = {
   children: ReactNode;
@@ -98,7 +75,7 @@ const router = createBrowserRouter([
       },
       {
         path: "signup-page",
-        element: <PageWrapper children={<Singup />} />,
+        element: <PageWrapper children={<Signup />} />,
       },
     ],
   },
@@ -107,6 +84,10 @@ const router = createBrowserRouter([
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        index: true, // This means when "/dashboard" is accessed directly
+        element: <Navigate to="overview" replace />, // Redirect to "/dashboard/overview"
+      },
       {
         path: "overview",
         errorElement: <ErrorPage />,
@@ -118,9 +99,9 @@ const router = createBrowserRouter([
         element: <PageWrapper children={<PatientsList />} />,
       },
       {
-        path: "patient-profile",
+        path: "patient/:id",
         errorElement: <ErrorPage />,
-        element: <PageWrapper children={<PatitntProfile />} />,
+        element: <PageWrapper children={<PatientProfile />} />,
       },
       {
         path: "help-support",
@@ -132,8 +113,6 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         element: <PageWrapper children={<Settings />} />,
       },
-      
-
     ],
   },
 ]);

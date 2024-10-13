@@ -13,6 +13,7 @@
     "@types/node": "^16.11.14",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/react-slick": "^0.23.13",
     "antd": "^5.20.0",
     "antd-jalali": "^2.0.1",
     "apexcharts": "^3.53.0",

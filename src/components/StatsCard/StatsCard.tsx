@@ -1,8 +1,6 @@
 import { Alert, CardProps, Flex, Typography } from 'antd';
 import {
-  UserAddOutlined,
   UserOutlined,
-  UserSwitchOutlined,
 } from '@ant-design/icons';
 import { ReactElement, ReactNode } from 'react';
 import { Card } from '../Card/Card';
@@ -59,7 +57,7 @@ export const StatsCard = ({
           <Icon />
           <Typography.Text className="text-capitalize">{title}</Typography.Text>
           <Typography.Title level={2} className="m-0">
-            <CountUp end={value || 10} />
+            <CountUp end={value || 0} />
             
 
           </Typography.Title>
