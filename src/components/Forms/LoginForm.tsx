@@ -61,7 +61,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
     throw new Error("useContext must be used within an AuthProvider");
   }
 
-  const { setAuth } = authContext;
+  const { auth , setAuth } = authContext;
 
   const msgSuccess = (content: string) => {
     loading
@@ -96,18 +96,21 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
         }
       );
 
-     // console.log(response.data);
+     //console.log(response.data);
 
       if (response.data?.success) {
-        const accessToken = response?.data?.accessToken;
+        //if not working with refreshtokens uncommint this 
+        // const accessToken = response?.body?.accesstoken;
+        //commit the below
+        const accessToken = response?.headers?.accesstoken;
         setAuth({
           user: values.D_id, // Assign the doctor ID or username to `user`
           pass: values.password,
-          token: accessToken, // Assign the token to `token`
+          accessToken: accessToken, // Assign the token to `token`
         });
+        //console.log(auth.accessToken,auth .pass, auth.user);
         //go to dash
         navigate("/dashboard/overview");
-        console.log('fff')
       
       }
       // code to access dashboard

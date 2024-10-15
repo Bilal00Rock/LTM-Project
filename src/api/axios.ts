@@ -6,7 +6,7 @@ export default axois.create({
   //baseURL: BASE_URL,
 })
 
-export const axoisPrivate = axois.create ({
+export const axiosPrivate = axois.create ({
   //baseURL: BASE_URL,
   headers : { 'Content-Type': 'application/json'},
   withCredentials: true
@@ -27,6 +27,7 @@ export const REGISTER_URL = {
 };
 export const LOGIN_URL = {
   login: url('api/login'),
+  logout: url('api/logout')
 };
 //Patient Urls
 export const PatientsApi = {

@@ -9,71 +9,83 @@ import {
 } from "../api";
 // Mock data to simulate a successful login
 let mockAccessToken = 'initialAccessToken';
-let mockRefreshToken = 'initialRefreshToken';
+let mockRefreshToken = 'initialAccessToken';
 
-let accessTokenExpiry = Date.now() + 60 * 1000; // Valid for 1 minute
-let refreshTokenExpiry = Date.now() + 5 * 60 * 1000; // Valid for 5 minutes
+let accessTokenExpiry = Date.now() + 10 * 1000; // Valid for 1 minute
+let refreshTokenExpiry = Date.now() +   15 * 1000; // Valid for 5 minutes
 
 let isValid = false;
+const checkAccessToken = (request : any) => {
+  const accessToken = request.headers.get('Authorization');
+  
+  if (!accessToken || accessToken !== `Bearer ${mockAccessToken}`) {
+    return HttpResponse.json({ message: "Unauthorized access" }, { status: 403 });
+  }
+  
+  const currentTime = Date.now();
+  if (currentTime > accessTokenExpiry) {
+    return HttpResponse.json({ message: "Access token expired" }, { status: 403 });
+  }
+  
+  return null; // Token is valid
+};
 export const handlers = [
   // And here's a request handler with MSW
   // for the same "GET /user" request that
   // responds with a mock JSON response.
-  //login
-  // Define a POST handler for the login route
-  http.post(LOGIN_URL.login, async ({ request }) => {
-    const { D_id, password } = (await request.json()) as { D_id: string; password: string };
-    
-    let success = false;
-    
-    if (D_id === "doctor123" && password === "password123") {
-      success = true;
-      return HttpResponse.json({ success: success }, {
-        status: 201,
-        headers: {
-          accessToken: mockAccessToken,
-        },
-      });
-    } else {
-      return HttpResponse.json({ success, message: "invalid" }, { status: 401 });
+ // Login handler
+ http.post(LOGIN_URL.login, async ({ request }) => {
+  const { D_id, password } = (await request.json()) as { D_id: string; password: string };
+  
+  let success = false;
+  
+  if (D_id === "f" && password === "f") {
+    success = true;
+    return HttpResponse.json({ success: success }, {
+      status: 201,
+      headers: {
+        accessToken: mockAccessToken,
+      },
+      //msw cannot set actual cokies so the refresh token cant be handle by this
+    });
+  } else {
+    return HttpResponse.json({ success, message: "invalid" }, { status: 401 });
+  }
+}),
+
+// Refresh token handler
+// Refresh token handler
+http.get(REFRESH_URL.token, async ({ request }) => {
+  const refreshToken = request.headers.get('Authorization');
+  
+  // Log the refresh token for debugging (consider removing this in production)
+  //console.log("Refresh Token Received:", refreshToken);
+  
+ // if (refreshToken !== `Bearer ${mockRefreshToken}`) {
+   // return HttpResponse.json({ message: "Invalid refresh token" }, { status: 401 });
+  //}
+
+  // Generate a new access token and set its expiry
+  mockAccessToken = 'newAccessToken';
+  accessTokenExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes from now
+  
+  return HttpResponse.json(
+    { accessToken: mockAccessToken }, 
+    {
+      status: 200,
+      headers: { accessToken: mockAccessToken },
     }
-  }),
+  );
+}),
+
+
+// Logout handler (optional)
+http.post(LOGIN_URL.logout, async () => {
+  mockAccessToken = '';
+  mockRefreshToken = '';
   
-  http.get(REFRESH_URL.token, async ({ request }) => {
-    // Simulate token validation
-    const refreshToken = request.headers.get('Authorization');
-    
-    if (refreshToken !== `Bearer ${mockRefreshToken}`) {
-      return HttpResponse.json({ message: "Invalid refresh token" }, { status: 401 });
-    }
-  
-    // Generate a new access token
-    mockAccessToken = 'newAccessToken';
-    return HttpResponse.json(
-      { accessToken: mockAccessToken }, 
-      {
-        status: 200,
-        headers: { accessToken: mockAccessToken },
-      }
-    );
-  }),
-  http.get('/protected-endpoint', async ({ request }) => {
-    const accessToken = request.headers.get('Authorization');
-  
-    if (!accessToken || accessToken !== `Bearer ${mockAccessToken}`) {
-      return HttpResponse.json({ message: "Unauthorized access" }, { status: 403 });
-    }
-  
-    // Check if the access token is expired
-    const currentTime = Date.now();
-    if (currentTime > accessTokenExpiry) {
-      return HttpResponse.json({ message: "Access token expired" }, { status: 403 });
-    }
-  
-    // Return protected data
-    return HttpResponse.json({ data: "This is protected data" }, { status: 200 });
-  }),
-  
+  return HttpResponse.json({ success: true, message: "Logged out successfully" }, { status: 200 });
+}),
   
   //register
   http.post(REGISTER_URL.postNO, async ({ request }) => {
@@ -104,7 +116,7 @@ export const handlers = [
         }
       );
     } else {
-      return HttpResponse.json({ isValid: isValid }, { status: 201 });
+      return HttpResponse.json({ isValid: isValid }, { status:  400 });
     }
   }),
   http.post(REGISTER_URL.setpass, async ({ request }) => {
@@ -148,6 +160,10 @@ export const handlers = [
   //patients APIs
 
   http.get(PatientsApi.get, ({ request }) => {
+    const authResponse = checkAccessToken(request);
+    console.log('auth response: ',authResponse);
+    if (authResponse) return authResponse;
+  
     return HttpResponse.json([
       {
         key: "1",
@@ -409,6 +425,9 @@ export const handlers = [
     ]);
   }),
   http.get(PendingPatientsApi.get, ({ request }) => {
+    const authResponse = checkAccessToken(request);
+    if (authResponse) return authResponse;
+  
     return HttpResponse.json([
       {
         key: "1",
@@ -520,6 +539,9 @@ export const handlers = [
   }),
   //Dashbaord data APIs
   http.get(DashDataApi.get, ({ request }) => {
+    const authResponse = checkAccessToken(request);
+    if (authResponse) return authResponse;
+  
     return HttpResponse.json({
       SumSeizureToday: 15,
       CountPatients: 25,
@@ -527,6 +549,9 @@ export const handlers = [
     });
   }),
   http.get(DashDataApi.getTypes, ({ request }) => {
+    const authResponse = checkAccessToken(request);
+    if (authResponse) return authResponse;
+  
     return HttpResponse.json([
       { type: "ژنرالیزه", count: 10 },
       { type: "فوکال", count: 5 },
@@ -535,6 +560,9 @@ export const handlers = [
     ]);
   }),
   http.get(DashDataApi.getSeizureCount, ({ request }) => {
+    const authResponse = checkAccessToken(request);
+    if (authResponse) return authResponse;
+  
     return HttpResponse.json([
       { date: "2023-02-08T13:00:00", value: 31 },
       { date: "2023-03-08T13:00:00", value: 10 },

@@ -10,7 +10,6 @@ const RequireAuth = () => {
 
   const { auth } = authContext;
   const location = useLocation();
-
   return auth?.user ? (
     <Outlet />
   ) : (

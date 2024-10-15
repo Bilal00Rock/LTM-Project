@@ -1,3 +1,3 @@
-import axios, { PatientsApi,PendingPatientsApi ,DashDataApi, REGISTER_URL,LOGIN_URL, REFRESH_URL, axoisPrivate} from "./axios";
+import axios, { PatientsApi,PendingPatientsApi ,DashDataApi, REGISTER_URL,LOGIN_URL, REFRESH_URL, axiosPrivate} from "./axios";
 
-export {axios ,axoisPrivate, PatientsApi, PendingPatientsApi,DashDataApi,REGISTER_URL,LOGIN_URL , REFRESH_URL};
+export {axios ,axiosPrivate, PatientsApi, PendingPatientsApi,DashDataApi,REGISTER_URL,LOGIN_URL , REFRESH_URL};
