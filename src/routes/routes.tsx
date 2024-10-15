@@ -17,10 +17,9 @@ import PatientProfile from "../pages/dashboard/patient/PatientProfile";
 import Support from "../pages/dashboard/support/Support";
 import Settings from "../pages/dashboard/settings/Settings";
 import { useDocumentTitle } from "../hooks";
-
+import RequireAuth from "../components/RequireAuth";
 // Custom scroll restoration function
 // Custom hook to handle document title
-
 
 // ScrollToTop component
 export const ScrollToTop: React.FC = () => {
@@ -38,7 +37,6 @@ export const ScrollToTop: React.FC = () => {
 
   return null;
 };
-
 
 type PageProps = {
   children: ReactNode;
@@ -80,38 +78,43 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
-    element: <PageWrapper children={<DashboardLayout />} />,
-    errorElement: <ErrorPage />,
+    element: <RequireAuth />,
     children: [
       {
-        index: true, // This means when "/dashboard" is accessed directly
-        element: <Navigate to="overview" replace />, // Redirect to "/dashboard/overview"
-      },
-      {
-        path: "overview",
+        path: "/dashboard",
+        element: <PageWrapper children={<DashboardLayout />} />,
         errorElement: <ErrorPage />,
-        element: <PageWrapper children={<Overview />} />,
-      },
-      {
-        path: "patients",
-        errorElement: <ErrorPage />,
-        element: <PageWrapper children={<PatientsList />} />,
-      },
-      {
-        path: "patient/:id",
-        errorElement: <ErrorPage />,
-        element: <PageWrapper children={<PatientProfile />} />,
-      },
-      {
-        path: "help-support",
-        errorElement: <ErrorPage />,
-        element: <PageWrapper children={<Support />} />,
-      },
-      {
-        path: "settings",
-        errorElement: <ErrorPage />,
-        element: <PageWrapper children={<Settings />} />,
+        children: [
+          {
+            index: true, // This means when "/dashboard" is accessed directly
+            element: <Navigate to="overview" replace />, // Redirect to "/dashboard/overview"
+          },
+          {
+            path: "overview",
+            errorElement: <ErrorPage />,
+            element: <PageWrapper children={<Overview />} />,
+          },
+          {
+            path: "patients",
+            errorElement: <ErrorPage />,
+            element: <PageWrapper children={<PatientsList />} />,
+          },
+          {
+            path: "patient/:id",
+            errorElement: <ErrorPage />,
+            element: <PageWrapper children={<PatientProfile />} />,
+          },
+          {
+            path: "help-support",
+            errorElement: <ErrorPage />,
+            element: <PageWrapper children={<Support />} />,
+          },
+          {
+            path: "settings",
+            errorElement: <ErrorPage />,
+            element: <PageWrapper children={<Settings />} />,
+          },
+        ],
       },
     ],
   },

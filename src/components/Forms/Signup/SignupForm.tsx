@@ -55,27 +55,28 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
   const prev = () => {
     setCurrent(current - 1);
   };
-  //message handeling 
+  //message handeling
   const [messageApi, contextHolder] = message.useMessage();
 
   const msgSuccess = (content: string) => {
-    loading? (messageApi.open({
-      type: "loading",
-      content: " در حال بررسی...",
-      //duration: 2.5,
-    })): (
-    messageApi.open({
-      type: "success",
-      content: content,
-      duration: 5
-    }));
+    loading
+      ? messageApi.open({
+          type: "loading",
+          content: " در حال بررسی...",
+          //duration: 2.5,
+        })
+      : messageApi.open({
+          type: "success",
+          content: content,
+          duration: 5,
+        });
   };
 
   const errormsg = (content: string) => {
     messageApi.open({
       type: "error",
       content: content,
-      duration: 5
+      duration: 5,
     });
   };
   //API Post
@@ -92,15 +93,15 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
           withCredentials: true,
         }
       );
-      
+
       //console.log(response.data);
       //console.log(JSON.stringify(response));
-      msgSuccess('رمز یکبار مصرف ارسال شد');
+      msgSuccess("رمز یکبار مصرف ارسال شد");
       await delay(1000);
       next();
     } catch (error) {
       setError(error);
-      if(Error) errormsg(`خطایی رخ داده است:${Error}`);
+      if (Error) errormsg(`خطایی رخ داده است:${Error}`);
     } finally {
       setLoading(false);
     }
@@ -149,6 +150,10 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
                   required: true,
                   message: "!لطفا کد ملی خود را وارد کنید",
                 },
+                {
+                  pattern: /^[0-9]{10}$/,
+                  message: "کد ملی را درست وارد کنید",
+                },
               ]}
             >
               <Input
@@ -189,6 +194,10 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
                   required: true,
                   message: "لطفا تلفن همراه خود را وارد کنید!",
                 },
+                {
+                    pattern: /^[0-9]{11}$/,
+                    message: "لطفا شماره همراه را درست وارد کنید",
+                  },
               ]}
             >
               <Input

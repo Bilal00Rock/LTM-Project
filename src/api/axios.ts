@@ -1,11 +1,22 @@
 import axois from 'axios';
 
+const BASE_URL = '';
+
 export default axois.create({
-  //baseURL: 'http://localhost:3000'
+  //baseURL: BASE_URL,
 })
+
+export const axoisPrivate = axois.create ({
+  //baseURL: BASE_URL,
+  headers : { 'Content-Type': 'application/json'},
+  withCredentials: true
+});
 
 function url(url: string) {
   return `${url}`;
+}
+export const REFRESH_URL ={
+  token: url ('refesh')
 }
 //Register url
 export const REGISTER_URL = {
@@ -14,7 +25,9 @@ export const REGISTER_URL = {
   otpResend: url('api/resendotp-register'),
   setpass: url('api/setpass')
 };
-
+export const LOGIN_URL = {
+  login: url('api/login'),
+};
 //Patient Urls
 export const PatientsApi = {
   get: url( "api/patients"),

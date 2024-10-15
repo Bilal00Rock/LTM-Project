@@ -4,14 +4,77 @@ import {
   PatientsApi,
   PendingPatientsApi,
   REGISTER_URL,
+  LOGIN_URL,
+  REFRESH_URL
 } from "../api";
+// Mock data to simulate a successful login
+let mockAccessToken = 'initialAccessToken';
+let mockRefreshToken = 'initialRefreshToken';
+
+let accessTokenExpiry = Date.now() + 60 * 1000; // Valid for 1 minute
+let refreshTokenExpiry = Date.now() + 5 * 60 * 1000; // Valid for 5 minutes
 
 let isValid = false;
 export const handlers = [
   // And here's a request handler with MSW
   // for the same "GET /user" request that
   // responds with a mock JSON response.
-
+  //login
+  // Define a POST handler for the login route
+  http.post(LOGIN_URL.login, async ({ request }) => {
+    const { D_id, password } = (await request.json()) as { D_id: string; password: string };
+    
+    let success = false;
+    
+    if (D_id === "doctor123" && password === "password123") {
+      success = true;
+      return HttpResponse.json({ success: success }, {
+        status: 201,
+        headers: {
+          accessToken: mockAccessToken,
+        },
+      });
+    } else {
+      return HttpResponse.json({ success, message: "invalid" }, { status: 401 });
+    }
+  }),
+  
+  http.get(REFRESH_URL.token, async ({ request }) => {
+    // Simulate token validation
+    const refreshToken = request.headers.get('Authorization');
+    
+    if (refreshToken !== `Bearer ${mockRefreshToken}`) {
+      return HttpResponse.json({ message: "Invalid refresh token" }, { status: 401 });
+    }
+  
+    // Generate a new access token
+    mockAccessToken = 'newAccessToken';
+    return HttpResponse.json(
+      { accessToken: mockAccessToken }, 
+      {
+        status: 200,
+        headers: { accessToken: mockAccessToken },
+      }
+    );
+  }),
+  http.get('/protected-endpoint', async ({ request }) => {
+    const accessToken = request.headers.get('Authorization');
+  
+    if (!accessToken || accessToken !== `Bearer ${mockAccessToken}`) {
+      return HttpResponse.json({ message: "Unauthorized access" }, { status: 403 });
+    }
+  
+    // Check if the access token is expired
+    const currentTime = Date.now();
+    if (currentTime > accessTokenExpiry) {
+      return HttpResponse.json({ message: "Access token expired" }, { status: 403 });
+    }
+  
+    // Return protected data
+    return HttpResponse.json({ data: "This is protected data" }, { status: 200 });
+  }),
+  
+  
   //register
   http.post(REGISTER_URL.postNO, async ({ request }) => {
     // Read the intercepted request body as JSON.
@@ -28,7 +91,7 @@ export const handlers = [
     const otp = body.values.otp;
 
     // Validate the OTP
-    const isValid = otp === "123456"; // Replace with your validation logic
+    isValid = otp === "123456"; // Replace with your validation logic
     // Don't forget to declare a semantic "201 Created"
     if (isValid) {
       return HttpResponse.json(
@@ -36,7 +99,7 @@ export const handlers = [
         {
           status: 201,
           headers: {
-            accessToken: "aaaaaaaaaaaa",
+            accessToken: mockAccessToken,
           },
         }
       );
@@ -50,8 +113,8 @@ export const handlers = [
     const accessToken = headers.get("accesstoken");
 
     // Example: Validate the access token (replace with your real logic)
-    const validToken = "aaaaaaaaaa"; // This would be your valid token for testing
-    if (accessToken !== validToken) {
+     // This would be your valid token for testing
+    if (accessToken !== mockAccessToken) {
       return HttpResponse.json(
         { isDone: false, message: "Access token is invalid" },
         { status: 403 }
@@ -59,21 +122,27 @@ export const handlers = [
     }
 
     // If the token is valid, proceed with password update
-    const { values } = (await request.json()) as { values: { password: string ,confirm: string}};
+    const { values } = (await request.json()) as {
+      values: { password: string; confirm: string };
+    };
     const { password, confirm } = values;
     if (password === confirm) {
       // Return success and a new access token if needed
-      const newAccessToken = 'new-access-token'; // Generate a new token if needed
+      const newAccessToken = "new-access-token"; // Generate a new token if needed
       return HttpResponse.json(
-        { isDone: true ,message: 'Password successfully updated'},
+        { isDone: true, message: "Password successfully updated" },
         {
           status: 200,
           headers: {
             accessToken: newAccessToken,
           },
-        });
+        }
+      );
     } else {
-      return HttpResponse.json({ isDone: false , message: "Passwords do not match"}, { status: 400 });
+      return HttpResponse.json(
+        { isDone: false, message: "Passwords do not match" },
+        { status: 400 }
+      );
     }
   }),
   //patients APIs

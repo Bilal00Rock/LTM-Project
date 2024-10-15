@@ -13,11 +13,17 @@ import {
   Tooltip,
   ConfigProvider,
   Divider,
+  message,
 } from "antd";
 import styles from "../Styles/FrameComponent.module.css";
 import { useNavigate } from "react-router-dom";
 import fa_IR from "antd/locale/fa_IR";
 import FormItem from "antd/es/form/FormItem";
+import { axios } from "../../api";
+import { LOGIN_URL } from "../../api/axios";
+import { delay } from "msw";
+import { AxiosError } from "axios";
+import useAuth from "../../hooks/useAuth";
 
 export type LoginComponentType = {
   className?: string;
@@ -43,13 +49,92 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
   const onBRClick = useCallback(() => {
     navigate("/signup-page");
   }, [navigate]);
+  //login APICALL
+  //message handeling
+  const [messageApi, contextHolder] = message.useMessage();
+  //Auth
+  const [Error, setError] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const authContext = useAuth();
 
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+  if (!authContext) {
+    throw new Error("useContext must be used within an AuthProvider");
+  }
+
+  const { setAuth } = authContext;
+
+  const msgSuccess = (content: string) => {
+    loading
+      ? messageApi.open({
+          type: "loading",
+          content: " در حال بررسی...",
+          //duration: 2.5,
+        })
+      : messageApi.open({
+          type: "success",
+          content: content,
+          duration: 5,
+        });
   };
-  //#endregion
+
+  const errormsg = (content: string) => {
+    messageApi.open({
+      type: "error",
+      content: content,
+      duration: 5,
+    });
+  };
+  //API Post
+  const onFinish = async (values: any) => {
+    try {
+      const response = await axios.post(
+        LOGIN_URL.login,
+        JSON.stringify(values),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+     // console.log(response.data);
+
+      if (response.data?.success) {
+        const accessToken = response?.data?.accessToken;
+        setAuth({
+          user: values.D_id, // Assign the doctor ID or username to `user`
+          pass: values.password,
+          token: accessToken, // Assign the token to `token`
+        });
+        //go to dash
+        navigate("/dashboard/overview");
+        console.log('fff')
+      
+      }
+      // code to access dashboard
+    } catch (error: unknown) {
+      if (error instanceof AxiosError) {
+        // Now TypeScript knows that `error.response` exists
+        if (!error?.response) {
+          errormsg("پاسخی از سرور دریافت نشد");
+        } else if (error.response?.status === 400) {
+          errormsg("کد نظام پزشکی یا رمز عبور ناقص می باشد");
+        } else if (error.response?.status === 401) {
+          errormsg(" کد نظام پزشکی یا رمز عبور صحیح نمی باشد");
+        } else {
+          setError(error);
+          if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+        }
+      } else {
+        errormsg("خظایی رخ داده است");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <ConfigProvider locale={fa_IR} direction={"rtl"}>
+      {contextHolder}
       <div className={[styles.subHeaderParent, className].join(" ")}>
         <div className={styles.subHeader}>
           <img
@@ -90,6 +175,11 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                   required: true,
                   message: "!لطفا کد نظام پزشکی خود را وارد کنید",
                 },
+                //قانون کد نظام پزشکی
+                // {
+                //   pattern: /^[0-9]{6}$/,
+                //   message: "کد نظام پزشکی باید ۶ رقمی باشد",
+                // },
               ]}
             >
               <Input

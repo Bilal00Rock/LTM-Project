@@ -89,6 +89,7 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
 
       if (isDone) {
         msgSuccess("ثبت نام با موفقیت انجام شد");
+        console.log(response.headers["accesstoken"]);
         next();
       } else {
         message.error("در فرایند ثبت نام مشکلی پیش آمده است");

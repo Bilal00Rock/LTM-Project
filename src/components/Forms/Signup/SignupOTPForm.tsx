@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 
 import { Button, Form, Input, Flex, Space, message } from "antd";
@@ -7,6 +7,8 @@ import Countdown, { CountdownProps } from "antd/es/statistic/Countdown";
 import { OTPProps } from "antd/es/input/OTP";
 import { axios, REGISTER_URL } from "../../../api";
 import { delay } from "msw";
+import { AuthContext } from "../../../context";
+import useAuth from "../../../hooks/useAuth";
 
 export type RespassComponentType = {
   className?: string;
@@ -64,6 +66,13 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
   //API Post
   const [Error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const authContext = useAuth();
+
+  if (!authContext) {
+    throw new Error("useContext must be used within an AuthProvider");
+  }
+
+  const { setAuth } = authContext;
   const onFinish = async (values: any) => {
     //console.log("Received values of form: ", values);
     try {
@@ -81,6 +90,7 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
 
       if (isValid) {
         console.log(response.headers["accesstoken"]);
+        //save the access token
         // Show success message for correct OTP
         msgSuccess("کد تایید صحیح است");
         next();
