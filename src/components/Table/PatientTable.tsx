@@ -22,6 +22,7 @@ import { PendingsTable } from "./PendingsTable";
 import { useNavigate } from "react-router-dom";
 import { useFetchData } from "../../hooks";
 import { PatientsApi } from "../../api";
+import { PATH_PATIENTS } from "../../constants";
 type Props = {
   title: string;
 };
@@ -36,6 +37,7 @@ interface DataType {
   phoneNO: string;
   type: string;
   address: string;
+  member: string;
 }
 
 type DataIndex = keyof DataType;
@@ -82,7 +84,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
   };
   const navigate = useNavigate();
   const gotoProf = useCallback((id: string) => {
-    navigate(`/dashboard/patient/${id}`);
+    navigate(`${PATH_PATIENTS.id}/${id}`);
   }, [navigate]);
 
   const getColumnSearchProps = (
@@ -220,6 +222,32 @@ export const PatientTable = ({ title, ...other }: Props) => {
           color = "yellow";
         }
         return <Badge color={color} text={type} />;
+      },
+    },
+    {
+      title: "عضویت انجمن ",
+      dataIndex: "member",
+      key: "member",
+      ...getColumnSearchProps("member"),
+      sorter: (a, b) => a.member.length - b.member.length,
+      sortDirections: ["descend", "ascend"],
+      width: "auto",
+      render: function (_, { member }) {
+        let color = "";
+        let text = '';
+        if (member === "false") {
+          color = "red";
+          text = 'ندارد';
+        }
+        if (member === "true") {
+          color = "green";
+          text = 'دارد' ; 
+        }
+        if (member === "pending") {
+          color = "yellow";
+          text = 'در انتظار تایید';
+        }
+        return <Badge color={color} text={text} />;
       },
     },
     {

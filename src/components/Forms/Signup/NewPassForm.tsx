@@ -10,8 +10,8 @@ import {
   message,
 } from "antd";
 import styles2 from "../../../pages/Styles/ForgotPassPage.module.css";
-import { useNavigate } from "react-router-dom";
 import { axios, REGISTER_URL } from "../../../api";
+import useAuth from "../../../hooks/useAuth";
 
 export type RespassComponentType = {
   className?: string;
@@ -24,30 +24,30 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
   current,
   setCurrent,
 }) => {
- //message handeling
- const [messageApi, contextHolder] = message.useMessage();
+  //message handeling
+  const [messageApi, contextHolder] = message.useMessage();
 
- const msgSuccess = (content: string) => {
-   loading
-     ? messageApi.open({
-         type: "loading",
-         content: " در حال بررسی...",
-         //duration: 2.5,
-       })
-     : messageApi.open({
-         type: "success",
-         content: content,
-         duration: 5,
-       });
- };
+  const msgSuccess = (content: string) => {
+    loading
+      ? messageApi.open({
+          type: "loading",
+          content: " در حال بررسی...",
+          //duration: 2.5,
+        })
+      : messageApi.open({
+          type: "success",
+          content: content,
+          duration: 5,
+        });
+  };
 
- const errormsg = (content: string) => {
-   messageApi.open({
-     type: "error",
-     content: content,
-     duration: 5,
-   });
- };
+  const errormsg = (content: string) => {
+    messageApi.open({
+      type: "error",
+      content: content,
+      duration: 5,
+    });
+  };
   //styles
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -69,10 +69,17 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
   const prev = () => {
     setCurrent(current - 1);
   };
-  //api 
-  let accesstoken = 'aaaaaaaaaa'
-  const [Error, setError] = useState<any>(null);
+  //api
+
+  const [Error1, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const authContext = useAuth();
+
+  if (!authContext) {
+    throw new Error("useContext must be used within an AuthProvider");
+  }
+
+  const { auth } = authContext;
   const onFinish = async (values: any) => {
     //console.log("Received values of form: ", values);
     try {
@@ -80,7 +87,10 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
         REGISTER_URL.setpass,
         JSON.stringify({ values }),
         {
-          headers: { "Content-Type": "application/json" , "accesstoken": accesstoken},
+          headers: {
+            "Content-Type": "application/json",
+            accesstoken: auth.accessToken,
+          },
           withCredentials: true,
         }
       );
@@ -96,7 +106,7 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
       }
     } catch (error) {
       setError(error);
-      if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+      if (Error1) errormsg(`خطایی رخ داده است:${Error1}`);
     } finally {
       setLoading(false);
     }
@@ -141,16 +151,10 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
                 required: true,
                 message: "!لطفا گذرواژه جدید را وارد کنید",
               },
-              //check the password regex
-              () => ({
-                validator(_, value) {
-                  const result = PWD_REGEX.test(value);
-                  if (result) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("!checking"));
-                },
-              }),
+              {
+                pattern: PWD_REGEX,
+                message: "لطفا گذرواژه قوی تری استفاده کنید",
+              },
             ]}
             hasFeedback
           >
@@ -171,7 +175,9 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
                   if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error("!گذرواژه ها یکسان نیستند"));
+                  return Promise.reject(
+                    new Error("گذرواژه ها یکسان نیستند")
+                  );
                 },
               }),
             ]}
@@ -180,8 +186,8 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
           </Form.Item>
 
           <Form.Item>
-            <div style={{textAlign: 'right'}}>
-              <ul dir="rtl" >
+            <div style={{ textAlign: "right" }}>
+              <ul dir="rtl">
                 <li>رمز باید ۸ الی ۲۴ کاراکتر باشد</li>
                 <li>حتما باید دارای حروف بزرگ و کوچک باشد</li>
                 <li>حداقل باید دارای یک کاراکتر عددی باشد</li>

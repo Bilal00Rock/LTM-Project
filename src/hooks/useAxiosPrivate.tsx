@@ -8,7 +8,7 @@ import { AxiosError } from "axios";
 const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
   const authContext = useAuth();
-  const navigate = useNavigate(); // To handle redirection
+ 
 
   if (!authContext) {
     throw new Error("useContext must be used within an AuthProvider");

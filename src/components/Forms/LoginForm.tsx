@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { FunctionComponent, useCallback } from "react";
 import {
   InfoCircleOutlined,
@@ -24,6 +24,7 @@ import { LOGIN_URL } from "../../api/axios";
 import { delay } from "msw";
 import { AxiosError } from "axios";
 import useAuth from "../../hooks/useAuth";
+import { PATH_DASHBOARD } from "../../constants";
 
 export type LoginComponentType = {
   className?: string;
@@ -110,7 +111,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
         });
         //console.log(auth.accessToken,auth .pass, auth.user);
         //go to dash
-        navigate("/dashboard/overview");
+        navigate(PATH_DASHBOARD.root);
       
       }
       // code to access dashboard

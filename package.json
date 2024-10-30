@@ -60,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "@types/moment-jalaali": "^0.7.9",
     "@types/react-highlight-words": "^0.20.0",
     "@types/react-transition-group": "^4.4.11",
     "msw": "^2.4.9",

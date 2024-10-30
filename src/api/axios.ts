@@ -32,7 +32,7 @@ export const LOGIN_URL = {
 //Patient Urls
 export const PatientsApi = {
   get: url( "api/patients"),
-  
+  getbyid: url('api/patient')
 };
 // for patient profiles use => api/patient?id:{phoneNo}
 

@@ -5,95 +5,113 @@ import {
   PendingPatientsApi,
   REGISTER_URL,
   LOGIN_URL,
-  REFRESH_URL
+  REFRESH_URL,
 } from "../api";
 // Mock data to simulate a successful login
-let mockAccessToken = 'initialAccessToken';
-let mockRefreshToken = 'initialAccessToken';
+let mockAccessToken = "initialAccessToken";
+let mockRefreshToken = "initialAccessToken";
 
-let accessTokenExpiry = Date.now() + 10 * 1000; // Valid for 1 minute
-let refreshTokenExpiry = Date.now() +   15 * 1000; // Valid for 5 minutes
+let accessTokenExpiry = Date.now() + 6000 * 1000;
+let refreshTokenExpiry = Date.now() + 15 * 1000;
 
 let isValid = false;
-const checkAccessToken = (request : any) => {
-  const accessToken = request.headers.get('Authorization');
-  
+const checkAccessToken = (request: any) => {
+  const accessToken = request.headers.get("Authorization");
+
   if (!accessToken || accessToken !== `Bearer ${mockAccessToken}`) {
-    return HttpResponse.json({ message: "Unauthorized access" }, { status: 403 });
+    return HttpResponse.json(
+      { message: "Unauthorized access" },
+      { status: 403 }
+    );
   }
-  
+
   const currentTime = Date.now();
   if (currentTime > accessTokenExpiry) {
-    return HttpResponse.json({ message: "Access token expired" }, { status: 403 });
+    return HttpResponse.json(
+      { message: "Access token expired" },
+      { status: 403 }
+    );
   }
-  
+
   return null; // Token is valid
 };
 export const handlers = [
   // And here's a request handler with MSW
   // for the same "GET /user" request that
   // responds with a mock JSON response.
- // Login handler
- http.post(LOGIN_URL.login, async ({ request }) => {
-  const { D_id, password } = (await request.json()) as { D_id: string; password: string };
-  
-  let success = false;
-  
-  if (D_id === "f" && password === "f") {
-    success = true;
-    return HttpResponse.json({ success: success }, {
-      status: 201,
-      headers: {
-        accessToken: mockAccessToken,
-      },
-      //msw cannot set actual cokies so the refresh token cant be handle by this
-    });
-  } else {
-    return HttpResponse.json({ success, message: "invalid" }, { status: 401 });
-  }
-}),
+  // Login handler
+  http.post(LOGIN_URL.login, async ({ request }) => {
+    const { D_id, password } = (await request.json()) as {
+      D_id: string;
+      password: string;
+    };
 
-// Refresh token handler
-// Refresh token handler
-http.get(REFRESH_URL.token, async ({ request }) => {
-  const refreshToken = request.headers.get('Authorization');
-  
-  // Log the refresh token for debugging (consider removing this in production)
-  //console.log("Refresh Token Received:", refreshToken);
-  
- // if (refreshToken !== `Bearer ${mockRefreshToken}`) {
-   // return HttpResponse.json({ message: "Invalid refresh token" }, { status: 401 });
-  //}
+    let success = false;
 
-  // Generate a new access token and set its expiry
-  mockAccessToken = 'newAccessToken';
-  accessTokenExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes from now
-  
-  return HttpResponse.json(
-    { accessToken: mockAccessToken }, 
-    {
-      status: 200,
-      headers: { accessToken: mockAccessToken },
+    if (D_id === "f" && password === "f") {
+      success = true;
+      return HttpResponse.json(
+        { success: success },
+        {
+          status: 201,
+          headers: {
+            accessToken: mockAccessToken,
+          },
+          //msw cannot set actual cokies so the refresh token cant be handle by this
+        }
+      );
+    } else {
+      return HttpResponse.json(
+        { success, message: "invalid" },
+        { status: 401 }
+      );
     }
-  );
-}),
+  }),
 
+  // Refresh token handler
+  // Refresh token handler
+  http.get(REFRESH_URL.token, async ({ request }) => {
+    const refreshToken = request.headers.get("Authorization");
 
-// Logout handler (optional)
-http.post(LOGIN_URL.logout, async () => {
-  mockAccessToken = '';
-  mockRefreshToken = '';
-  
-  return HttpResponse.json({ success: true, message: "Logged out successfully" }, { status: 200 });
-}),
-  
+    // Log the refresh token for debugging (consider removing this in production)
+    //console.log("Refresh Token Received:", refreshToken);
+
+    // if (refreshToken !== `Bearer ${mockRefreshToken}`) {
+    // return HttpResponse.json({ message: "Invalid refresh token" }, { status: 401 });
+    //}
+
+    // Generate a new access token and set its expiry
+    mockAccessToken = "newAccessToken";
+    accessTokenExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes from now
+
+    return HttpResponse.json(
+      { accessToken: mockAccessToken },
+      {
+        status: 200,
+        headers: { accessToken: mockAccessToken },
+      }
+    );
+  }),
+
+  // Logout handler (optional)
+  http.get(LOGIN_URL.logout, async (request) => {
+    mockAccessToken = "";
+    mockRefreshToken = "";
+
+    return HttpResponse.json(
+      { success: true, message: "Logged out successfully" },
+      { status: 200 }
+    );
+  }),
+
   //register
   http.post(REGISTER_URL.postNO, async ({ request }) => {
     // Read the intercepted request body as JSON.
     const details = await request.json();
-
+    
     // Don't forget to declare a semantic "201 Created"
-    return HttpResponse.json(details, { status: 201 });
+    return HttpResponse.json(details, { status: 202 });
+
   }),
   http.post(REGISTER_URL.otp, async ({ request }) => {
     // Manually infer the expected structure of the request body
@@ -116,7 +134,7 @@ http.post(LOGIN_URL.logout, async () => {
         }
       );
     } else {
-      return HttpResponse.json({ isValid: isValid }, { status:  400 });
+      return HttpResponse.json({ isValid: isValid }, { status: 400 });
     }
   }),
   http.post(REGISTER_URL.setpass, async ({ request }) => {
@@ -125,7 +143,7 @@ http.post(LOGIN_URL.logout, async () => {
     const accessToken = headers.get("accesstoken");
 
     // Example: Validate the access token (replace with your real logic)
-     // This would be your valid token for testing
+    // This would be your valid token for testing
     if (accessToken !== mockAccessToken) {
       return HttpResponse.json(
         { isDone: false, message: "Access token is invalid" },
@@ -161,9 +179,9 @@ http.post(LOGIN_URL.logout, async () => {
 
   http.get(PatientsApi.get, ({ request }) => {
     const authResponse = checkAccessToken(request);
-    console.log('auth response: ',authResponse);
+    //console.log('auth response: ',authResponse);
     if (authResponse) return authResponse;
-  
+
     return HttpResponse.json([
       {
         key: "1",
@@ -172,9 +190,9 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "فوکال",
-        lastEeg: new Date(Date()),
         phoneNO: "09123456789",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
       },
       {
         key: "2",
@@ -183,9 +201,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "فوکال",
-        lastEeg: new Date(Date()),
-        phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
+        phoneNO: "09123456799",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "false"
+
       },
       {
         key: "3",
@@ -194,9 +213,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "فوکال و ژنرالیزه",
-        lastEeg: new Date(Date()),
-        phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
+        phoneNO: "09123456799",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "4",
@@ -205,9 +225,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ناشناخته",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "pending"
+
       },
       {
         key: "5",
@@ -216,9 +237,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "6",
@@ -227,9 +249,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "7",
@@ -238,9 +261,9 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
-        phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "8",
@@ -249,9 +272,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "9",
@@ -260,9 +284,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ناشناخته",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "10",
@@ -271,9 +296,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ناشناخته",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "11",
@@ -282,7 +308,6 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ناشناخته",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
       },
@@ -293,9 +318,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ناشناخته",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "13",
@@ -304,9 +330,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ناشناخته",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "14",
@@ -315,9 +342,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ناشناخته",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "15",
@@ -326,9 +354,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "16",
@@ -337,9 +366,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "17",
@@ -348,9 +378,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۲۱۹۸۸۸۹۹۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "18",
@@ -359,7 +390,6 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۲۳۳۸۸۷۷",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
       },
@@ -370,9 +400,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "20",
@@ -381,9 +412,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "21",
@@ -392,9 +424,10 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
       {
         key: "22",
@@ -403,23 +436,94 @@ http.post(LOGIN_URL.logout, async () => {
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "ژنرالیزه",
-        lastEeg: new Date(Date()),
         phoneNO: "۰۹۱۲۳۴۵۶۷۸۹",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
+        member: "true"
+
       },
     ]);
   }),
-  http.get("api/patient?id=09123456789", ({ request }) => {
+  http.get("api/patient/id=:id", ({ request, params }) => {
+    // Mock authentication check (ensure the request has a valid token)
+    const authResponse = checkAccessToken(request);
+    if (authResponse) return authResponse;
+
+    // Extract the patient ID (e.g., phone number) from the request
+    const { id } = params;
+
+    // Check if the requested ID matches the mock data
+    if (id === "09123456789") {
+      return HttpResponse.json([
+        {
+          key: "1",
+          name: "مهسا حاتمی",
+          age: 31,
+          address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
+          description: "توضیحات تکمیلی",
+          type: "فوکال",
+          phoneNO: "09123456789",
+          n_id: "۰۱۳۲۲۹۰۱۲۹",
+           member: "true",
+          medicines: {
+            current: [
+              {
+                name: "دارو A",
+                amount: "100mg",
+                duration: "6 ماه",
+                complications: "عوارضی ندارد",
+              },
+              { name: "دارو B", amount: "50mg", duration: "3 ماه" },
+            ],
+            past: [
+              {
+                name: "دارو C",
+                amount: "200mg",
+                duration: "1 سال",
+                complications: "سرگیجه",
+              },
+            ],
+            other: [{ name: "داروی دیگر", amount: "10mg", duration: "2 ماه" }],
+          },
+          results: [
+            {
+              title: "آزمایش A",
+              date: "2024-9-10 ",
+              details: "این شرح ازمایش است",
+            },
+            {
+              title: "آزمایش B",
+              date: "2024-9-10 ",
+              details: "این شرح ازمایش است",
+            },
+            {
+              title: "آزمایش C",
+              date: "2024-9-10 ",
+              details: "این شرح ازمایش است",
+            },
+            
+          ],
+        },
+      ]);
+    }
+    else {
+      // Return 404 if the patient is not found
+      return HttpResponse.json({ error: "Patient not found" }, { status: 404 });
+    }
+  }),
+
+  http.get("api/patient/id=09123456799", ({ request }) => {
+    const authResponse = checkAccessToken(request);
+    if (authResponse) return authResponse;
+
     return HttpResponse.json([
       {
-        key: "1",
-        name: "مهسا حاتمی",
-        age: 31,
+        key: "2",
+        name: "زینب صابری ",
+        age: 29,
         address: "مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸",
         description: "توضیحات تکمیلی",
         type: "فوکال",
-        lastEeg: new Date(Date()),
-        phoneNO: "09123456789",
+        phoneNO: "09123456799",
         n_id: "۰۱۳۲۲۹۰۱۲۹",
       },
     ]);
@@ -427,7 +531,7 @@ http.post(LOGIN_URL.logout, async () => {
   http.get(PendingPatientsApi.get, ({ request }) => {
     const authResponse = checkAccessToken(request);
     if (authResponse) return authResponse;
-  
+
     return HttpResponse.json([
       {
         key: "1",
@@ -541,7 +645,7 @@ http.post(LOGIN_URL.logout, async () => {
   http.get(DashDataApi.get, ({ request }) => {
     const authResponse = checkAccessToken(request);
     if (authResponse) return authResponse;
-  
+
     return HttpResponse.json({
       SumSeizureToday: 15,
       CountPatients: 25,
@@ -551,7 +655,7 @@ http.post(LOGIN_URL.logout, async () => {
   http.get(DashDataApi.getTypes, ({ request }) => {
     const authResponse = checkAccessToken(request);
     if (authResponse) return authResponse;
-  
+
     return HttpResponse.json([
       { type: "ژنرالیزه", count: 10 },
       { type: "فوکال", count: 5 },
@@ -562,7 +666,7 @@ http.post(LOGIN_URL.logout, async () => {
   http.get(DashDataApi.getSeizureCount, ({ request }) => {
     const authResponse = checkAccessToken(request);
     if (authResponse) return authResponse;
-  
+
     return HttpResponse.json([
       { date: "2023-02-08T13:00:00", value: 31 },
       { date: "2023-03-08T13:00:00", value: 10 },

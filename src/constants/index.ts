@@ -1,4 +1,4 @@
-import {PATH_DASHBOARD,PATH_PATIENTS, PATH_OVERVIEW} from './routes.ts';
+import {PATH_DASHBOARD,PATH_PATIENTS, PATH_OVERVIEW, PATH_LOGIN} from './routes.ts';
 
 
 const DASHBOARD_ITEMS = [
@@ -12,4 +12,5 @@ export {
     PATH_DASHBOARD,
     PATH_PATIENTS,
     DASHBOARD_ITEMS,
+    PATH_LOGIN
 };

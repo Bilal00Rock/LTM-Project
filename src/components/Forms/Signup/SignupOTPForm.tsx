@@ -89,8 +89,9 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
       const { isValid } = response.data;
 
       if (isValid) {
-        console.log(response.headers["accesstoken"]);
+        let accessToken = response.headers["accesstoken"];
         //save the access token
+        setAuth({accessToken: accessToken })
         // Show success message for correct OTP
         msgSuccess("کد تایید صحیح است");
         next();
