@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FunctionComponent, useCallback } from "react";
 import {
   InfoCircleOutlined,
@@ -14,6 +14,8 @@ import {
   ConfigProvider,
   Divider,
   message,
+  notification,
+  Checkbox,
 } from "antd";
 import styles from "../Styles/FrameComponent.module.css";
 import { useNavigate } from "react-router-dom";
@@ -21,11 +23,10 @@ import fa_IR from "antd/locale/fa_IR";
 import FormItem from "antd/es/form/FormItem";
 import { axios } from "../../api";
 import { LOGIN_URL } from "../../api/axios";
-import { delay } from "msw";
 import { AxiosError } from "axios";
 import useAuth from "../../hooks/useAuth";
 import { PATH_DASHBOARD } from "../../constants";
-
+import Cookies from "js-cookie";
 export type LoginComponentType = {
   className?: string;
 };
@@ -62,7 +63,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
     throw new Error("useContext must be used within an AuthProvider");
   }
 
-  const { auth , setAuth } = authContext;
+  const { auth, setAuth ,persist, setPersist} = authContext;
 
   const msgSuccess = (content: string) => {
     loading
@@ -87,32 +88,46 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
   };
   //API Post
   const onFinish = async (values: any) => {
+    const username = values.D_id;
+    const password = values.password;
     try {
       const response = await axios.post(
         LOGIN_URL.login,
-        JSON.stringify(values),
+        JSON.stringify({ username, password }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
 
-     //console.log(response.data);
+      //console.log(response.data);
 
-      if (response.data?.success) {
-        //if not working with refreshtokens uncommint this 
+      if (response.data?.token) {
+        //if not working with refreshtokens uncommint this
         // const accessToken = response?.body?.accesstoken;
         //commit the below
-        const accessToken = response?.headers?.accesstoken;
+        //dont set the token in cookie when refresh token is implemented 
+        //setting cookie for Presist login
+        const accessToken = response?.data?.token;
+        Cookies.set('accessToken', accessToken, { expires: 1, secure: true, sameSite: 'Strict' });
         setAuth({
           user: values.D_id, // Assign the doctor ID or username to `user`
           pass: values.password,
           accessToken: accessToken, // Assign the token to `token`
         });
+        //console.log(auth);
         //console.log(auth.accessToken,auth .pass, auth.user);
         //go to dash
+        notification.info({
+          message: "ورود به حساب",
+          description: "شما با موفقیت وارد حساب شدید.",
+          duration: 3, // Customize duration as needed
+          showProgress: true,
+          pauseOnHover: false,
+          style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
+          placement: "topLeft", // Place notification on the right
+        });
         navigate(PATH_DASHBOARD.root);
-      
       }
       // code to access dashboard
     } catch (error: unknown) {
@@ -135,6 +150,13 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
       setLoading(false);
     }
   };
+  const togglePersist = () => {
+    setPersist((prev) => !prev);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("persist", JSON.stringify(persist));
+  }, [persist]);
 
   return (
     <ConfigProvider locale={fa_IR} direction={"rtl"}>
@@ -209,6 +231,14 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
               />
             </Form.Item>
           </ConfigProvider>
+          <Form.Item>
+              <Checkbox
+                type="checkbox"
+                id="persist"
+                onChange={togglePersist}
+                checked={persist}
+              >مرا به خاطر بسپار</Checkbox>
+          </Form.Item>
           <Form.Item>
             <Flex justify="space-between" align="center">
               <Button

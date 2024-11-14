@@ -3,7 +3,7 @@ import useAxiosPrivate from "./useAxiosPrivate";
 import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { PATH_LOGIN } from "../constants";
-
+import { notification } from "antd";
 
 // your API call func
 
@@ -12,7 +12,7 @@ const useFetchData = (url: string, params?: any) => {
   const [error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // To handle redirection
-  
+
   const axoisPrivate = useAxiosPrivate();
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -21,27 +21,34 @@ const useFetchData = (url: string, params?: any) => {
 
       setData(response.data);
     } catch (error: any) {
-      
       if (error instanceof AxiosError) {
         if (!error?.response) {
           setError("پاسخی از سرور دریافت نشد");
         } else if (error.response?.status === 403) {
           setError("نشست معتبر نیست، لطفا دوباره وارد شوید");
-          navigate(PATH_LOGIN.root, {state: {from: location}, replace: true});
+          notification.warning({
+            message: "خروج از حساب",
+            description: "نشست معتبر نیست، لطفا دوباره وارد شوید",
+            duration: 3, // Customize duration as needed
+            showProgress: true,
+            pauseOnHover: false,
+            style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
+            placement: "topLeft", // Place notification on the right
+          });
+          navigate(PATH_LOGIN.root);
         } else {
           setError(error);
         }
       } else {
         setError(error);
       }
-
     } finally {
       setLoading(false);
     }
   }, [axoisPrivate, url, params]);
-    useEffect(() => {
-      fetchData();
-    }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   return { data, error, loading };
 };
 

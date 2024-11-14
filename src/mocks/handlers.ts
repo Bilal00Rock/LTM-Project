@@ -11,13 +11,16 @@ import {
 let mockAccessToken = "initialAccessToken";
 let mockRefreshToken = "initialAccessToken";
 
-let accessTokenExpiry = Date.now() + 6000 * 1000;
+let accessTokenExpiry = Date.now() + 10* 600 * 1000;
 let refreshTokenExpiry = Date.now() + 15 * 1000;
 
 let isValid = false;
 const checkAccessToken = (request: any) => {
-  const accessToken = request.headers.get("Authorization");
-
+  let mockAccessToken = "initialAccessToken";
+  const accessToken = request.headers.get("authorization");
+  //console.log('1',accessToken, '2',`Bearer ${mockAccessToken}`)
+  
+ // console.log('a', accessToken !== `Bearer ${mockAccessToken}`,'2',!accessToken);
   if (!accessToken || accessToken !== `Bearer ${mockAccessToken}`) {
     return HttpResponse.json(
       { message: "Unauthorized access" },
@@ -41,21 +44,22 @@ export const handlers = [
   // responds with a mock JSON response.
   // Login handler
   http.post(LOGIN_URL.login, async ({ request }) => {
-    const { D_id, password } = (await request.json()) as {
-      D_id: string;
+    const { username, password } = (await request.json()) as {
+      username: string;
       password: string;
     };
 
     let success = false;
+    let mockAccessToken = "initialAccessToken";
 
-    if (D_id === "f" && password === "f") {
+    if (username === "f" && password === "f") {
       success = true;
       return HttpResponse.json(
-        { success: success },
+        { success: success,token: mockAccessToken},
         {
           status: 201,
           headers: {
-            accessToken: mockAccessToken,
+            
           },
           //msw cannot set actual cokies so the refresh token cant be handle by this
         }

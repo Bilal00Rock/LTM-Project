@@ -1,4 +1,5 @@
-import axios, { LOGIN_URL } from "../api/axios";
+import Cookies from "js-cookie";
+import axios, { axiosPrivate, LOGIN_URL } from "../api/axios";
 import useAuth from "./useAuth";
 
 const useLogout = () => {
@@ -8,12 +9,13 @@ const useLogout = () => {
     throw new Error("useContext must be used within an AuthProvider");
   }
 
-  const { setAuth } = authContext;
+  const {auth, setAuth } = authContext;
 
     const logout = async () => {
+        Cookies.remove('accessToken');
         setAuth({});
         try {
-            const response = await axios(LOGIN_URL.logout, {
+            const response = await axiosPrivate(LOGIN_URL.logout, {
                 withCredentials: true
             });
         } catch (err) {

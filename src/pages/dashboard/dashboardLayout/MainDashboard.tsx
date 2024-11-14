@@ -28,6 +28,7 @@ import {
 import fa_IR from "antd/locale/fa_IR";
 import useLogout from "../../../hooks/useLogout";
 import { SlEnvolope } from "react-icons/sl";
+import { notification } from "antd";
 
 const { Content, Sider } = Layout;
 
@@ -150,9 +151,18 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
   const logout = useLogout();
   const handleSignOut = async () => {
     // logic for sign out, e.g., clearing auth tokens, redirecting, etc.
+    notification.info({
+      message: "خروج از حساب",
+      description: "شما با موفقیت خارج شدید و به صفحه ورود هدایت خواهید شد.",
+      duration: 3,  // Customize duration as needed
+      showProgress: true,
+      pauseOnHover: false,
+      style: { direction: 'rtl', textAlign: 'right' }, // Apply RTL styling
+    placement: 'topLeft', // Place notification on the right
+    });
     await logout();
-    navigate("/login-page");
-    console.log("Signing out...");
+    //navigate("/login-page");
+    //console.log("Signing out...");
   };
   return (
     <ConfigProvider
