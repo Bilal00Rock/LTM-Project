@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import { PATH_LOGIN } from "../constants";
 import { notification } from "antd";
+import Cookies from "js-cookie";
 
 // your API call func
 
@@ -35,6 +36,7 @@ const useFetchData = (url: string, params?: any) => {
             style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
             placement: "topLeft", // Place notification on the right
           });
+          Cookies.remove('accessToken');
           navigate(PATH_LOGIN.root);
         } else {
           setError(error);

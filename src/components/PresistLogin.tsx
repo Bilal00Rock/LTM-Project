@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 import Cookies from "js-cookie";
+import { Loading } from "../pages/Loading/Loading";
 
 const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -39,21 +40,23 @@ const PersistLogin = () => {
     };
 
     // Avoids unwanted call to verifyRefreshToken
-    console.log(auth?.accessToken);
+    //console.log(auth?.accessToken);
     !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
-
+    if(!persist) {
+      Cookies.remove('accessToken');
+    }
     return () => {
       isMounted = false;
     };
   }, []);
-
-  useEffect(() => {
-    console.log(`isLoading: ${isLoading}`);
-    console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
-  }, [isLoading]);
+//test
+  //useEffect(() => {
+  //  console.log(`isLoading: ${isLoading}`);
+  //  console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
+  //}, [isLoading]);
 
   return (
-    <>{!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}</>
+    <>{!persist ? <Outlet /> : isLoading ? <Loading /> : <Outlet />}</>
   );
 };
 

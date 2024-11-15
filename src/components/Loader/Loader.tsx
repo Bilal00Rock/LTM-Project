@@ -1,16 +1,14 @@
 import { Spin, theme } from "antd";
 
-import "./styles.css";
 
-export const Loader = () => {
-  const {
-    token: { borderRadius },
-  } = theme.useToken();
+
+export const Loader = () => {   
+ 
 
   return (
-    <div className="loader-container" style={{ borderRadius }}>
+    <div style={{textAlign: 'center' ,background: 'rgba(0, 0, 0, 0.05)', borderRadius: '5px'}}>
       <Spin tip="Loading">
-        <div className="content" />
+        <div  style={{padding: '50px'}}/>
       </Spin>
     </div>
   );

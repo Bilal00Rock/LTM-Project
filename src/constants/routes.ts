@@ -4,7 +4,7 @@ function path(root: string, sublink: string) {
 
   const ROOTS_DASHBOARD = '/dashboard';
   const ROOTS_PATIENTS = '/patients';
-  const ROOTS_LOGIN = 'login-page';
+  const ROOTS_LOGIN = '/login-page';
 export const PATH_LOGIN = {
   root: ROOTS_LOGIN,
 }

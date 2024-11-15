@@ -11,7 +11,7 @@ import {
 let mockAccessToken = "initialAccessToken";
 let mockRefreshToken = "initialAccessToken";
 
-let accessTokenExpiry = Date.now() + 10* 600 * 1000;
+let accessTokenExpiry = Date.now() + 10 * 60* 1000;
 let refreshTokenExpiry = Date.now() + 15 * 1000;
 
 let isValid = false;
@@ -447,7 +447,7 @@ export const handlers = [
       },
     ]);
   }),
-  http.get("api/patient/id=:id", ({ request, params }) => {
+  http.get("/api/patient/id=:id", ({ request, params }) => {
     // Mock authentication check (ensure the request has a valid token)
     const authResponse = checkAccessToken(request);
     if (authResponse) return authResponse;
