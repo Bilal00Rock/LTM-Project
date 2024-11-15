@@ -11,6 +11,7 @@ const { Content } = Layout;
 
 const Signup: FunctionComponent = () => {
   const [current, setCurrent] = useState(0);
+  const [data , setData] = useState<any>({});
   const navigate = useNavigate();
   const onBackClick = useCallback(() => {
     navigate("/login-page");
@@ -20,15 +21,15 @@ const Signup: FunctionComponent = () => {
   const steps = [
     {
       title: "ورود اطلاعات",
-      content: <SignupForm current={current} setCurrent={setCurrent} />,
+      content: <SignupForm data={data} setData={setData} current={current} setCurrent={setCurrent} />,
     },
     {
       title: "رمز یکبارمصرف",
-      content: <SignupOTPForm current={current} setCurrent={setCurrent} />,
+      content: <SignupOTPForm data={data} setData={setData} current={current} setCurrent={setCurrent} />,
     },
     {
       title: "رمز جدید",
-      content: <NewPassForm current={current} setCurrent={setCurrent} />,
+      content: <NewPassForm data={data} setData={setData} current={current} setCurrent={setCurrent} />,
     },
     {
       title: "انجام شد",

@@ -20,14 +20,14 @@ export const REFRESH_URL ={
 }
 //Register url
 export const REGISTER_URL = {
-  postNO: url( "/api/register"),
-  otp: url('/api/otp-register'),
+  postNO: url( "/api/v1/DoctorAuth/Register"),
+  otp: url('/api/v1/DoctorAuth/ValidateCode'),
   otpResend: url('/api/resendotp-register'),
-  setpass: url('/api/setpass')
+  setpass: url('/api/v1/DoctorAuth/ConfirmPassword')
 };
 export const LOGIN_URL = {
-  login: url('/api/login'),
-  logout: url('/api/logout')
+  login: url('/api/v1/DoctorAuth/loigin'),
+  logout: url('/api/v1/DoctorAuth/logout')
 };
 //Patient Urls
 export const PatientsApi = {

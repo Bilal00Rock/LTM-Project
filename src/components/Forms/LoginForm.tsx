@@ -118,7 +118,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
         //console.log(auth);
         //console.log(auth.accessToken,auth .pass, auth.user);
         //go to dash
-        notification.info({
+        notification.success({
           message: "ورود به حساب",
           description: "شما با موفقیت وارد حساب شدید.",
           duration: 3, // Customize duration as needed

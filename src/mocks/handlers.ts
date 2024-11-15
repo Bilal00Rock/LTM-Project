@@ -7,6 +7,7 @@ import {
   LOGIN_URL,
   REFRESH_URL,
 } from "../api";
+import { message } from "antd";
 // Mock data to simulate a successful login
 let mockAccessToken = "initialAccessToken";
 let mockRefreshToken = "initialAccessToken";
@@ -57,7 +58,7 @@ export const handlers = [
       return HttpResponse.json(
         { success: success,token: mockAccessToken},
         {
-          status: 201,
+          status: 200,
           headers: {
             
           },
@@ -111,74 +112,76 @@ export const handlers = [
   //register
   http.post(REGISTER_URL.postNO, async ({ request }) => {
     // Read the intercepted request body as JSON.
-    const details = await request.json();
+    
+    const {  medicalSystemCode, nationalCode,phoneNumber } = (await request.json()) as {
+      nationalCode: string;
+      medicalSystemCode: string;
+      phoneNumber: string;
+    };
+
+    
+    const  medical_SystemCode= medicalSystemCode ;
+    const  national_Code=  nationalCode ;
+    const  phone_Number = phoneNumber;
+    const  message="با موفقیت ارسال شد"
     
     // Don't forget to declare a semantic "201 Created"
-    return HttpResponse.json(details, { status: 202 });
+    return HttpResponse.json({medical_SystemCode, national_Code, phone_Number, message}, { status: 202 });
 
   }),
   http.post(REGISTER_URL.otp, async ({ request }) => {
     // Manually infer the expected structure of the request body
-    const body = (await request.json()) as { values: { otp: string } };
+    const body = (await request.json()) as { code: string  };
 
     // Extract OTP value
-    const otp = body.values.otp;
+    const otp = body.code;
 
     // Validate the OTP
     isValid = otp === "123456"; // Replace with your validation logic
     // Don't forget to declare a semantic "201 Created"
     if (isValid) {
       return HttpResponse.json(
-        { isValid: isValid },
+        { message:"با موفقیت شماره موبایل شما تایید شد" },
         {
-          status: 201,
+          status: 200,
           headers: {
-            accessToken: mockAccessToken,
           },
         }
       );
     } else {
-      return HttpResponse.json({ isValid: isValid }, { status: 400 });
+      return HttpResponse.json({ message: "پیام خطا" }, { status: 400 });
     }
   }),
   http.post(REGISTER_URL.setpass, async ({ request }) => {
     // Manually infer the expected structure of the request body
-    const headers = request.headers;
-    const accessToken = headers.get("accesstoken");
-
+    const {  medicalSystemCode, nationalCode,phoneNumber, password } = (await request.json()) as {
+      nationalCode: string;
+      medicalSystemCode: string;
+      phoneNumber: string;
+      password: string;
+    };
     // Example: Validate the access token (replace with your real logic)
     // This would be your valid token for testing
-    if (accessToken !== mockAccessToken) {
-      return HttpResponse.json(
-        { isDone: false, message: "Access token is invalid" },
-        { status: 403 }
-      );
-    }
+    
 
-    // If the token is valid, proceed with password update
-    const { values } = (await request.json()) as {
-      values: { password: string; confirm: string };
-    };
-    const { password, confirm } = values;
-    if (password === confirm) {
-      // Return success and a new access token if needed
-      const newAccessToken = "new-access-token"; // Generate a new token if needed
+    
+    if (phoneNumber === '09370630120') {
       return HttpResponse.json(
-        { isDone: true, message: "Password successfully updated" },
+        { message:  "دکتر با موفقیت ذخیره شد" },
         {
           status: 200,
           headers: {
-            accessToken: newAccessToken,
           },
         }
       );
     } else {
       return HttpResponse.json(
-        { isDone: false, message: "Passwords do not match" },
+        { message: "خطایی رخ داده است" },
         { status: 400 }
       );
     }
   }),
+
   //patients APIs
 
   http.get(PatientsApi.get, ({ request }) => {

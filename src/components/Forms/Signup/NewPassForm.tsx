@@ -8,10 +8,12 @@ import {
   ConfigProvider,
   Divider,
   message,
+  notification,
 } from "antd";
 import styles2 from "../../../pages/Styles/ForgotPassPage.module.css";
 import { axios, REGISTER_URL } from "../../../api";
 import useAuth from "../../../hooks/useAuth";
+import { AxiosError } from "axios";
 
 export type RespassComponentType = {
   className?: string;
@@ -19,8 +21,12 @@ export type RespassComponentType = {
 interface NewPassFormComponentProps {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
+  data: any;
+  setData: React.Dispatch<React.SetStateAction<any>>;
 }
 const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
+  data,
+  setData,
   current,
   setCurrent,
 }) => {
@@ -73,40 +79,60 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
 
   const [Error1, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const authContext = useAuth();
 
-  if (!authContext) {
-    throw new Error("useContext must be used within an AuthProvider");
-  }
-
-  const { auth } = authContext;
   const onFinish = async (values: any) => {
     //console.log("Received values of form: ", values);
+    const medicalSystemCode = data.medical_SystemCode;
+    const nationalCode = data.national_Code;
+    const phoneNumber = data.phone_Number;
+    const password = values.password;
+
     try {
       const response = await axios.post(
         REGISTER_URL.setpass,
-        JSON.stringify({ values }),
+        JSON.stringify({
+          nationalCode,
+          medicalSystemCode,
+          phoneNumber,
+          password,
+        }),
         {
           headers: {
             "Content-Type": "application/json",
-            accesstoken: auth.accessToken,
           },
           withCredentials: true,
         }
       );
 
-      const { isDone } = response.data;
+      const { message } = response.data;
 
-      if (isDone) {
-        msgSuccess("ثبت نام با موفقیت انجام شد");
-        console.log(response.headers["accesstoken"]);
+      if (response.status == 200) {
+        notification.success({
+          message: "ثبت نام با موفقیت انجام شد",
+          duration: 3, // Customize duration as needed
+          showProgress: true,
+          pauseOnHover: false,
+          style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
+          placement: "topLeft", // Place notification on the right
+        });
         next();
       } else {
-        message.error("در فرایند ثبت نام مشکلی پیش آمده است");
+        message.error(message);
       }
     } catch (error) {
-      setError(error);
-      if (Error1) errormsg(`خطایی رخ داده است:${Error1}`);
+      if (error instanceof AxiosError) {
+        // Now TypeScript knows that `error.response` exists
+        if (!error?.response) {
+          errormsg("پاسخی از سرور دریافت نشد");
+        } else if (error.response?.status === 400) {
+          errormsg(error.response.data?.message);
+        } else {
+          setError(error);
+          if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+        }
+      } else {
+        errormsg("خظایی رخ داده است");
+      }
     } finally {
       setLoading(false);
     }
@@ -175,9 +201,7 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
                   if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error("گذرواژه ها یکسان نیستند")
-                  );
+                  return Promise.reject(new Error("گذرواژه ها یکسان نیستند"));
                 },
               }),
             ]}

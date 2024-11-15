@@ -14,12 +14,14 @@ import {
   ConfigProvider,
   Divider,
   message,
+  notification,
 } from "antd";
 import styles from "../../Styles/FrameComponent.module.css";
 import { useNavigate } from "react-router-dom";
 import fa_IR from "antd/locale/fa_IR";
 import { axios, REGISTER_URL } from "../../../api";
 import { delay } from "msw";
+import { AxiosError } from "axios";
 
 export type SignupComponentType = {
   className?: string;
@@ -28,8 +30,12 @@ interface SignupComponentProps {
   className?: string;
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
+  data: any;
+  setData: React.Dispatch<React.SetStateAction<any>>;
 }
 const SignupForm: FunctionComponent<SignupComponentProps> = ({
+  data,
+  setData,
   current,
   setCurrent,
   className,
@@ -84,24 +90,51 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
   const [loading, setLoading] = useState(true);
   const onFinish = async (values: any) => {
     //console.log("Received values of form: ", values);
+    const medicalSystemCode = values.D_id;
+    const nationalCode = values.N_id;
+    const phoneNumber = values.phone;
     try {
       const response = await axios.post(
         REGISTER_URL.postNO,
-        JSON.stringify({ values }),
+        JSON.stringify({ medicalSystemCode, nationalCode, phoneNumber }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
 
-      //console.log(response.data);
-      //console.log(JSON.stringify(response));
-      msgSuccess("رمز یکبار مصرف ارسال شد");
-      await delay(1000);
-      next();
+      //console.log(response.data?.message == "با موفقیت ارسال شد");
+      if (response.status == 202) {
+        setData(response.data);
+        //console.log('hsdfsd')
+        //console.log(response.data);
+        //console.log(JSON.stringify(response));
+        notification.success({
+          message: `رمز یکبار مصرف برای شماره ${response.data.phone_Number} ارسال شد`,
+          duration: 3, // Customize duration as needed
+          showProgress: true,
+          pauseOnHover: false,
+          style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
+          placement: "topLeft", // Place notification on the right
+        });
+        //msgSuccess("رمز یکبار مصرف ارسال شد");
+
+        next();
+      }
     } catch (error) {
-      setError(error);
-      if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+      if (error instanceof AxiosError) {
+        // Now TypeScript knows that `error.response` exists
+        if (!error?.response) {
+          errormsg("پاسخی از سرور دریافت نشد");
+        } else if (error.response?.status === 400) {
+          errormsg(error.response.data?.message);
+        } else {
+          setError(error);
+          if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+        }
+      } else {
+        errormsg("خظایی رخ داده است");
+      }
     } finally {
       setLoading(false);
     }
@@ -195,9 +228,9 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
                   message: "لطفا تلفن همراه خود را وارد کنید!",
                 },
                 {
-                    pattern: /^[0-9]{11}$/,
-                    message: "لطفا شماره همراه را درست وارد کنید",
-                  },
+                  pattern: /^[0-9]{11}$/,
+                  message: "لطفا شماره همراه را درست وارد کنید",
+                },
               ]}
             >
               <Input

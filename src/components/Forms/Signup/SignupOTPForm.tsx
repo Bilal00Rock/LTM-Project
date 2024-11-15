@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 
-import { Button, Form, Input, Flex, Space, message } from "antd";
+import { Button, Form, Input, Flex, Space, message, notification } from "antd";
 import styles2 from "../../../pages/Styles/ForgotPassPage.module.css";
 import Countdown, { CountdownProps } from "antd/es/statistic/Countdown";
 import { OTPProps } from "antd/es/input/OTP";
@@ -9,6 +9,7 @@ import { axios, REGISTER_URL } from "../../../api";
 import { delay } from "msw";
 import { AuthContext } from "../../../context";
 import useAuth from "../../../hooks/useAuth";
+import { AxiosError } from "axios";
 
 export type RespassComponentType = {
   className?: string;
@@ -16,8 +17,12 @@ export type RespassComponentType = {
 interface SignupOTPFormProps {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
+  data: any;
+  setData: React.Dispatch<React.SetStateAction<any>>;
 }
 const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
+  data,
+  setData,
   current,
   setCurrent,
 }) => {
@@ -75,10 +80,13 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
   const { setAuth } = authContext;
   const onFinish = async (values: any) => {
     //console.log("Received values of form: ", values);
+    const code = values.otp;
+    const phoneNumber = data.phone_Number;
+    //console.log(data);
     try {
       const response = await axios.post(
         REGISTER_URL.otp,
-        JSON.stringify({ values }),
+        JSON.stringify({ phoneNumber, code }),
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
@@ -86,22 +94,36 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
       );
 
       // Check the response to determine if the OTP is valid
-      const { isValid } = response.data;
+      const { message } = response.data;
 
-      if (isValid) {
-        let accessToken = response.headers["accesstoken"];
-        //save the access token
-        setAuth({accessToken: accessToken })
+      if (response.status == 200) {
         // Show success message for correct OTP
-        msgSuccess("کد تایید صحیح است");
+        notification.success({
+          message: message,
+          duration: 3, // Customize duration as needed
+          showProgress: true,
+          pauseOnHover: false,
+          style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
+          placement: "topLeft", // Place notification on the right
+        });
         next();
-      } else {
-        // Show error message for incorrect OTP
-        message.error("کد تایید اشتباه است. لطفاً دوباره امتحان کنید");
       }
     } catch (error) {
-      setError(error);
-      if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+      if (error instanceof AxiosError) {
+        // Now TypeScript knows that `error.response` exists
+        if (!error?.response) {
+          errormsg("پاسخی از سرور دریافت نشد");
+        } else if (error.response?.status === 400) {
+          errormsg(error.response.data?.message);
+        } else if (error.response?.status === 401) {
+          errormsg(" رمز یکبار مصرف شما صحیح نمی باشد");
+        } else {
+          setError(error);
+          if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+        }
+      } else {
+        errormsg("خظایی رخ داده است");
+      }
     } finally {
       setLoading(false);
     }
@@ -114,7 +136,7 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
     onChange,
   };
   //deadline
-  const deadline = Date.now() + 1000 * 5 + 1000;
+  const deadline = Date.now() + 1000 * 60 + 1000;
   const [sendButton, setSendButton] = useState(false);
 
   const onFinishCount: CountdownProps["onFinish"] = () => {
@@ -122,7 +144,6 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
     setSendButton(true);
   };
   const resend = async () => {
-    
     //send token and get token
 
     try {
