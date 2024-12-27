@@ -21,20 +21,20 @@ import { MdOutlinePendingActions } from "react-icons/md";
 import { PendingsTable } from "./PendingsTable";
 import { useNavigate } from "react-router-dom";
 import { useFetchData } from "../../hooks";
-import { PatientsApi } from "../../api";
+import { PatientsApi, PendingPatientsApi } from "../../api";
 import { PATH_PATIENTS } from "../../constants";
 type Props = {
   title: string;
 };
 
-//cahnge according to API data types 
+//cahnge according to API data types
 interface DataType {
   key: string;
-  name: string;
+  fullName: string;
   n_id: string;
   age: number;
   description: string;
-  phoneNO: string;
+  phoneNumber: string;
   type: string;
   address: string;
   member: string;
@@ -42,19 +42,15 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-
-
 export const PatientTable = ({ title, ...other }: Props) => {
   //fetch data from API
   const {
     data: patientdata,
     loading: patientDataLoading,
     error: error,
-  } = useFetchData(PatientsApi.get);
-
+  } = useFetchData(PatientsApi.get);//change this back
 
   const [open, setOpen] = useState(false);
-
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -83,9 +79,12 @@ export const PatientTable = ({ title, ...other }: Props) => {
     setSearchText("");
   };
   const navigate = useNavigate();
-  const gotoProf = useCallback((id: string) => {
-    navigate(`${PATH_PATIENTS.id}/${id}`);
-  }, [navigate]);
+  const gotoProf = useCallback(
+    (id: string) => {
+      navigate(`${PATH_PATIENTS.id}/${id}`);
+    },
+    [navigate]
+  );
 
   const getColumnSearchProps = (
     dataIndex: DataIndex
@@ -127,7 +126,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
               type="link"
               size="small"
               onClick={() => {
-                clearFilters && handleReset(clearFilters)
+                clearFilters && handleReset(clearFilters);
                 confirm({ closeDropdown: false });
                 setSearchText((selectedKeys as string[])[0]);
                 setSearchedColumn(dataIndex);
@@ -177,11 +176,11 @@ export const PatientTable = ({ title, ...other }: Props) => {
   const columns: TableColumnsType<DataType> = [
     {
       title: "نام ",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "fullName",
+      key: "fullName",
       width: "auto",
-      sorter: (a, b) => a.name.length - b.name.length,
-      ...getColumnSearchProps("name"),
+      sorter: (a, b) => a.fullName.length - b.fullName.length,
+      ...getColumnSearchProps("fullName"),
     },
     {
       title: "کد ملی",
@@ -192,10 +191,10 @@ export const PatientTable = ({ title, ...other }: Props) => {
     },
     {
       title: "شماره تماس",
-      dataIndex: "phoneNO",
-      key: "phoneNO",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
       width: "auto",
-      ...getColumnSearchProps("phoneNO"),
+      ...getColumnSearchProps("phoneNumber"),
     },
     {
       title: "سن",
@@ -229,23 +228,23 @@ export const PatientTable = ({ title, ...other }: Props) => {
       dataIndex: "member",
       key: "member",
       ...getColumnSearchProps("member"),
-      sorter: (a, b) => a.member.length - b.member.length,
+      //sorter: (a, b) => a.member.length - b.member.length,
       sortDirections: ["descend", "ascend"],
       width: "auto",
       render: function (_, { member }) {
         let color = "";
-        let text = '';
+        let text = "";
         if (member === "false") {
           color = "red";
-          text = 'ندارد';
+          text = "ندارد";
         }
         if (member === "true") {
           color = "green";
-          text = 'دارد' ; 
+          text = "دارد";
         }
         if (member === "pending") {
           color = "yellow";
-          text = 'در انتظار تایید';
+          text = "در انتظار تایید";
         }
         return <Badge color={color} text={text} />;
       },
@@ -258,7 +257,8 @@ export const PatientTable = ({ title, ...other }: Props) => {
           <a
             onClick={() => {
               console.log(record);
-              gotoProf(record.phoneNO);
+              gotoProf(record.phoneNumber);
+              console.log(record?.phoneNumber);
             }}
           >
             پروفایل
@@ -270,21 +270,51 @@ export const PatientTable = ({ title, ...other }: Props) => {
   ];
 
   //#endregion
-if(error)
-  return(
-    <Alert
-      message="Error"
-      description={error.toString()}
-      type="error"
-      showIcon
-    />
-  );
+  if (error)
+    return (
+        <Space wrap align="center">
+
+<Alert
+          message="Error"
+          description={error.data?.message? error.data.message : error.toString()}
+          type="error"
+          showIcon
+        />
+        <Button
+          type={"primary"}
+          icon={<MdOutlinePendingActions fontSize={25} />}
+          onClick={showDrawer}
+          >
+          بیماران در حال ثبت نام
+        </Button>
+        
+        <Drawer
+        title="بیماران در حال ثبت نام"
+        placement="left"
+        closable={false}
+        open={open}
+        getContainer={false}
+        width={720}
+        onClose={onClose}
+        styles={{
+          body: {
+            paddingBottom: 80,
+          },
+        }}
+        extra={<Button onClick={onClose}>بازگشت</Button>}
+        >
+        <PendingsTable title="فهرست انتظار بیماران" />
+      </Drawer>
+        
+         </Space>
+    );
   return (
     <div>
-      
+       {(patientdata.message === 'Success') ? 
       <Table
         {...other}
         bordered
+        rowKey="phoneNumber"
         title={() => (
           <Flex justify="space-between">
             {title}
@@ -298,7 +328,7 @@ if(error)
           </Flex>
         )}
         columns={columns}
-        dataSource={patientdata}
+        dataSource={patientdata.data.list}
         style={{ margin: "10px 0" }}
         pagination={{ responsive: true, position: ["bottomRight"] }}
         expandable={{
@@ -310,6 +340,7 @@ if(error)
         }}
         loading={patientDataLoading}
       />
+      :<></>}
       <Drawer
         title="بیماران در حال ثبت نام"
         placement="left"

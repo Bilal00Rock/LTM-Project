@@ -27,10 +27,9 @@ type Props = {
 //#region test table
 export interface PendingDataType {
   key: string;
-  n_id: string;
-  name: string;
-  phoneNO: string;
-  status: string;
+  fullName: string;
+  phoneNumber: string;
+  create: string;
 }
 
 type DataIndex = keyof PendingDataType;
@@ -157,34 +156,37 @@ export const PendingsTable = ({ title, ...other }: Props) => {
 
   const columns: TableColumnsType<PendingDataType> = [
     {
-      title: "نام ",
-      dataIndex: "name",
-      key: "name",
+      title: "نام و نام خانوادگی",
+      dataIndex: "fullName",
+      key: "fullName",
       width: "auto",
-      sorter: (a, b) => a.name.length - b.name.length,
-      ...getColumnSearchProps("name"),
+      sorter: (a, b) => a.fullName.length - b.fullName.length,
+      ...getColumnSearchProps("fullName"),
     },
-    {
-      title: "کد ملی",
-      dataIndex: "n_id",
-      key: "n_id",
-      width: "auto",
-      ...getColumnSearchProps("n_id"),
-    },
+    // {
+    //   title: "کد ملی",
+    //   dataIndex: "n_id",
+    //   key: "n_id",
+    //   width: "auto",
+    //   ...getColumnSearchProps("n_id"),
+    // },
     {
       title: "شماره تماس",
-      dataIndex: "phoneNO",
-      key: "phoneNO",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
       width: "auto",
-      ...getColumnSearchProps("phoneNO"),
+      ...getColumnSearchProps("phoneNumber"),
     },
     {
       title: "تاریخ ارسال لینک",
-      key: "status",
+      key: "create",
       width: "auto",
       render: (_, record) => {
-        const persianDate = moment(record.status, "YYYY-M-D HH:mm:ss"); // Format the date as Persian
-        return persianDate.format("در jYYYY/jM/jD ساعت HH:mm:ss");
+        if(record){
+
+          const persianDate = moment(record.create, "YYYY-M-DTHH:mm:ss"); // Format the date as Persian
+          return persianDate.format("در jYYYY/jM/jD ساعت HH:mm:ss");
+        }
       },
     },
   ];
@@ -194,7 +196,7 @@ export const PendingsTable = ({ title, ...other }: Props) => {
     return(
       <Alert
         message="Error"
-        description={error.toString()}
+        description={error.data?.message? error.data.message : error.toString()}
         type="error"
         showIcon
       />
@@ -205,16 +207,20 @@ export const PendingsTable = ({ title, ...other }: Props) => {
         بیمارانی که لینک ثبت‌نام برای آنها ارسال شده، اما هنوز مراحل ثبت‌نام را
         تکمیل نکرده‌اند.
       </div>
+      {(pendingpatientdata.message === 'Success') ? 
       <Table
-        {...other}
-        bordered
-        title={() => title}
-        columns={columns}
-        dataSource={pendingpatientdata}
-        style={{ margin: "10px 0" }}
-        pagination={{ responsive: true, position: ["bottomRight"] }}
-        loading={pendingpatientDataLoading}
+      {...other}
+      bordered
+
+      title={() => title}
+      columns={columns}
+      rowKey="phoneNumber"
+      dataSource={pendingpatientdata.data.list}
+      style={{ margin: "10px 0" }}
+      pagination={{ responsive: true, position: ["bottomRight"] }}
+      loading={pendingpatientDataLoading}
       />
+    : <></>}
     </div>
   );
 };

@@ -18,6 +18,7 @@ const AddFormLayout: FunctionComponent<AddFormLayoutComponentProps> = ({
   open,
   setOpen,
 }) => {
+  const [data , setData] = useState<any>({});
   const [current, setCurrent] = useState(0);
   useEffect(() => {
     if (!open) {
@@ -28,13 +29,13 @@ const AddFormLayout: FunctionComponent<AddFormLayoutComponentProps> = ({
   const steps = [
     {
       title: "ثبت اطلاعات",
-      content: <AddPatientForm current={current} setCurrent={setCurrent} />,
+      content: <AddPatientForm data={data} setData={setData} current={current} setCurrent={setCurrent} />,
       icon: <SolutionOutlined />,
     },
 
     {
       title: "رمز یکبار مصرف",
-      content: <ConfirmOTP current={current} setCurrent={setCurrent} />,
+      content: <ConfirmOTP  data={data} setData={setData} current={current} setCurrent={setCurrent} />,
       icon: <MessageOutlined />,
     },
     {

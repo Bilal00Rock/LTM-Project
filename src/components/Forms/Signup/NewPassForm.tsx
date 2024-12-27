@@ -128,7 +128,7 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
           errormsg(error.response.data?.message);
         } else {
           setError(error);
-          if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+          if (error) errormsg(`خطایی رخ داده است:${error.response.data?.message}`);
         }
       } else {
         errormsg("خظایی رخ داده است");

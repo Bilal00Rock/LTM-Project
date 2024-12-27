@@ -141,7 +141,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
           errormsg(" کد نظام پزشکی یا رمز عبور صحیح نمی باشد");
         } else {
           setError(error);
-          if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+          if (Error) errormsg(`خطایی رخ داده است:${error.response.data.message}`);
         }
       } else {
         errormsg("خظایی رخ داده است");

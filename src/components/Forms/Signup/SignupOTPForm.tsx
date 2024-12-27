@@ -71,13 +71,6 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
   //API Post
   const [Error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const authContext = useAuth();
-
-  if (!authContext) {
-    throw new Error("useContext must be used within an AuthProvider");
-  }
-
-  const { setAuth } = authContext;
   const onFinish = async (values: any) => {
     //console.log("Received values of form: ", values);
     const code = values.otp;
@@ -119,7 +112,7 @@ const SignupOTPForm: FunctionComponent<SignupOTPFormProps> = ({
           errormsg(" رمز یکبار مصرف شما صحیح نمی باشد");
         } else {
           setError(error);
-          if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+          if (error) errormsg(`خطایی رخ داده است:${error.response.data?.message}`);
         }
       } else {
         errormsg("خظایی رخ داده است");

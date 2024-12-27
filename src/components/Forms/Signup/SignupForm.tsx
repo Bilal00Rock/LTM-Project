@@ -118,7 +118,7 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
           placement: "topLeft", // Place notification on the right
         });
         //msgSuccess("رمز یکبار مصرف ارسال شد");
-
+        
         next();
       }
     } catch (error) {
@@ -126,11 +126,12 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
         // Now TypeScript knows that `error.response` exists
         if (!error?.response) {
           errormsg("پاسخی از سرور دریافت نشد");
-        } else if (error.response?.status === 400) {
+        } else if (error.response?.status === 404) {
           errormsg(error.response.data?.message);
-        } else {
+        }
+        else {
           setError(error);
-          if (Error) errormsg(`خطایی رخ داده است:${Error}`);
+          if (Error) errormsg(`خطایی رخ داده است:${error.response.data?.message}`);
         }
       } else {
         errormsg("خظایی رخ داده است");

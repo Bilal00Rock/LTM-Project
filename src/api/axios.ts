@@ -1,9 +1,10 @@
 import axois from 'axios';
 
-const BASE_URL = '';
+//const BASE_URL = 'http://localhost:8080/api/v1';
 
 export default axois.create({
   //baseURL: BASE_URL,
+  withCredentials: true
 })
 
 export const axiosPrivate = axois.create ({
@@ -20,24 +21,27 @@ export const REFRESH_URL ={
 }
 //Register url
 export const REGISTER_URL = {
-  postNO: url( "/api/v1/DoctorAuth/Register"),
-  otp: url('/api/v1/DoctorAuth/ValidateCode'),
+  postNO: url( "/DoctorAuth/Register"),
+  otp: url('/DoctorAuth/ValidateCode'),
   otpResend: url('/api/resendotp-register'),
-  setpass: url('/api/v1/DoctorAuth/ConfirmPassword')
+  setpass: url('/DoctorAuth/ConfirmPassword')
 };
 export const LOGIN_URL = {
-  login: url('/api/v1/DoctorAuth/loigin'),
-  logout: url('/api/v1/DoctorAuth/logout')
+  login: url('/DoctorAuth/login'),
+  logout: url('/DoctorAuth/logout')
 };
 //Patient Urls
 export const PatientsApi = {
-  get: url( "/api/patients"),
-  getbyid: url('/api/patient')
+  get: url( "/Patient/PatientsRegistered"),
+  getbyid: url('/Patient/GetPatientsData'),
+  add: url("/Patient/PatientRegistration"),
+  otp: url("/Patient/PatientRegistrationValidateCode")
 };
 // for patient profiles use => api/patient?id:{phoneNo}
 
 export const PendingPatientsApi = {
-    get: url( "/api/pendingpatients"),
+    get: url( "/Patient/PatientsNotRegistered"),
+
   };
 
 export const DashDataApi = {

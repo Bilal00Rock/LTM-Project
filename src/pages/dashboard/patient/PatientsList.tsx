@@ -32,7 +32,7 @@ const PatientsList = () => {
     boxShadow: "0 2px 5px rgba(0, 0, 0, 0.25)",
     display: "flex",
     padding: "15px",
-    height: "inherit",
+    height: "87svh",
     position: "relative",
     overflow: "hidden",
     border: `1px solid ${token.colorBorderSecondary}`,

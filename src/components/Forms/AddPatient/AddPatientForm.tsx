@@ -1,23 +1,91 @@
-import { Button, Col, Form, Input, Row, Space } from "antd";
-import { FunctionComponent } from "react";
+import { Button, Col, Form, Input, message, notification, Row, Space } from "antd";
+import { AxiosError } from "axios";
+import { FunctionComponent, useState } from "react";
+import { PatientsApi } from "../../../api";
+import useAxiosPrivate from "../../../hooks/useAxiosPrivate";
 
 export type FrgpassComponentType = {};
 
 interface AddPatientFormComponentProps {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
+
+  data: any;
+  setData: React.Dispatch<React.SetStateAction<any>>;
 }
 const AddPatientForm: FunctionComponent<AddPatientFormComponentProps> = ({
+  data,
+  setData,
   current,
   setCurrent,
 }) => {
   const next = () => {
     setCurrent(current + 1);
   };
+  const axoisPrivate = useAxiosPrivate();
+  const [Error, setError] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  //message handeling
+  const [messageApi, contextHolder] = message.useMessage();
+  const errormsg = (content: string) => {
+    messageApi.open({
+      type: "error",
+      content: content,
+      duration: 5,
+    });
+  };
+  const  onFinish = async (values: any) => {
+    
+    const fullName = values.fullName;
+    const phoneNumber = values.phoneNumber;
 
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
-    next();
+    //console.log(data);
+    try {
+      const response = await axoisPrivate.post(
+        PatientsApi.add,
+        JSON.stringify({ phoneNumber, fullName }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+
+      // Check the response to determine if the OTP is valid
+      const { message } = response.data;
+
+      if (response.status == 202) {
+        setData(response.data);
+        // Show success message for correct OTP
+        notification.success({
+          message: message,
+          duration: 3, // Customize duration as needed
+          showProgress: true,
+          pauseOnHover: false,
+          style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
+          placement: "topLeft", // Place notification on the right
+        });
+        next();
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        // Now TypeScript knows that `error.response` exists
+        if (!error?.response) {
+          errormsg("پاسخی از سرور دریافت نشد");
+        } else if (error.response?.status === 400) {
+          errormsg(error.response.data?.message);
+        } else if (error.response?.status === 401) {
+          errormsg(" رمز یکبار مصرف شما صحیح نمی باشد");
+        } else {
+          setError(error);
+          if (Error) errormsg(`خطایی رخ داده است:${error.response.data?.message}`);
+        }
+      } else {
+        errormsg("خظایی رخ داده است");
+      }
+    } finally {
+      setLoading(false);
+    }
+    //next();
   };
   return (
     <Form
@@ -26,6 +94,7 @@ const AddPatientForm: FunctionComponent<AddPatientFormComponentProps> = ({
       onFinish={onFinish}
       hideRequiredMark
     >
+      {contextHolder}
       <Row gutter={16}>
         <Col span={24}>
           <Form.Item>
@@ -38,7 +107,7 @@ const AddPatientForm: FunctionComponent<AddPatientFormComponentProps> = ({
         </Col>
         <Col span={12}>
           <Form.Item
-            name="name"
+            name="fullName"
             label="نام و نام خانوادگی"
             rules={[
               {
@@ -52,23 +121,7 @@ const AddPatientForm: FunctionComponent<AddPatientFormComponentProps> = ({
         </Col>
         <Col span={12}>
           <Form.Item
-            name="n_id"
-            label="کد ملی"
-            rules={[
-              { required: true, message: "لطفا کد ملی بیمار را وارد کنید" },
-            ]}
-          >
-            <Input
-              style={{ width: "100%" }}
-              placeholder=" کد ملی بیمار را وارد کنید"
-            />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col span={12}>
-          <Form.Item
-            name="Ph_no"
+            name="phoneNumber"
             label="تلفن همراه بیمار"
             rules={[
               {

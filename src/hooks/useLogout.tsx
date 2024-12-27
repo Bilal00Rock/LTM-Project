@@ -14,13 +14,14 @@ const useLogout = () => {
     const logout = async () => {
         Cookies.remove('accessToken');
         setAuth({});
-        try {
-            const response = await axiosPrivate(LOGIN_URL.logout, {
-                withCredentials: true
-            });
-        } catch (err) {
-            console.error(err);
-        }
+        //Implement if Sign Out API is NEEDED
+        // try {
+        //     const response = await axiosPrivate(LOGIN_URL.logout, {
+        //         withCredentials: true
+        //     });
+        // } catch (err) {
+        //     console.error(err);
+        // }
     }
 
     return logout;

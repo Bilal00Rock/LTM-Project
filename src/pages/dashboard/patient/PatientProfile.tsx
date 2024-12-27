@@ -39,8 +39,9 @@ const PatientProfile = () => {
     data: patientData,
     loading: patientDataLoading,
     error: error,
-  } = useFetchData(`${PatientsApi.getbyid}/id=${id}`);
-  //console.log(`${PatientsApi.getbyid}/id=${id}`);
+  } = useFetchData(`${PatientsApi.getbyid}?PhoneNumber=${id}`);
+//} = useFetchData(`${PatientsApi.getbyid}`);
+  console.log(`${PatientsApi.getbyid}?PhoneNumber=${id}`);
   //console.log(patientdata);
   //for theme
   const { token } = theme.useToken();
