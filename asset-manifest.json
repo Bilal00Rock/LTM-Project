@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/LTM-Project/static/css/main.4a3aa16d.css",
-    "main.js": "/LTM-Project/static/js/main.7d30dbcb.js",
-    "static/js/582.f0ed3dd6.chunk.js": "/LTM-Project/static/js/582.f0ed3dd6.chunk.js",
+    "main.js": "/LTM-Project/static/js/main.f3e0f6d0.js",
+    "static/js/582.f49d6fb8.chunk.js": "/LTM-Project/static/js/582.f49d6fb8.chunk.js",
     "static/js/453.f7368b53.chunk.js": "/LTM-Project/static/js/453.f7368b53.chunk.js",
     "static/js/596.e043f391.chunk.js": "/LTM-Project/static/js/596.e043f391.chunk.js",
     "static/media/Vazirmatn[wght].woff2": "/LTM-Project/static/media/Vazirmatn[wght].eeb83dd1581c2f3d4b62.woff2",
     "index.html": "/LTM-Project/index.html",
     "main.4a3aa16d.css.map": "/LTM-Project/static/css/main.4a3aa16d.css.map",
-    "main.7d30dbcb.js.map": "/LTM-Project/static/js/main.7d30dbcb.js.map",
-    "582.f0ed3dd6.chunk.js.map": "/LTM-Project/static/js/582.f0ed3dd6.chunk.js.map",
+    "main.f3e0f6d0.js.map": "/LTM-Project/static/js/main.f3e0f6d0.js.map",
+    "582.f49d6fb8.chunk.js.map": "/LTM-Project/static/js/582.f49d6fb8.chunk.js.map",
     "453.f7368b53.chunk.js.map": "/LTM-Project/static/js/453.f7368b53.chunk.js.map",
     "596.e043f391.chunk.js.map": "/LTM-Project/static/js/596.e043f391.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4a3aa16d.css",
-    "static/js/main.7d30dbcb.js"
+    "static/js/main.f3e0f6d0.js"
   ]
 }
