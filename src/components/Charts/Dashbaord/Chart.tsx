@@ -55,20 +55,20 @@ const ChartTimeline: React.FC = () => {
     },
     xaxis: {
       type: "datetime",
-      min: dayjs("2023-01-20").calendar("jalali").valueOf(),
+     // min: dayjs("2023-01-20").calendar("jalali").valueOf(),
       tickAmount: 6,
       labels: {
         formatter: (val: string) =>
           dayjs(parseInt(val))
             .calendar("jalali")
-            .locale("fa")
-            .format("YYYY/MM/DD"), // Format Jalali dates
+            // .locale("fa")
+            // .format("YYYY/MM/DD"), // Format Jalali dates
       },
     },
     tooltip: {
       x: {
-        formatter: (val: number) =>
-          dayjs(val).calendar("jalali").locale("fa").format("YYYY/MM/DD"), // Show Jalali dates in tooltip
+       // formatter: (val: number) =>
+        //  dayjs(val).calendar("jalali").locale("fa").format("YYYY/MM/DD"), // Show Jalali dates in tooltip
       },
     },
     stroke: {
@@ -127,14 +127,14 @@ const ChartTimeline: React.FC = () => {
 
     const chart = ApexCharts.getChartByID("area-datetime");
 
-    if (chart) {
-      chart.zoomX(
-        dayjs(startDate).calendar("jalali").valueOf(),
-        dayjs(endDate).calendar("jalali").valueOf()
-      );
-    } else {
-      console.error("Chart not found");
-    }
+    // if (chart) {
+    //   chart.zoomX(
+    //     dayjs(startDate).calendar("jalali").valueOf(),
+    //     dayjs(endDate).calendar("jalali").valueOf()
+    //   );
+    // } else {
+    //   console.error("Chart not found");
+    // }
   };
 
   // Get the earliest and latest dates from the chart data (in Gregorian format)

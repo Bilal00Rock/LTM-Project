@@ -37,7 +37,8 @@
     "react-transition-group": "^4.4.5",
     "redux-persist": "^6.0.0",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zaman": "^2.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

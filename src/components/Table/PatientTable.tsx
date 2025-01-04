@@ -182,13 +182,13 @@ export const PatientTable = ({ title, ...other }: Props) => {
       sorter: (a, b) => a.fullName.length - b.fullName.length,
       ...getColumnSearchProps("fullName"),
     },
-    {
-      title: "کد ملی",
-      dataIndex: "n_id",
-      key: "n_id",
-      width: "auto",
-      ...getColumnSearchProps("n_id"),
-    },
+    // {
+    //   title: "کد ملی",
+    //   dataIndex: "n_id",
+    //   key: "n_id",
+    //   width: "auto",
+    //   ...getColumnSearchProps("n_id"),
+    // },
     {
       title: "شماره تماس",
       dataIndex: "phoneNumber",
@@ -220,6 +220,9 @@ export const PatientTable = ({ title, ...other }: Props) => {
         if (type === "فوکال") {
           color = "yellow";
         }
+        if( type === "ترکیب فوکال و ژنرالیزه") {
+          color = "green"
+        }
         return <Badge color={color} text={type} />;
       },
     },
@@ -245,6 +248,9 @@ export const PatientTable = ({ title, ...other }: Props) => {
         if (member === "pending") {
           color = "yellow";
           text = "در انتظار تایید";
+        }
+        else {
+          text = "نامشخص"
         }
         return <Badge color={color} text={text} />;
       },
@@ -328,7 +334,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
           </Flex>
         )}
         columns={columns}
-        dataSource={patientdata.data.list}
+        dataSource={patientdata.data}
         style={{ margin: "10px 0" }}
         pagination={{ responsive: true, position: ["bottomRight"] }}
         expandable={{

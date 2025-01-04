@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { DatePicker } from "antd"; // Ant Design DatePicker
+import { Button, Modal, Table } from "antd";
 import moment from "moment-jalaali"; // Jalali Moment
 
-// Ensure the date picker uses Persian locale
-import "moment/locale/fa"; 
+import "moment/locale/fa"; // Persian locale for moment
 import "antd/dist/reset.css"; // Import Ant Design styles
 
 interface IState {
@@ -16,13 +15,112 @@ interface IState {
   options: ApexOptions;
 }
 
-const MentalState: React.FC = () => {
-  // Set default series and chart options
-  const [state, setState] = useState<IState>({
+interface MentalStateEntry {
+  date: string;
+  value: string[];
+}
+
+interface MentalStatusData {
+  mentalStatus: {
+    list: MentalStateEntry[];
+  };
+  seizures: {
+    list: {
+      seizureDateTime: string;
+    }[];
+  };
+}
+
+interface ComponentProps {
+  data: MentalStatusData;
+}
+
+const MentalState: FunctionComponent<ComponentProps> = ({ data }) => {
+  const categories = [
+    "عادی", // Normal
+    "شاد", // Happy
+    "غمگین", // Sad
+    "ترسیده", // Fear
+    "شرمنده", // Shame
+    "عصبانی", // Angry
+    "هیجان‌زده", // Thrill
+    "نگران", // Worry
+  ];
+
+  const stateToCategoryMap: { [key: string]: string } = {
+    Normal: "عادی",
+    Happy: "شاد",
+    Sad: "غمگین",
+    Fear: "ترسیده",
+    Shame: "شرمنده",
+    Angry: "عصبانی",
+    Thrill: "هیجان‌زده",
+    Worry: "نگران",
+  };
+
+  // Helper to format dates
+  const formatDate = (date: string): string =>
+    moment(date, "YYYY-MM-DD").format("jYYYY/jMM/jDD");
+
+  // Process data for radar chart
+  const processData = (): number[] => {
+    if (!data?.mentalStatus?.list) return Array(categories.length).fill(0);
+
+    const counts: { [key: string]: number } = {};
+    categories.forEach((category) => (counts[category] = 0));
+
+    data.mentalStatus.list.forEach((entry) => {
+      entry.value.forEach((state) => {
+        const category = stateToCategoryMap[state];
+        if (category) counts[category]++;
+      });
+    });
+
+    return categories.map((category) => counts[category] || 0);
+  };
+
+  // Helper function to check if a seizure occurred on a given date
+  const seizureDates = new Set(
+    data.seizures.list.map((item) =>
+      moment(item.seizureDateTime, "YYYY-MM-DD").format("jYYYY/jMM/jDD")
+    )
+  );
+
+  // Prepare data for the table
+  const allItems = data.mentalStatus.list.map((entry, index) => ({
+    key: `${entry.date}-${index}`,
+    date: formatDate(entry.date),
+    states: entry.value
+      .map((state) => stateToCategoryMap[state] || "نامشخص")
+      .join(", "),
+    seizureOccurred: seizureDates.has(formatDate(entry.date)) ? "بله" : "خیر",
+  }));
+
+  // Table columns with seizure column
+  const columns = [
+    {
+      title: "تاریخ",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "وضعیت‌های ذهنی",
+      dataIndex: "states",
+      key: "states",
+    },
+    {
+      title: "وقوع تشنج",
+      dataIndex: "seizureOccurred",
+      key: "seizureOccurred",
+    },
+  ];
+
+  // Radar chart state
+  const [state] = useState<IState>({
     series: [
       {
-        name: "تغذیه",
-        data: [0.1, 1.4, 4.6, 10, 3.6, 8.4, 5.4 , 10],
+        name: "وضعیت‌های ذهنی",
+        data: processData(),
       },
     ],
     options: {
@@ -43,54 +141,17 @@ const MentalState: React.FC = () => {
         tickAmount: 5,
       },
       xaxis: {
-        categories: ["عادی", "شادی ", "غم", "ترس", "شرم", "خشم", "هیجان", "نگرانی"],
+        categories: categories,
       },
     },
   });
 
-  // Date state for range picker (default to start to now)
-  const [dates, setDates] = useState<[moment.Moment, moment.Moment]>([
-    moment().startOf('jYear'), // Start of the Jalali year
-    moment(), // Current date
-  ]);
-
-  const handleDateChange = (date: any, dateString: [string, string]) => {
-    setDates(date);
-    if (date && date.length === 2) {
-      const start = date[0].format('jYYYY/jMM/jDD');
-      const end = date[1].format('jYYYY/jMM/jDD');
-      console.log("Selected Date Range:", start, " - ", end);
-
-      // Example: Update chart data based on the selected dates (you can change logic as needed)
-      setState({
-        ...state,
-        series: [
-          {
-            name: "تغذیه",
-            data: [2.2, 3.1, 5.5, 6.3, 7.5, 8.7, 3.6], // New data after selecting date
-          },
-        ],
-      });
-    }
-  };
+  // Modal state
+  const [isModalOpen, setModalOpen] = useState(false);
 
   return (
     <div>
-      {/* Jalali Date Range Picker */}
-      <div className="date-picker">
-        <DatePicker.RangePicker
-          onChange={handleDateChange}
-          format="jYYYY/jMM/jDD" // Jalali format
-          placeholder={["تاریخ شروع", "تاریخ پایان"]}
-        />
-      </div>
-
-      {/* Display the selected date range */}
-      <div>
-        <p>محدوده تاریخ انتخاب شده: {dates[0].format("jYYYY/jMM/jDD")} - {dates[1].format("jYYYY/jMM/jDD")}</p>
-      </div>
-
-      {/* Render the chart */}
+      {/* Render the radar chart */}
       <div id="chart">
         <ReactApexChart
           options={state.options}
@@ -99,6 +160,25 @@ const MentalState: React.FC = () => {
           height={350}
         />
       </div>
+      <Button size="large" onClick={() => setModalOpen(true)} >
+        مشاهده لیست وضعیت‌ها
+      </Button>
+      {/* Modal for the table */}
+      <Modal
+        title="لیست وضعیت‌های ذهنی"
+        open={isModalOpen}
+        onCancel={() => setModalOpen(false)}
+        footer={ <Button type="primary" onClick={() => setModalOpen(false)}>
+        تایید
+      </Button>}
+        
+      >
+        <Table
+          columns={columns}
+          dataSource={allItems}
+          pagination={{ pageSize: 10 }}
+        />
+      </Modal>
     </div>
   );
 };
