@@ -336,14 +336,14 @@ export const PatientTable = ({ title, ...other }: Props) => {
         columns={columns}
         dataSource={patientdata.data}
         style={{ margin: "10px 0" }}
-        pagination={{ responsive: true, position: ["bottomRight"] }}
-        expandable={{
-          expandedRowRender: (record) => (
-            <p style={{ margin: 0, overflow: "auto", tableLayout: "auto" }}>
-              {record.description}
-            </p>
-          ),
-        }}
+        pagination={{ responsive: true, position: ["bottomRight"] ,pageSize: 7}}
+        // expandable={{
+        //   expandedRowRender: (record) => (
+        //     <p style={{ margin: 0, overflow: "auto", tableLayout: "auto" }}>
+        //       {record.description}
+        //     </p>
+        //   ),
+        // }}
         loading={patientDataLoading}
       />
       :<></>}

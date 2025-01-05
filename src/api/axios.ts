@@ -3,12 +3,12 @@ import axois from 'axios';
 const BASE_URL = 'http://localhost:8080/api/v1';
 
 export default axois.create({
-  baseURL: BASE_URL,
+  //baseURL: BASE_URL,
   withCredentials: true
 })
 
 export const axiosPrivate = axois.create ({
-  baseURL: BASE_URL,
+  //baseURL: BASE_URL,
   headers : { 'Content-Type': 'application/json'},
   withCredentials: true
 });

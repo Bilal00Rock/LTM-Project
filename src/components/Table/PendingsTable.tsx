@@ -217,7 +217,7 @@ export const PendingsTable = ({ title, ...other }: Props) => {
       rowKey="phoneNumber"
       dataSource={pendingpatientdata.data.list}
       style={{ margin: "10px 0" }}
-      pagination={{ responsive: true, position: ["bottomRight"] }}
+      pagination={{ responsive: true, position: ["bottomRight"], pageSize: 7 }}
       loading={pendingpatientDataLoading}
       />
     : <></>}
