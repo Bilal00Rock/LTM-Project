@@ -19,6 +19,9 @@ import Settings from "../pages/dashboard/settings/Settings";
 import { useDocumentTitle } from "../hooks";
 import RequireAuth from "../components/RequireAuth";
 import PersistLogin from "../components/PresistLogin";
+import AdminLogin from "../pages/auth/AdminLogin";
+import AdminDash from "../pages/dashboard/AdminPanel/AdminDash";
+import { AdminPanelLayout } from "../pages/dashboard/AdminPanel";
 // Custom scroll restoration function
 // Custom hook to handle document title
 
@@ -69,6 +72,11 @@ const router = createBrowserRouter([
         element: <PageWrapper children={<Login />} />,
       },
       {
+        index: true,
+        path: "admin-login",
+        element: <PageWrapper children={<AdminLogin />} />,
+      },
+      {
         path: "forgot-password",
         element: <PageWrapper children={<ForgotPassPage />} />,
       },
@@ -84,6 +92,22 @@ const router = createBrowserRouter([
       {
         element: <RequireAuth />,
         children: [
+          {
+            path: "/admin-panel",
+            element: <PageWrapper children={<AdminPanelLayout />} />,
+            errorElement: <ErrorPage />,
+            children: [
+              {
+                index: true, // This means when "/dashboard" is accessed directly
+                element: <Navigate to="dashboard" replace />, // Redirect to "/dashboard/overview"
+              },
+              {
+                path: "dashboard",
+                errorElement: <ErrorPage />,
+                element: <PageWrapper children={<AdminDash />} />,
+              },
+            ]
+          },
           {
             path: "/dashboard",
             element: <PageWrapper children={<DashboardLayout />} />,

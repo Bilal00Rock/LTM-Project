@@ -49,7 +49,7 @@ export const PatientTable = ({ title, ...other }: Props) => {
     loading: patientDataLoading,
     error: error,
   } = useFetchData(PatientsApi.get);//change this back
-
+console.log(patientdata)
   const [open, setOpen] = useState(false);
 
   const [searchText, setSearchText] = useState("");

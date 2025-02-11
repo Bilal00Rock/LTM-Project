@@ -85,35 +85,15 @@ const getItem = (
 };
 const items: MenuProps["items"] = [
   getItem(
-    <Link to={PATH_OVERVIEW.root}>داشبورد</Link>,
-    "overview",
+    <Link to={PATH_DASHBOARD.admindash}>داشبورد</Link>,
+    "dashboard",
     <HomeOutlined />
-  ),
-  getItem(
-    <Link to={PATH_PATIENTS.root}>مدیریت بیماران</Link>,
-    "patients",
-    <ContactsOutlined />
-  ),
-  // getItem(
-  //   <Link to={PATH_PATIENTS.root}>درخواست های انجمن صرع</Link>,
-  //   "epi-association",
-  //   <SlEnvolope />
-  // ),
-  getItem(
-    <Link to={PATH_DASHBOARD.support}> پشتیبانی</Link>,
-    "help-support",
-    <QuestionCircleOutlined />
-  ),
-  getItem(
-    <Link to={PATH_DASHBOARD.settings}> تنظیمات</Link>,
-    "settings",
-    <SettingOutlined />
   ),
 ];
 //#endregion
 const rootSubmenuKeys = ["overview", "patients", "user-profile"];
 
-const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
+const PanelLayout = ({ children }: DashboardLayoutProps) => {
   const [falang, setLang] = useState(true);
   const nodeRef = useRef(null);
   const [collapsed, setCollapsed] = useState(false);
@@ -297,4 +277,4 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
   );
 };
 
-export default MainDashboardLayout;
+export default PanelLayout;

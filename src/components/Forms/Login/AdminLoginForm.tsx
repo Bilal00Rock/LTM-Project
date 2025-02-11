@@ -17,21 +17,21 @@ import {
   notification,
   Checkbox,
 } from "antd";
-import styles from "../Styles/FrameComponent.module.css";
+import styles from "../../Styles/FrameComponent.module.css";
 import { useNavigate } from "react-router-dom";
 import fa_IR from "antd/locale/fa_IR";
 import FormItem from "antd/es/form/FormItem";
-import { axios } from "../../api";
-import { LOGIN_URL } from "../../api/axios";
+import { axios } from "../../../api";
+import { LOGIN_URL } from "../../../api/axios";
 import { AxiosError } from "axios";
-import useAuth from "../../hooks/useAuth";
-import { PATH_DASHBOARD } from "../../constants";
+import useAuth from "../../../hooks/useAuth";
+import { PATH_DASHBOARD } from "../../../constants";
 import Cookies from "js-cookie";
 export type LoginComponentType = {
   className?: string;
 };
 
-const LoginForm: FunctionComponent<LoginComponentType> = ({
+const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
   className = "",
 }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -92,7 +92,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
     const password = values.password;
     try {
       const response = await axios.post(
-        LOGIN_URL.login,
+        LOGIN_URL.admin,
         JSON.stringify({ username, password }),
         {
           headers: { "Content-Type": "application/json" },
@@ -127,7 +127,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
           style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
           placement: "topLeft", // Place notification on the right
         });
-        navigate(PATH_DASHBOARD.root);
+        navigate(PATH_DASHBOARD.admindash);
       }
       // code to access dashboard
     } catch (error: unknown) {
@@ -135,10 +135,6 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
         // Now TypeScript knows that `error.response` exists
         if (!error?.response) {
           errormsg("پاسخی از سرور دریافت نشد");
-        } else if (error.response?.status === 400) {
-          errormsg("کد نظام پزشکی یا رمز عبور ناقص می باشد");
-        } else if (error.response?.status === 401) {
-          errormsg(" کد نظام پزشکی یا رمز عبور صحیح نمی باشد");
         } else {
           setError(error);
           if (Error) errormsg(`خطایی رخ داده است:${error.response.data.message}`);
@@ -190,8 +186,8 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
             }}
           >
             <FormItem>
-              <b style={{ fontSize: "20px" }}>
-                برای ورود، نام کاربری و رمز عبور خود را وارد کنید
+              <b style={{ fontSize: "30px",  }}>
+                ورود ادمین
               </b>
             </FormItem>
             <Form.Item
@@ -199,7 +195,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
               rules={[
                 {
                   required: true,
-                  message: "!لطفا کد نظام پزشکی خود را وارد کنید",
+                  message: "!لطفا نام کاربری ادمین را وارد کنید",
                 },
                 //قانون کد نظام پزشکی
                 // {
@@ -209,7 +205,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
               ]}
             >
               <Input
-                placeholder="کد نظام پزشکی"
+                placeholder="نام کاربری"
                 prefix={<UserOutlined style={{ color: "rgba(0,0,0,.55)" }} />}
                 suffix={
                   <Tooltip title="مثال: ۰۱۲۳۴۵۶">
@@ -239,18 +235,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                 checked={persist}
               >مرا به خاطر بسپار</Checkbox>
           </Form.Item>
-          <Form.Item>
-            <Flex justify="space-between" align="center">
-              <Button
-                type="link"
-                onClick={onTextClick}
-                style={{ fontSize: "18px" }}
-              >
-                رمز عبور را فراموش کرده اید؟
-              </Button>
-            </Flex>
-          </Form.Item>
-
+          
           <Form.Item>
             <ConfigProvider
               theme={{
@@ -272,10 +257,6 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
               >
                 ورود
               </Button>
-              <Divider plain>یا</Divider>
-              <Button block type="default" onClick={onBRClick}>
-                !ثبت نام کنید
-              </Button>
             </ConfigProvider>
           </Form.Item>
         </Form>
@@ -284,4 +265,4 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
   );
 };
 
-export default LoginForm;
+export default AdminLoginForm;

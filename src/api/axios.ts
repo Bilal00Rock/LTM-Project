@@ -3,12 +3,12 @@ import axois from 'axios';
 const BASE_URL = 'http://localhost:8080/api/v1';
 
 export default axois.create({
-  //baseURL: BASE_URL,
+  baseURL: BASE_URL,
   withCredentials: true
 })
 
 export const axiosPrivate = axois.create ({
-  //baseURL: BASE_URL,
+  baseURL: BASE_URL,
   headers : { 'Content-Type': 'application/json'},
   withCredentials: true
 });
@@ -28,7 +28,9 @@ export const REGISTER_URL = {
 };
 export const LOGIN_URL = {
   login: url('/DoctorAuth/login'),
-  logout: url('/DoctorAuth/logout')
+  logout: url('/DoctorAuth/logout'),
+  admin: url('/AdminPanel/Login')
+
 };
 //Patient Urls
 export const PatientsApi = {
@@ -45,7 +47,18 @@ export const PendingPatientsApi = {
   };
 
 export const DashDataApi = {
+  
   get: url("/api/dashdata"), 
   getTypes: url("/api/typeChart"),
   getSeizureCount: url('/api/sezureCountChart')
+}
+
+export const AdminPanelAPI = {
+  getPatientsCount: url("/AdminPanel/GetUserCount"),
+  getDoctorCount: url("/AdminPanel/GetDoctorCount"),
+  getPatients: url("/AdminPanel/GetUserData"),
+  getDoctors: url("/AdminPanel/GetDoctorData"), 
+  
+  
+
 }

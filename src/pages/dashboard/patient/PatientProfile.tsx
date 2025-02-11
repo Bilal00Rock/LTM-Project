@@ -195,31 +195,74 @@ const PatientProfile = () => {
   //Results breackdown
   const EEGresult = patientData[0]?.results || [];
   // Function to render medicine lists
+  // const renderMedicines = (medications: any[]) => (
+  //   <div>
+  //     {/* <Typography.Title level={4}>{title}</Typography.Title> */}
+
+  //     {medications.length > 0 ? (
+  //       medications.map((med, index) => (
+  //         <div key={index}>
+  //           {med.name && (
+  //             <p>
+  //               <strong>نام دارو:</strong> {med.name}
+  //             </p>
+  //           )}
+  //           {med.amount && (
+  //             <p>
+  //               <strong>مقدار:</strong> {med.amount}
+  //             </p>
+  //           )}
+  //           {med.duration && (
+  //             <p>
+  //               <strong>مدت زمان مصرف:</strong> {med.duration}
+  //             </p>
+  //           )}
+  //           {med.complications && (
+  //             <p>
+  //               <strong>عوارض:</strong> {med.complications}
+  //             </p>
+  //           )}
+  //           <Divider />
+  //         </div>
+  //       ))
+  //     ) : (
+  //       <p>دارویی ثبت نشده است</p>
+  //     )}
+  //   </div>
+  // );
   const renderMedicines = (medications: any[]) => (
     <div>
-      {/* <Typography.Title level={4}>{title}</Typography.Title> */}
-
       {medications.length > 0 ? (
         medications.map((med, index) => (
           <div key={index}>
-            {med.name && (
+            {med.medicine?.name && (
               <p>
-                <strong>نام دارو:</strong> {med.name}
+                <strong>نام دارو:</strong> {med.medicine.name}
               </p>
             )}
-            {med.amount && (
+            {med.medicine?.type && (
+              <p>
+                <strong>نوع دارو:</strong> {med.medicine.type}
+              </p>
+            )}
+            {med.amount !== undefined && (
               <p>
                 <strong>مقدار:</strong> {med.amount}
               </p>
             )}
-            {med.duration && (
+            {med.durationOfUseTypeId !== undefined && (
               <p>
-                <strong>مدت زمان مصرف:</strong> {med.duration}
+                <strong>شناسه مدت زمان مصرف:</strong> {med.durationOfUseTypeId}
               </p>
             )}
-            {med.complications && (
+            {med.stopDate && (
               <p>
-                <strong>عوارض:</strong> {med.complications}
+                <strong>تاریخ توقف:</strong> {new Date(med.stopDate).toLocaleDateString('fa-IR')}
+              </p>
+            )}
+             {med.resonOfStop && (
+              <p>
+                <strong>دلیل توقف:</strong> {med.resonOfStop}
               </p>
             )}
             <Divider />
@@ -230,6 +273,7 @@ const PatientProfile = () => {
       )}
     </div>
   );
+  
   const renderResults = (Result: any[]) => (
     <div>
       {Result.length > 0 ? (

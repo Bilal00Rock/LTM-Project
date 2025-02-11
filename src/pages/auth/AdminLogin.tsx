@@ -2,11 +2,11 @@ import { FunctionComponent } from "react";
 import React from "react";
 import { Layout, Row, Col, Flex } from "antd";
 import styles from "../Styles/Login.module.css";
-import LoginForm from "../../components/Forms/Login/LoginForm";
+import AdminLoginForm from "../../components/Forms/Login/AdminLoginForm";
 
 const { Content } = Layout;
 
-const Login: FunctionComponent = () => {
+const AdminLogin: FunctionComponent = () => {
   return (
     <Layout style={layoutStyle}>
       <Row style={{ height: "100%" }}>
@@ -35,7 +35,7 @@ const Login: FunctionComponent = () => {
           className={styles.sider}
         >
           {/* Component */}
-          <LoginForm />
+          <AdminLoginForm />
         </Col>
       </Row>
     </Layout>
@@ -68,4 +68,4 @@ const layoutStyle: React.CSSProperties = {
   backgroundColor: "#CEE4F9",
 };
 //#endregion
-export default Login;
+export default AdminLogin;

@@ -9,7 +9,7 @@ import CountUp from 'react-countup';
 import { LiaBrainSolid } from "react-icons/lia";
 
 import { MdOutlinePendingActions } from "react-icons/md";
-
+import { FaUserDoctor } from "react-icons/fa6";
 type Props = {
   title: 'followers' | 'following' | 'likes' | 'comments' | string;
   value?: number;
@@ -32,6 +32,15 @@ export const StatsCard = ({
         break;
       case 'تعداد تشنج های ثبت شده امروز':
         i  =<LiaBrainSolid  style={{ fontSize: 35 }}/>;
+        break;
+      case 'تعداد بیماران فعال':
+        i =<UserOutlined style={{ fontSize: 30 }} />;
+        break;
+      case "تعداد دکتر های ثبت شده":
+        i = <FaUserDoctor style={{ fontSize: 50 }}  />;
+        break;
+      case "تعداد بیماران ثبت شده":
+        i = <UserOutlined style={{ fontSize: 50 }}  />;
         break;
       default:
         i = <UserOutlined style={{ fontSize: 30 }} />;

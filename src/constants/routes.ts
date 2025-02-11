@@ -3,6 +3,7 @@ function path(root: string, sublink: string) {
   }
 
   const ROOTS_DASHBOARD = '/dashboard';
+  const ROOT_ADMIN = '/admin-panel';
   const ROOTS_PATIENTS = '/patients';
   const ROOTS_LOGIN = '/login-page';
 export const PATH_LOGIN = {
@@ -13,7 +14,8 @@ export const PATH_DASHBOARD = {
     overview: path(ROOTS_DASHBOARD, '/overview'),
     pateints: path(ROOTS_DASHBOARD, '/patients'),
     support: path(ROOTS_DASHBOARD, '/help-support'),
-    settings: path(ROOTS_DASHBOARD, '/settings')
+    settings: path(ROOTS_DASHBOARD, '/settings'),
+    admindash:path(ROOT_ADMIN, '/dashboard')
   };
 
 export const PATH_PATIENTS = {
