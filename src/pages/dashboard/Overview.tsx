@@ -105,13 +105,13 @@ const Overview = () => {
             ></Card>
           </Col>
           <Col xs={24} lg={8}>
-            <StatsCard title={"تعداد تشنج های ثبت شده امروز"} value={dashData.SumSeizureToday} error={error} loading={dashDataLoading}/>
+            <StatsCard title={"تعداد تشنج های ثبت شده امروز"} value={dashData?.todaySeizures} error={error} loading={dashDataLoading}/>
           </Col>
           <Col xs={24} lg={8}>
-            <StatsCard title={"تعداد بیماران فعال"} value={dashData.CountPatients} error={error} loading={dashDataLoading}/>
+            <StatsCard title={"تعداد بیماران فعال"} value={dashData?.patientsRegisteredRes?.value.count} error={error} loading={dashDataLoading}/>
           </Col>
           <Col xs={24} lg={8}>
-            <StatsCard title={"بیماران در حال ثبت نام"} value={dashData.CountPendings} error={error} loading={dashDataLoading}/>
+            <StatsCard title={"بیماران در حال ثبت نام"} value={dashData?.patientsNotRegisteredRes?.value.count} error={error} loading={dashDataLoading}/>
           </Col>
           <Col xs={24} lg={12}>
             <Card title={"آمار تشنج ها"}>

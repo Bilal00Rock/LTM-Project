@@ -34,10 +34,10 @@ const AdminDash = () => {
     error: Perror,
   } = useFetchDataPOST(AdminPanelAPI.getPatientsCount);
   const {
-    data: DocData,
-    loading: DocDataLoading,
-    error: Docerror,
-  } = useFetchDataPOST(AdminPanelAPI.getDoctors);
+    data: UPData,
+    loading:UPDataLoading,
+    error:UPerror,
+  } = useFetchDataPOST(AdminPanelAPI.getUnregP);
   const {
     data: Pdata,
     loading: PdataLoading,
@@ -56,15 +56,23 @@ const AdminDash = () => {
 
         <Row gutter={[12, 24]}>
           
-          <Col xs={24} lg={12}>
+          <Col xs={24} lg={8}>
             <StatsCard title={"تعداد دکتر های ثبت شده"} value={DocCount} error={docerror} loading={DocCountLoading}/>
           </Col>
-          <Col xs={24} lg={12}>
+          <Col xs={24} lg={8}>
             <StatsCard title={"تعداد بیماران ثبت شده"} value={PCount} error={Perror} loading={PCountLoading}/>
-          </Col>
+          </Col>    
+          <Col xs={24} lg={8}>
+            <StatsCard title={"تعداد بیماران ثبت نام نشده"} value={UPData} error={UPerror} loading={UPDataLoading}/>
+          </Col> 
           <Col xs={24} lg={24}>
             <Card title={"لیست دکتر ها"}>
             <AdminDoctorTable title="لیست دکتر ها"/>
+            </Card>
+          </Col>
+          <Col xs={24} lg={24}>
+            <Card title={"لیست بیماران "}>
+            <AdminPatientsTable title="لیست بیماران"/>
             </Card>
           </Col>
           <Col xs={24} lg={24}>

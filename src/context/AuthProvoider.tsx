@@ -4,6 +4,11 @@ interface AuthState {
   user?: string; 
   pass?: string;
   accessToken?: string;
+  firstName?: string;
+  lastName?: string;
+  NationalCode?: string;
+  PhoneNumber?: string;
+  Pid?: string;
 } ;
 
 interface AuthContextType {

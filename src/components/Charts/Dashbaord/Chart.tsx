@@ -21,7 +21,7 @@ const ChartTimeline: React.FC = () => {
     data: chartdata,
     loading: chartloading,
     error: error,
-  } = useFetchData(DashDataApi.getSeizureCount);
+  } = useFetchData(DashDataApi.get);
 
   const options: ApexOptions = {
     chart: {
@@ -99,16 +99,19 @@ const ChartTimeline: React.FC = () => {
     },
   };
 
+
   const series = [
     {
       name: "تشنج ها:",
       data:
-        chartdata?.map((item: ChartDataItem) => [
+        chartdata?.seizuresCount ? chartdata?.seizuresCount.map((item: ChartDataItem) => [
           dayjs(item.date).calendar("jalali").valueOf(), // Convert Gregorian date to Jalali timestamp
           item.value,
-        ]) || [],
+        ]) || []: [],
     },
   ];
+
+
 
   const resetCssClasses = (activeEl: any) => {
     const els = document.querySelectorAll("button");

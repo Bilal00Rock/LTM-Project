@@ -152,7 +152,7 @@ const PatientProfile = () => {
           {
             key: "epitype",
             label: "نوع صرع",
-            children: patientData?.medicalInformations.epilepsyTypeId,
+            children: patientData?.medicalInformations.epilepsyTypeName,
           },
           {
             key: "epiconsciouns",
@@ -268,7 +268,7 @@ interface MedicalInfo {
   hospitalizationTimeUnitId?: number;
   systemicDisease?: string;
   pastYearComplaints?: { Id: number }[];
-  familyDiseaseHistory: FamilyDiseaseHistoryDTO[];
+  familyDiseaseHistoryList: FamilyDiseaseHistoryDTO[];
   drugConsumption: DrugConsumptionDTO[];
   familyDescription: string;
 }
@@ -334,7 +334,7 @@ const renderSeizureInfo = (medicalInfo: MedicalInfo) => {
   return <Table columns={columns} dataSource={seizureData} rowKey={(record, index: any) => index} pagination={false} bordered />;
 };
 const renderFamilyDiseaseHistory = (medicalInfo: MedicalInfo) => {
-  const familyDiseaseData =  medicalInfo.familyDiseaseHistory ? medicalInfo.familyDiseaseHistory.map(fdh => ({
+  const familyDiseaseData =  medicalInfo.familyDiseaseHistoryList ? medicalInfo.familyDiseaseHistoryList.map(fdh => ({
     name: fdh.name,
     relationship: fdh.relationship,
     diseaseHistoryType: fdh.familyDiseasesHistoryTypeId,
@@ -632,7 +632,7 @@ const renderFamilyDescription = (medicalInfo: MedicalInfo) => {
           </Col>
           <Col span={8}>
             <Card title={"وضیعت روحی بیمار"} loading={patientDataLoading}>
-              <MentalState data={patientData} />
+               <MentalState data={patientData} />
             </Card>
           </Col>
           <Col span={12}>

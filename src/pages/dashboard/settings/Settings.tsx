@@ -31,6 +31,7 @@ import ChangePassOTPform from "../../../components/Forms/ChangePass/ChangePassOT
 import { InfoForm } from "../../../components/Forms/Information/InfoForm";
 import ChangeNumForm from "../../../components/Forms/ChangeNum/ChangeNumForm";
 import ChangeNumOTPform from "../../../components/Forms/ChangeNum/ChangeNumOTPform";
+import useAuth from "../../../hooks/useAuth";
 const { Link } = Typography;
 
 const { Text, Title } = Typography;
@@ -50,7 +51,13 @@ const Settings = () => {
   };
   const [current, setCurrent] = useState(0);
   const [current2, setCurrent2] = useState(0);
+  const authContext = useAuth();
 
+  if (!authContext) {
+    throw new Error("useContext must be used within an AuthProvider");
+  }
+
+  const { auth, setAuth ,persist, setPersist} = authContext;
   const onClick = () => {
     console.log("Done");
     setCurrent(0);
@@ -129,36 +136,38 @@ const Settings = () => {
     title: item.title,
     icon: item.icon,
   }));
+  console.log(auth)
   const DESCRIPTION_ITEMS: DescriptionsProps["items"] = [
     {
       key: "name",
       label: "نام و نام خانوادگی",
       children: (
         <Space>
-          <b>دکتر</b> امیر محمدی
+          <b>دکتر</b> {auth.firstName} {auth.lastName} 
+
         </Space>
       ),
     },
-    {
-      key: "n_id",
-      label: "کد ملی",
-      children: <span>۰۱۳۲۲۹۰۱۲۹</span>,
-    },
+    // {
+    //   key: "n_id",
+    //   label: "کد ملی",
+    //   children: <span></span>,
+    // },
     {
       key: "D_id",
       label: "شماره نظام پزشکی",
-      children: <span>۰۱۳۲۲۹۰۱۲۹</span>,
+      children: <span>{auth.Pid}</span>,
     },
     {
       key: "phoneNO",
       label: "شماره تماس",
-      children: <Link href="tel:+989123456789">۰۹۱۲۳۴۵۶۷۸۹</Link>,
+      children: <Link>{auth.PhoneNumber}</Link>,
     },
-    {
-      key: "work_adrs",
-      label: "آدرس مطب: ",
-      children: <span>مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸</span>,
-    },
+    // {
+    //   key: "work_adrs",
+    //   label: "آدرس مطب: ",
+    //   children: <span>مشهد، خیابان شهید بهشتی، کوچه ۱، پلاک ۱۸</span>,
+    // },
   ];
   const tabItems: TabsProps["items"] = [
     {
@@ -242,7 +251,7 @@ const Settings = () => {
             />
           </Col>
           <Col span={24}>
-            <Tabs type="card" defaultActiveKey="1" items={tabItems} />
+            <Tabs type="card" defaultActiveKey="1" items={tabItems}  />
           </Col>
         </Row>
       </Layout>

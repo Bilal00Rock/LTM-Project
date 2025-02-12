@@ -1,6 +1,6 @@
 import axois from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = 'http://192.168.100.180:8080/api/v1';//192.168.100.180
 
 export default axois.create({
   baseURL: BASE_URL,
@@ -48,7 +48,7 @@ export const PendingPatientsApi = {
 
 export const DashDataApi = {
   
-  get: url("/api/dashdata"), 
+  get: url("/Patient/Dashboard"), 
   getTypes: url("/api/typeChart"),
   getSeizureCount: url('/api/sezureCountChart')
 }
@@ -58,6 +58,7 @@ export const AdminPanelAPI = {
   getDoctorCount: url("/AdminPanel/GetDoctorCount"),
   getPatients: url("/AdminPanel/GetUserData"),
   getDoctors: url("/AdminPanel/GetDoctorData"), 
+  getUnregP: url("/AdminPanel/GetUserNotRegisteredCount"), 
   
   
 

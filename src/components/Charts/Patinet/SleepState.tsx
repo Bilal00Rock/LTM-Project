@@ -13,7 +13,7 @@ dayjs.extend(localeData);
 
 interface ChartDataItem {
   date: string;
-  value: string;
+  sleepStatus: string;
 }
 
 interface SleepStateProps {
@@ -36,6 +36,7 @@ const SleepState: React.FC<SleepStateProps> = ({ data }) => {
       dayjs(item.seizureDateTime, "YYYY-MM-DD").format("YYYY/MM/DD")
     )
   );
+ // console.log(sleepStatusList)
   const statusToValue: { [key: string]: number } = {
     VeryBad: 0,
     Bad: 1,
@@ -53,12 +54,12 @@ const SleepState: React.FC<SleepStateProps> = ({ data }) => {
   // Prepare chart data
   const chartData = sleepStatusList.map((item: ChartDataItem) => ({
     date: dayjs(item.date, "YYYY/MM/DD").valueOf(), // Convert date to timestamp using dayjs
-    value: statusToValue[item.value] || 0, // Map the value to a number, default to 0 if not found
+    value: statusToValue[item.sleepStatus] || 0, // Map the value to a number, default to 0 if not found
   }));
   const tableData = sleepStatusList.map((item, index) => ({
     key: `${item.date}-${index}`,
     date: jalali(item.date, "YYYY/MM/DD").format("jYYYY/jMM/jDD"), // Jalali format using jalali-moment
-    status: `${statusToEmoji[item.value] || ""} ${item.value}`,
+    status: `${statusToEmoji[item.sleepStatus] || ""} ${item.sleepStatus}`,
     seizureOccurred: seizureDates.has( dayjs(item.date, "YYYY-MM-DD").format("YYYY/MM/DD"))
       ? "بله" 
       : "خیر",

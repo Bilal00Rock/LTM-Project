@@ -42,6 +42,9 @@ export const StatsCard = ({
       case "تعداد بیماران ثبت شده":
         i = <UserOutlined style={{ fontSize: 50 }}  />;
         break;
+      case "تعداد بیماران ثبت نام نشده":
+        i = <UserOutlined style={{ fontSize: 50 }}  />;
+        break;
       default:
         i = <UserOutlined style={{ fontSize: 30 }} />;
         break;

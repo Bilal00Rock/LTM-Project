@@ -10,11 +10,11 @@ const EpiTypeChart: React.FC = () => {
     data: chartdata,
     loading: chartloading,
     error: error,
-  } = useFetchData(DashDataApi.getTypes);
+  } = useFetchData(DashDataApi.get);
   const series = [
     {
       name: "تعداد بیماران: ",
-      data: chartdata ? chartdata.map((item: any) => item.count) : [],
+      data: chartdata?.epilepsy ? chartdata?.epilepsy.map((item: any) => item.count) : [],
     },
   ];
   const options: ApexOptions = {
@@ -49,7 +49,7 @@ const EpiTypeChart: React.FC = () => {
     },
 
     xaxis: {
-      categories: chartdata ? chartdata.map((item: any) => item.type) : [],
+      categories: chartdata?.epilepsy ? chartdata?.epilepsy.map((item: any) => item.type) : [],
     },
     noData: {
       text: "داده ای وجود ندارد",

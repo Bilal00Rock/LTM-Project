@@ -12,7 +12,7 @@ dayjs.extend(localeData);
 
 interface ChartDataItem {
   date: string;
-  value: string;
+  workoutStatuses: string;
 }
 
 interface WorkoutStateProps {
@@ -34,7 +34,7 @@ const WorkoutState: React.FC<WorkoutStateProps> = ({ data }) => {
     )
   );
   const WorkoutSata = data.workoutStatus?.list ?? []; // Default to an empty array if sleepStatuse or list is missing
-
+  //console.log(WorkoutSata)
   const statusToValue: { [key: string]: number } = {
     Low: 0,
     Medium: 1,
@@ -48,12 +48,12 @@ const WorkoutState: React.FC<WorkoutStateProps> = ({ data }) => {
   // Prepare chart data
   const chartData = WorkoutSata.map((item: ChartDataItem) => ({
     date: dayjs(item.date, "YYYY/MM/DD").valueOf(), // Convert date to timestamp using dayjs
-    value: statusToValue[item.value] || 0, // Map the value to a number, default to 0 if not found
+    value: statusToValue[item.workoutStatuses] || 0, // Map the value to a number, default to 0 if not found
   }));
   const tableData = WorkoutSata.map((item, index) => ({
     key: `${item.date}-${index}`,
     date: jalali(item.date, "YYYY/MM/DD").format("jYYYY/jMM/jDD"), // Jalali format using jalali-moment
-    status: `${statusToEmoji[item.value] || ""} ${item.value}`, 
+    status: `${statusToEmoji[item.workoutStatuses] || ""} ${item.workoutStatuses}`, 
     seizureOccurred: seizureDates.has( dayjs(item.date, "YYYY-MM-DD").format("YYYY/MM/DD"))
       ? "بله" 
       : "خیر",

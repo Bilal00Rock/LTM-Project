@@ -114,7 +114,12 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
           user: values.D_id, // Assign the doctor ID or username to `user`
           pass: values.password,
           accessToken: accessToken, // Assign the token to `token`
+          firstName: response?.data?.user?.firstName,
+          lastName: response?.data?.user?.lastName,
+          Pid: response?.data?.user?.normalizedUserName,
+          PhoneNumber: response?.data?.user?.phoneNumber
         });
+        
         //console.log(auth);
         //console.log(auth.accessToken,auth .pass, auth.user);
         //go to dash
