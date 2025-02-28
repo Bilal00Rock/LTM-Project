@@ -13,7 +13,7 @@ import {
   TableColumnType,
 } from "antd";
 import { useCallback, useRef, useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
+import { ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import fa_IR from "antd/locale/fa_IR";
@@ -44,12 +44,28 @@ type DataIndex = keyof DataType;
 
 export const PatientTable = ({ title, ...other }: Props) => {
   //fetch data from API
+  // const {
+  //   data: patientdata,
+
+  //   error: error,
+  // } = useFetchData(PatientsApi.get);//change this back
+
+  const [refreshKey, setRefreshKey] = useState(0); // Local state for triggering re-fetch
+
+  // Use refreshKey in key prop to force re-mount (which triggers API re-fetch)
   const {
     data: patientdata,
     loading: patientDataLoading,
-    error: error,
-  } = useFetchData(PatientsApi.get);//change this back
-console.log(patientdata)
+    error,
+  } = useFetchData(
+    PatientsApi.get + `?refresh=${refreshKey}` // Modify the URL slightly to trigger a re-fetch
+  );
+
+  const handleRefresh = () => {
+    setRefreshKey((prev) => prev + 1); // Change state to force re-fetch
+  };
+
+  //console.log(patientdata);
   const [open, setOpen] = useState(false);
 
   const [searchText, setSearchText] = useState("");
@@ -220,8 +236,8 @@ console.log(patientdata)
         if (type === "فوکال") {
           color = "yellow";
         }
-        if( type === "ترکیب فوکال و ژنرالیزه") {
-          color = "green"
+        if (type === "ترکیب فوکال و ژنرالیزه") {
+          color = "green";
         }
         return <Badge color={color} text={type} />;
       },
@@ -248,9 +264,8 @@ console.log(patientdata)
         if (member === "pending") {
           color = "yellow";
           text = "در انتظار تایید";
-        }
-        else {
-          text = "نامشخص"
+        } else {
+          text = "نامشخص";
         }
         return <Badge color={color} text={text} />;
       },
@@ -278,11 +293,12 @@ console.log(patientdata)
   //#endregion
   if (error)
     return (
-        <Space wrap align="center">
-
-<Alert
+      <Space wrap align="center">
+        <Alert
           message="Error"
-          description={error.data?.message? error.data.message : error.toString()}
+          description={
+            error.data?.message ? error.data.message : error.toString()
+          }
           type="error"
           showIcon
         />
@@ -290,63 +306,78 @@ console.log(patientdata)
           type={"primary"}
           icon={<MdOutlinePendingActions fontSize={25} />}
           onClick={showDrawer}
-          >
+        >
           بیماران در حال ثبت نام
         </Button>
-        
+
         <Drawer
-        title="بیماران در حال ثبت نام"
-        placement="left"
-        closable={false}
-        open={open}
-        getContainer={false}
-        width={720}
-        onClose={onClose}
-        styles={{
-          body: {
-            paddingBottom: 80,
-          },
-        }}
-        extra={<Button onClick={onClose}>بازگشت</Button>}
+          title="بیماران در حال ثبت نام"
+          placement="left"
+          closable={false}
+          open={open}
+          getContainer={false}
+          width={720}
+          onClose={onClose}
+          styles={{
+            body: {
+              paddingBottom: 80,
+            },
+          }}
+          extra={<Button onClick={onClose}>بازگشت</Button>}
         >
-        <PendingsTable title="فهرست انتظار بیماران" />
-      </Drawer>
-        
-         </Space>
+          <PendingsTable title="فهرست انتظار بیماران" />
+        </Drawer>
+      </Space>
     );
   return (
     <div>
-       {(patientdata.message === 'Success') ? 
-      <Table
-        {...other}
-        bordered
-        rowKey="phoneNumber"
-        title={() => (
-          <Flex justify="space-between">
-            {title}
-            <Button
-              type={"primary"}
-              icon={<MdOutlinePendingActions fontSize={25} />}
-              onClick={showDrawer}
-            >
-              بیماران در حال ثبت نام
-            </Button>
-          </Flex>
-        )}
-        columns={columns}
-        dataSource={patientdata.data}
-        style={{ margin: "10px 0" }}
-        pagination={{ responsive: true, position: ["bottomRight"] ,pageSize: 7}}
-        // expandable={{
-        //   expandedRowRender: (record) => (
-        //     <p style={{ margin: 0, overflow: "auto", tableLayout: "auto" }}>
-        //       {record.description}
-        //     </p>
-        //   ),
-        // }}
-        loading={patientDataLoading}
-      />
-      :<></>}
+      {patientdata.message === "Success" ? (
+        <Table
+          {...other}
+          bordered
+          rowKey="phoneNumber"
+          title={() => (
+            <Flex justify="space-between">
+              {title}
+              <Flex justify="space-between" gap={'large'}>
+                <Button
+                  type="primary"
+                  icon={<ReloadOutlined />}
+                  onClick={handleRefresh}
+                  loading={patientDataLoading}
+                >
+                  بروزرسانی
+                </Button>
+                <Button
+                  type={"primary"}
+                  icon={<MdOutlinePendingActions fontSize={25} />}
+                  onClick={showDrawer}
+                >
+                  بیماران در حال ثبت نام
+                </Button>
+              </Flex>
+            </Flex>
+          )}
+          columns={columns}
+          dataSource={patientdata.data}
+          style={{ margin: "10px 0" }}
+          pagination={{
+            responsive: true,
+            position: ["bottomRight"],
+            pageSize: 7,
+          }}
+          // expandable={{
+          //   expandedRowRender: (record) => (
+          //     <p style={{ margin: 0, overflow: "auto", tableLayout: "auto" }}>
+          //       {record.description}
+          //     </p>
+          //   ),
+          // }}
+          loading={patientDataLoading}
+        />
+      ) : (
+        <></>
+      )}
       <Drawer
         title="بیماران در حال ثبت نام"
         placement="left"

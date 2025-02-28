@@ -22,6 +22,7 @@ import PersistLogin from "../components/PresistLogin";
 import AdminLogin from "../pages/auth/AdminLogin";
 import AdminDash from "../pages/dashboard/AdminPanel/AdminDash";
 import { AdminPanelLayout } from "../pages/dashboard/AdminPanel";
+import RequireAuthAdmin from "../components/RequireAuthAdmin";
 // Custom scroll restoration function
 // Custom hook to handle document title
 
@@ -90,7 +91,7 @@ const router = createBrowserRouter([
     element: <PersistLogin />,
     children: [
       {
-        element: <RequireAuth />,
+        element: <RequireAuthAdmin />, // admin Panel does not have a presist Login 
         children: [
           {
             path: "/admin-panel",
@@ -108,6 +109,11 @@ const router = createBrowserRouter([
               },
             ]
           },
+        ],
+      },
+      {
+        element: <RequireAuth />,
+        children: [
           {
             path: "/dashboard",
             element: <PageWrapper children={<DashboardLayout />} />,

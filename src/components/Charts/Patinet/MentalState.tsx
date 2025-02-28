@@ -2,10 +2,10 @@ import React, { FunctionComponent, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { Button, Modal, Table } from "antd";
-import moment from "moment-jalaali"; // Jalali Moment
+import moment from "moment-jalaali";
 
-import "moment/locale/fa"; // Persian locale for moment
-import "antd/dist/reset.css"; // Import Ant Design styles
+import "moment/locale/fa";
+import "antd/dist/reset.css";
 
 interface IState {
   series: {
@@ -17,17 +17,19 @@ interface IState {
 
 interface MentalStateEntry {
   date: string;
-  value: string[];
+  mentalStatuses: string[];
 }
 
 interface MentalStatusData {
   mentalStatus: {
     list: MentalStateEntry[];
+    count: number;
   };
   seizures: {
     list: {
       seizureDateTime: string;
     }[];
+    count: number;
   };
 }
 
@@ -58,43 +60,8 @@ const MentalState: FunctionComponent<ComponentProps> = ({ data }) => {
     Worry: "نگران",
   };
 
-  // Helper to format dates
   const formatDate = (date: string): string =>
     moment(date, "YYYY-MM-DD").format("jYYYY/jMM/jDD");
-
-  // // Process data for radar chart
-  // const processData = (): number[] => {
-  //   if (!data?.mentalStatus?.list) return Array(categories.length).fill(0);
-
-  //   const counts: { [key: string]: number } = {};
-  //   categories.forEach((category) => (counts[category] = 0));
-
-  //   data.mentalStatus.list.forEach((entry) => {
-  //     entry.value.forEach((state) => {
-  //       const category = stateToCategoryMap[state];
-  //       if (category) counts[category]++;
-  //     });
-  //   });
-
-  //   return categories.map((category) => counts[category] || 0);
-  // };
-
-  // // Helper function to check if a seizure occurred on a given date
-  // const seizureDates = new Set(
-  //   data.seizures.list.map((item) =>
-  //     moment(item.seizureDateTime, "YYYY-MM-DD").format("jYYYY/jMM/jDD")
-  //   )
-  // );
-
-  // // Prepare data for the table
-  // const allItems = data.mentalStatus.list.map((entry, index) => ({
-  //   key: `${entry.date}-${index}`,
-  //   date: formatDate(entry.date),
-  //   states: entry.value
-  //     .map((state) => stateToCategoryMap[state] || "نامشخص")
-  //     .join(", "),
-  //   seizureOccurred: seizureDates.has(formatDate(entry.date)) ? "بله" : "خیر",
-  // }));
 
   const processData = (): number[] => {
     if (!data?.mentalStatus?.list) return Array(categories.length).fill(0);
@@ -103,8 +70,8 @@ const MentalState: FunctionComponent<ComponentProps> = ({ data }) => {
     categories.forEach((category) => (counts[category] = 0));
 
     data.mentalStatus.list.forEach((entry) => {
-      if (Array.isArray(entry.value)) {  // Check if value is an array
-        entry.value.forEach((state) => {
+      if (Array.isArray(entry.mentalStatuses)) {
+        entry.mentalStatuses.forEach((state) => {
           const category = stateToCategoryMap[state];
           if (category) counts[category]++;
         });
@@ -130,14 +97,14 @@ const MentalState: FunctionComponent<ComponentProps> = ({ data }) => {
   const allItems = (data.mentalStatus.list || []).map((entry, index) => ({
     key: `${entry.date}-${index}`,
     date: formatDate(entry.date),
-    states: Array.isArray(entry.value) 
-      ? entry.value
+    states: Array.isArray(entry.mentalStatuses)
+      ? entry.mentalStatuses
           .map((state) => stateToCategoryMap[state] || "نامشخص")
           .join(", ")
       : "نامشخص",
     seizureOccurred: seizureDates.has(formatDate(entry.date)) ? "بله" : "خیر",
   }));
-  // Table columns with seizure column
+
   const columns = [
     {
       title: "تاریخ",
@@ -156,7 +123,6 @@ const MentalState: FunctionComponent<ComponentProps> = ({ data }) => {
     },
   ];
 
-  // Radar chart state
   const [state] = useState<IState>({
     series: [
       {
@@ -187,12 +153,10 @@ const MentalState: FunctionComponent<ComponentProps> = ({ data }) => {
     },
   });
 
-  // Modal state
   const [isModalOpen, setModalOpen] = useState(false);
 
   return (
     <div>
-      {/* Render the radar chart */}
       <div id="chart">
         <ReactApexChart
           options={state.options}
@@ -201,24 +165,20 @@ const MentalState: FunctionComponent<ComponentProps> = ({ data }) => {
           height={350}
         />
       </div>
-      <Button size="large" onClick={() => setModalOpen(true)} >
+      <Button size="large" onClick={() => setModalOpen(true)}>
         مشاهده لیست وضعیت‌ها
       </Button>
-      {/* Modal for the table */}
       <Modal
         title="لیست وضعیت‌های ذهنی"
         open={isModalOpen}
         onCancel={() => setModalOpen(false)}
-        footer={ <Button type="primary" onClick={() => setModalOpen(false)}>
-        تایید
-      </Button>}
-        
+        footer={
+          <Button type="primary" onClick={() => setModalOpen(false)}>
+            تایید
+          </Button>
+        }
       >
-        <Table
-          columns={columns}
-          dataSource={allItems}
-          pagination={{ pageSize: 10 }}
-        />
+        <Table columns={columns} dataSource={allItems} pagination={{ pageSize: 10 }} />
       </Modal>
     </div>
   );

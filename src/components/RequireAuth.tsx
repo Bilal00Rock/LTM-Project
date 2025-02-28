@@ -9,8 +9,10 @@ const RequireAuth = () => {
   }
 
   const { auth } = authContext;
+  //console.log(auth);
   const location = useLocation();
   //console.log(auth)
+  //if(auth.user == "Admin")
   return auth?.accessToken ? (
     <Outlet />
   ) : (

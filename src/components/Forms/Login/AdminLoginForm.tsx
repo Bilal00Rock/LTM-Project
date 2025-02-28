@@ -109,13 +109,16 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
         //dont set the token in cookie when refresh token is implemented 
         //setting cookie for Presist login
         const accessToken = response?.data?.token;
-        Cookies.set('accessToken', accessToken, { expires: 1, secure: true, sameSite: 'Strict' });
+        //Cookies.set('accessToken', accessToken, { expires: 1, secure: true, sameSite: 'Strict' });
+        Cookies.set('user',  values.D_id, { expires: 1, secure: true, sameSite: 'Strict' });
+        
+        //console.log(values);  
         setAuth({
           user: values.D_id, // Assign the doctor ID or username to `user`
-          pass: values.password,
+         // pass: values.password,
           accessToken: accessToken, // Assign the token to `token`
         });
-        //console.log(auth);
+        console.log(auth);
         //console.log(auth.accessToken,auth .pass, auth.user);
         //go to dash
         notification.success({
@@ -227,14 +230,14 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
               />
             </Form.Item>
           </ConfigProvider>
-          <Form.Item>
+          {/* <Form.Item>
               <Checkbox
                 type="checkbox"
                 id="persist"
                 onChange={togglePersist}
                 checked={persist}
               >مرا به خاطر بسپار</Checkbox>
-          </Form.Item>
+          </Form.Item> */}
           
           <Form.Item>
             <ConfigProvider

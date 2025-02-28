@@ -50,7 +50,7 @@ import useFetchDataPOST from "../../hooks/useFetchDataPOST";
       data: patientdata,
       loading: patientDataLoading,
       error: error,
-    } = useFetchDataPOST(AdminPanelAPI.getPatients);//change this back
+    } = useFetchDataPOST(AdminPanelAPI.getpendings);//change this back
   console.log(patientdata)
     const [open, setOpen] = useState(false);
   

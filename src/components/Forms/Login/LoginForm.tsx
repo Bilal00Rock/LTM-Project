@@ -110,6 +110,9 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
         //setting cookie for Presist login
         const accessToken = response?.data?.token;
         Cookies.set('accessToken', accessToken, { expires: 1, secure: true, sameSite: 'Strict' });
+        Cookies.set('user',  values.D_id, { expires: 1, secure: true, sameSite: 'Strict' });
+
+        console.log(values);  
         setAuth({
           user: values.D_id, // Assign the doctor ID or username to `user`
           pass: values.password,

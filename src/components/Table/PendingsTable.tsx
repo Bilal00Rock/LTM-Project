@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   ConfigProvider,
+  Flex,
   Input,
   InputRef,
   Space,
@@ -11,7 +12,7 @@ import {
   TableColumnType,
 } from "antd";
 import { useRef, useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
+import { ReloadOutlined, SearchOutlined } from "@ant-design/icons";
 import { FilterDropdownProps } from "antd/es/table/interface";
 import Highlighter from "react-highlight-words";
 import fa_IR from "antd/locale/fa_IR";
@@ -40,12 +41,21 @@ export const PendingsTable = ({ title, ...other }: Props) => {
 
 
  //fetch data from API
- const {
-  data: pendingpatientdata,
-  loading: pendingpatientDataLoading,
-  error: error,
-} = useFetchData(PendingPatientsApi.get);
+//  const {
+//   data: pendingpatientdata,
+//   loading: pendingpatientDataLoading,
+//   error: error,
+// } = useFetchData(PendingPatientsApi.get);
+const [refreshKey, setRefreshKey] = useState(0); // Local state for triggering re-fetch
 
+  // Use refreshKey in key prop to force re-mount (which triggers API re-fetch)
+  const { data: pendingpatientdata, loading, error } = useFetchData(
+    PendingPatientsApi.get + `?refresh=${refreshKey}` // Modify the URL slightly to trigger a re-fetch
+  );
+
+  const handleRefresh = () => {
+    setRefreshKey((prev) => prev + 1); // Change state to force re-fetch
+  };
 
   //#region table
   const [searchText, setSearchText] = useState("");
@@ -207,18 +217,25 @@ export const PendingsTable = ({ title, ...other }: Props) => {
         بیمارانی که لینک ثبت‌نام برای آنها ارسال شده، اما هنوز مراحل ثبت‌نام را
         تکمیل نکرده‌اند.
       </div>
+      
       {(pendingpatientdata.message === 'Success') ? 
       <Table
       {...other}
       bordered
-
-      title={() => title}
+      title={() => (
+        <Flex justify="space-between">
+          {title}
+          <Button type="primary" icon={<ReloadOutlined />} onClick={handleRefresh} loading={loading}>
+          بروزرسانی
+        </Button>
+        </Flex>
+      )}
       columns={columns}
       rowKey="phoneNumber"
       dataSource={pendingpatientdata.data.list}
       style={{ margin: "10px 0" }}
       pagination={{ responsive: true, position: ["bottomRight"], pageSize: 7 }}
-      loading={pendingpatientDataLoading}
+      loading={loading}
       />
     : <></>}
     </div>

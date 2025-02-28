@@ -11,6 +11,7 @@ import { AdminPanelAPI } from "../../../api/axios";
 import useFetchDataPOST from "../../../hooks/useFetchDataPOST";
 import { AdminPatientsTable } from "../../../components/Table/AdminPatients";
 import { AdminDoctorTable } from "../../../components/Table/AdminDoctors";
+import { AdminPendingsTable } from "../../../components/Table/AdminPendings";
 const layoutStyle: React.CSSProperties = {
   background: "#F2FCFC",
   borderRadius: "6px",
@@ -77,7 +78,7 @@ const AdminDash = () => {
           </Col>
           <Col xs={24} lg={24}>
             <Card title={"لیست بیماران "}>
-            <AdminPatientsTable title="لیست بیماران"/>
+            <AdminPendingsTable title="لیست بیماران"/>
             </Card>
           </Col>
         </Row>

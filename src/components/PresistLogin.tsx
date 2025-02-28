@@ -24,9 +24,9 @@ const PersistLogin = () => {
         //this checks if refresh token is valid
         // await refresh();
         const token = Cookies.get("accessToken"); // Retrieve the token from the cookie
-
+        const user = Cookies.get("user");
         if (token) {
-          setAuth({ accessToken: token }); // Set auth state with the token from the cookie
+          setAuth({ accessToken: token, user: user }); // Set auth state with the token from the cookie
           setIsLoading(false);
         } else {
           setIsLoading(false);
