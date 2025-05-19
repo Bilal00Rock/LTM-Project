@@ -1,9 +1,9 @@
 import axois from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/v1';//192.168.100.180
+const BASE_URL = 'http://185.252.29.66:8061/api/v1';//192.168.100.180
 
 export default axois.create({
-  baseURL: BASE_URL,
+ baseURL: BASE_URL,
   withCredentials: true
 })
 
