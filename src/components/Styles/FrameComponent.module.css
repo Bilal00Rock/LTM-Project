@@ -1,19 +1,22 @@
+ /* دو کلاس زیر برای ریسپانسیو لاگین ادیت شد - مهران خدمتگذار */
 .headerLogoWithoutBack1Icon {
-  height: auto;
+  height: 100%;
   flex: 1;
   position: relative;
+  width: auto;
   max-width: 100%;
   overflow: hidden;
-  object-fit: cover;
+  object-fit: contain;
 }
 .subHeader {
-  
-  align-self: stretch;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;  
   justify-content: flex-start;
   padding: 0px 180px;
+  width: 100%;
+  height: auto;         
+  min-height: 80px;     
 }
 .loginIntoYour {
   align-self: stretch;
@@ -79,7 +82,6 @@
   box-sizing: border-box;
 }
 .frameWrapper {
-  
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -135,18 +137,25 @@
   font-family: Poppins;
   height: inherit;
 }
-.formsize{
-  min-width: -webkit-fill-available;
-  padding: 46px;
+/* کلاس های پایین برای ریسپانسیو ادیت شد - مهران خدمتگذار */
+.formsize {
+  max-width: 500px !important;
+  width: 100%;
+  padding: 0px 0px;
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 @media screen and (max-width: 1625px) {
   .subHeaderParent {
     flex: 1;
-    padding: 96px 26px 26px 26px;
+    padding: 26px 26px 26px 26px;
+    height: 100vh;
+    overflow: auto;
   }
   .loginIntoYour {
-    font-size: 24px;
+    font-size: 20px;
   }
-  .subHeader{
-    padding: 0 150px;  }
+  .subHeader {
+    padding: 0 0px;
+  }
 }

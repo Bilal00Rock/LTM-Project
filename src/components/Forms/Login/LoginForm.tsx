@@ -198,7 +198,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
             }}
           >
             <FormItem>
-              <b style={{ fontSize: "20px" }}>
+              <b style={{ fontSize: "15px" }}>
                 برای ورود، نام کاربری و رمز عبور خود را وارد کنید
               </b>
             </FormItem>
@@ -224,6 +224,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                     <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
                   </Tooltip>
                 }
+              style={{ fontSize: "18px" }}
               />
             </Form.Item>
             <Form.Item
@@ -236,6 +237,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                 prefix={<LockOutlined />}
                 type="password"
                 placeholder="رمز عبور"
+                style={{ fontSize: "18px" }}
               />
             </Form.Item>
           </ConfigProvider>
@@ -247,12 +249,12 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                 checked={persist}
               >مرا به خاطر بسپار</Checkbox>
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{marginBottom:"10px"}}>
             <Flex justify="space-between" align="center">
               <Button
                 type="link"
                 onClick={onTextClick}
-                style={{ fontSize: "18px" }}
+                style={{ fontSize: "15px" }}
               >
                 رمز عبور را فراموش کرده اید؟
               </Button>
@@ -267,7 +269,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                     /* here is your component tokens */
                     contentFontSizeLG: 20,
                     fontWeight: 800,
-                    controlHeightLG: 55,
+                    controlHeightLG: 40,
                   },
                 },
               }}
@@ -280,7 +282,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
               >
                 ورود
               </Button>
-              <Divider plain>یا</Divider>
+              <Divider plain style={{ margin: "10px 0"}}>یا</Divider>
               <Button block type="default" onClick={onBRClick}>
                 !ثبت نام کنید
               </Button>

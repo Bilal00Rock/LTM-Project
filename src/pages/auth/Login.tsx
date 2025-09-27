@@ -61,7 +61,8 @@ const siderStyle: React.CSSProperties = {
 const layoutStyle: React.CSSProperties = {
   borderRadius: 8,
   overflow: "hidden",
-  height: "100vh",
+  minHeight:"100vh",
+  height: "auto",
   width: "100%",
   maxWidth: "100%",
   color: "#CEE4F9",
