@@ -189,7 +189,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
             }}
           >
             <FormItem>
-              <b style={{ fontSize: "30px",  }}>
+              <b style={{ fontSize: "20px",  }}>
                 ورود ادمین
               </b>
             </FormItem>
@@ -215,6 +215,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
                     <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
                   </Tooltip>
                 }
+                style={{ fontSize: "18px" }}
               />
             </Form.Item>
             <Form.Item
@@ -227,6 +228,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
                 prefix={<LockOutlined />}
                 type="password"
                 placeholder="رمز عبور"
+                style={{ fontSize: "18px"}}
               />
             </Form.Item>
           </ConfigProvider>
@@ -247,7 +249,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
                     /* here is your component tokens */
                     contentFontSizeLG: 20,
                     fontWeight: 800,
-                    controlHeightLG: 55,
+                    controlHeightLG: 45,
                   },
                 },
               }}

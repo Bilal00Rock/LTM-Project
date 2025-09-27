@@ -17,6 +17,7 @@
   width: 100%;
   height: auto;         
   min-height: 80px;     
+  max-height: 100px;
 }
 .loginIntoYour {
   align-self: stretch;
