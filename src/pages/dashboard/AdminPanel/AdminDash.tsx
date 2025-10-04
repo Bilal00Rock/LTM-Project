@@ -72,13 +72,13 @@ const AdminDash = () => {
             </Card>
           </Col>
           <Col xs={24} lg={24}>
-            <Card title={"لیست بیماران "}>
-            <AdminPatientsTable title="لیست بیماران"/>
+            <Card title={"لیست بیماران فعال"}>
+            <AdminPatientsTable title="لیست بیماران فعال  "/>
             </Card>
           </Col>
           <Col xs={24} lg={24}>
-            <Card title={"لیست بیماران "}>
-            <AdminPendingsTable title="لیست بیماران"/>
+            <Card title={"لیست بیماران در حال ثبت نام"}>
+            <AdminPendingsTable title="لیست بیماران در حال ثبت نام"/>
             </Card>
           </Col>
         </Row>
