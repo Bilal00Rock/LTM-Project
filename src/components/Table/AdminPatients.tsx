@@ -27,6 +27,7 @@ import { AdminPanelAPI } from "../../api/axios";
 import useFetchDataPOST from "../../hooks/useFetchDataPOST";
 import AddNewButton from "./button/AddButton";
 import "../../pages/Styles/AdminDashboard.css";
+import DeleteButton from "./button/DeleteButton";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -62,27 +63,33 @@ export const AdminPatientsTable = ({
   const [open, setOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-const handleSelectAll = (e: any) => {
-  const checked = e.target.checked;
-  setCheckAll(checked);
-  let newSelected: React.Key[] = [];
-  if (checked && patientdata) {
-    newSelected = patientdata.map((item: any) => item.mobile);
-  }
-  setSelectedRowKeys(newSelected);
-  onSelectChange?.(newSelected); // ← الان شناخته میشه
-};
+  const [localData, setLocalData] = useState<DataType[]>([]);
 
-const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
-  setSelectedRowKeys((prev) => {
-    const newSelected = checked
-      ? [...prev, recordKey]
-      : prev.filter((key) => key !== recordKey);
-    onSelectChange?.(newSelected); // ← الان شناخته میشه
-    return newSelected;
-  });
-};
+  const handleSelectAll = (e: any) => {
+    const checked = e.target.checked;
+    setCheckAll(checked);
+    let newSelected: React.Key[] = [];
+    if (checked && patientdata) {
+      newSelected = patientdata.map((item: any) => item.mobile);
+    }
+    setSelectedRowKeys(newSelected);
+    onSelectChange?.(newSelected); 
+  };
 
+  const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
+    setSelectedRowKeys((prev) => {
+      const newSelected = checked
+        ? [...prev, recordKey]
+        : prev.filter((key) => key !== recordKey);
+      onSelectChange?.(newSelected); 
+      return newSelected;
+    });
+  };
+  useEffect(() => {
+    if (patientdata) {
+      setLocalData(patientdata);
+    }
+  }, [patientdata]);
   useEffect(() => {
     if (patientdata) {
       setCheckAll(selectedRowKeys.length === patientdata.length);
@@ -93,9 +100,13 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
   const searchInput = useRef<InputRef>(null);
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [docExpandedId, setDocExpandedId] = useState<string | null>(null);
 
   useEffect(() => {
-    const handleClickOutside = () => setExpandedId(null);
+    const handleClickOutside = () => {
+      setExpandedId(null);
+      setDocExpandedId(null);
+    };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
@@ -253,6 +264,7 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
           if (isExpanded) {
             navigator.clipboard.writeText(text).then(() => {
               alert("آیدی کپی شد ✅");
+              setExpandedId(null);
             });
           } else {
             setExpandedId(record.id);
@@ -312,6 +324,47 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
       key: "doctorId",
       width: "auto",
       ...getColumnSearchProps("doctorId"),
+      render: (text: string | undefined, record) => {
+        const safeText = text || "";
+        const isDocExpanded = docExpandedId === record.id;
+        const displayTextDoc = isDocExpanded
+          ? safeText
+          : safeText.length > 10
+          ? safeText.slice(0, 10) + "..."
+          : safeText;
+
+        const dochandleClick = (e: React.MouseEvent) => {
+          e.stopPropagation();
+          if (isDocExpanded) {
+            navigator.clipboard.writeText(safeText).then(() => {
+              alert("آیدی دکتر کپی شد ✅");
+              setDocExpandedId(null);
+            });
+          } else {
+            setDocExpandedId(record.id);
+          }
+        };
+
+        return (
+          <span
+            onClick={dochandleClick}
+            style={{
+              cursor: "pointer",
+              color: "inherit",
+              fontWeight: isDocExpanded ? "bold" : "normal",
+            }}
+          >
+            {displayTextDoc || "-"}
+          </span>
+        );
+      },
+    },
+    {
+      title: "نام و نام خانوادگی پزشک",
+      dataIndex: "doctorFullName",
+      key: "doctorFullName",
+      width: 190,
+      ...getColumnSearchProps("fullName"),
     },
     {
       title: "Created At",
@@ -379,51 +432,17 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
             </svg>
             ویرایش
           </Button>
-          <Button
-            style={{
-              padding: 8,
-              backgroundColor: "rgba(254, 81, 81, 0.07)",
-              color: "#FE5151",
-              border: "1px solid #FE5151",
-              fontSize: "12px",
+          <DeleteButton
+            id={record.id}
+            onDeleteSuccess={(deletedId) => {
+              setLocalData((prev) =>
+                prev.filter((item) => item.id !== deletedId)
+              );
+              setSelectedRowKeys((prev) =>
+                prev.filter((key) => key !== deletedId)
+              );
             }}
-            // onClick={() => handleDelete(record.id)}
-          >
-            <svg
-              width="19px"
-              height="19px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ marginLeft: "-8px", marginRight: "-3px" }}
-            >
-              <g id="SVGRepo_bgCarrier" stroke-width="0" />
-
-              <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-
-              <g id="SVGRepo_iconCarrier">
-                <path
-                  d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
-                  stroke="#FE5151"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9"
-                  stroke="#FE5151"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </g>
-            </svg>
-            حذف
-          </Button>
+          />
           <Button
             style={{
               padding: 8,
@@ -474,7 +493,7 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
             </Flex>
           )}
           columns={columns}
-          dataSource={patientdata}
+          dataSource={localData}
           style={{ margin: "10px 0" }}
           pagination={{
             responsive: true,

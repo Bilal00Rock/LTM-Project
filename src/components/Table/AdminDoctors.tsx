@@ -26,7 +26,8 @@ import { PATH_PATIENTS } from "../../constants";
 import { AdminPanelAPI } from "../../api/axios";
 import useFetchDataPOST from "../../hooks/useFetchDataPOST";
 import AddNewButton from "./button/AddButton";
-import "../../pages/Styles/AdminDashboard.css"
+import "../../pages/Styles/AdminDashboard.css";
+import DeleteButton from "./button/DeleteButton";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -45,7 +46,11 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-export const AdminDoctorTable = ({ title, onSelectChange, ...other }: Props) => {
+export const AdminDoctorTable = ({
+  title,
+  onSelectChange,
+  ...other
+}: Props) => {
   //fetch data from API
   const {
     data: patientdata,
@@ -56,27 +61,33 @@ export const AdminDoctorTable = ({ title, onSelectChange, ...other }: Props) => 
   const [open, setOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-const handleSelectAll = (e: any) => {
-  const checked = e.target.checked;
-  setCheckAll(checked);
-  let newSelected: React.Key[] = [];
-  if (checked && patientdata) {
-    newSelected = patientdata.map((item: any) => item.mobile);
-  }
-  setSelectedRowKeys(newSelected);
-  onSelectChange?.(newSelected); // ← الان شناخته میشه
-};
+  const [localData, setLocalData] = useState<DataType[]>([]);
 
-const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
-  setSelectedRowKeys((prev) => {
-    const newSelected = checked
-      ? [...prev, recordKey]
-      : prev.filter((key) => key !== recordKey);
+  const handleSelectAll = (e: any) => {
+    const checked = e.target.checked;
+    setCheckAll(checked);
+    let newSelected: React.Key[] = [];
+    if (checked && patientdata) {
+      newSelected = patientdata.map((item: any) => item.id);
+    }
+    setSelectedRowKeys(newSelected);
     onSelectChange?.(newSelected); // ← الان شناخته میشه
-    return newSelected;
-  });
-};
+  };
 
+  const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
+    setSelectedRowKeys((prev) => {
+      const newSelected = checked
+        ? [...prev, recordKey]
+        : prev.filter((key) => key !== recordKey);
+      onSelectChange?.(newSelected); // ← الان شناخته میشه
+      return newSelected;
+    });
+  };
+  useEffect(() => {
+    if (patientdata) {
+      setLocalData(patientdata);
+    }
+  }, [patientdata]);
   useEffect(() => {
     if (patientdata) {
       setCheckAll(selectedRowKeys.length === patientdata.length);
@@ -214,7 +225,7 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
   const columns: TableColumnsType<DataType> = [
     {
       title: (
-        <div style={{ display: "flex", alignItems: "center", gap: 6}}>
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <Checkbox checked={checkAll} onChange={handleSelectAll} />
         </div>
       ),
@@ -223,8 +234,8 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
       width: 20,
       render: (_, record) => (
         <Checkbox
-          checked={selectedRowKeys.includes(record.mobile)}
-          onChange={(e) => handleSelectRow(record.mobile, e.target.checked)}
+          checked={selectedRowKeys.includes(record.id)}
+          onChange={(e) => handleSelectRow(record.id, e.target.checked)}
         />
       ),
       className: "no-right-border",
@@ -361,51 +372,17 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
             </svg>
             ویرایش
           </Button>
-          <Button
-            style={{
-              padding: 8,
-              backgroundColor: "rgba(254, 81, 81, 0.07)",
-              color: "#FE5151",
-              border: "1px solid #FE5151",
-              fontSize: "12px",
+          <DeleteButton
+            id={record.id}
+            onDeleteSuccess={(deletedId) => {
+              setLocalData((prev) =>
+                prev.filter((item) => item.id !== deletedId)
+              );
+              setSelectedRowKeys((prev) =>
+                prev.filter((key) => key !== deletedId)
+              );
             }}
-            // onClick={() => handleDelete(record.id)}
-          >
-            <svg
-              width="19px"
-              height="19px"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ marginLeft: "-8px", marginRight: "-3px" }}
-            >
-              <g id="SVGRepo_bgCarrier" stroke-width="0" />
-
-              <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-
-              <g id="SVGRepo_iconCarrier">
-                <path
-                  d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
-                  stroke="#FE5151"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9"
-                  stroke="#FE5151"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </g>
-            </svg>
-            حذف
-          </Button>
+          />
         </Space>
       ),
     },
@@ -445,7 +422,7 @@ const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
             </div>
           )}
           columns={columns}
-          dataSource={patientdata}
+          dataSource={localData}
           style={{ margin: "10px 0" }}
           pagination={{
             responsive: true,
