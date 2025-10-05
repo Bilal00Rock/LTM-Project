@@ -2,6 +2,7 @@ import {
   Alert,
   Badge,
   Button,
+  Checkbox,
   ConfigProvider,
   Drawer,
   Flex,
@@ -25,8 +26,10 @@ import { PATH_PATIENTS } from "../../constants";
 import { AdminPanelAPI } from "../../api/axios";
 import useFetchDataPOST from "../../hooks/useFetchDataPOST";
 import AddNewButton from "./button/AddButton";
+import "../../pages/Styles/AdminDashboard.css";
 type Props = {
   title: string;
+  onSelectChange?: (selectedKeys: React.Key[]) => void;
 };
 
 //cahnge according to API data types
@@ -44,7 +47,11 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
-export const AdminPendingsTable = ({ title, ...other }: Props) => {
+export const AdminPendingsTable = ({
+  title,
+  onSelectChange,
+  ...other
+}: Props) => {
   //fetch data from API
   const {
     data: patientdata,
@@ -53,7 +60,34 @@ export const AdminPendingsTable = ({ title, ...other }: Props) => {
   } = useFetchDataPOST(AdminPanelAPI.getpendings); //change this back
   console.log(patientdata);
   const [open, setOpen] = useState(false);
+  const [checkAll, setCheckAll] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+const handleSelectAll = (e: any) => {
+  const checked = e.target.checked;
+  setCheckAll(checked);
+  let newSelected: React.Key[] = [];
+  if (checked && patientdata) {
+    newSelected = patientdata.map((item: any) => item.mobile);
+  }
+  setSelectedRowKeys(newSelected);
+  onSelectChange?.(newSelected); // ← الان شناخته میشه
+};
 
+const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
+  setSelectedRowKeys((prev) => {
+    const newSelected = checked
+      ? [...prev, recordKey]
+      : prev.filter((key) => key !== recordKey);
+    onSelectChange?.(newSelected); // ← الان شناخته میشه
+    return newSelected;
+  });
+};
+
+  useEffect(() => {
+    if (patientdata) {
+      setCheckAll(selectedRowKeys.length === patientdata.length);
+    }
+  }, [selectedRowKeys, patientdata]);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef<InputRef>(null);
@@ -184,6 +218,23 @@ export const AdminPendingsTable = ({ title, ...other }: Props) => {
 
   const columns: TableColumnsType<DataType> = [
     {
+      title: (
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <Checkbox checked={checkAll} onChange={handleSelectAll} />
+        </div>
+      ),
+      dataIndex: "bulk",
+      key: "bulk",
+      width: 20,
+      render: (_, record) => (
+        <Checkbox
+          checked={selectedRowKeys.includes(record.mobile)}
+          onChange={(e) => handleSelectRow(record.mobile, e.target.checked)}
+        />
+      ),
+      className: "no-right-border",
+    },
+    {
       title: "آیدی ",
       dataIndex: "id",
       key: "id",
@@ -280,6 +331,7 @@ export const AdminPendingsTable = ({ title, ...other }: Props) => {
       title: "Actions",
       key: "actions",
       width: "auto",
+      align: "center",
       render: (_, record) => (
         <Space align="center">
           <Button

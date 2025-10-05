@@ -1,0 +1,5 @@
+.ant-table-cell.no-right-border {
+  border-inline-end: none !important;
+  padding-right: 15px !important;
+  padding-left: 0px !important;
+}
