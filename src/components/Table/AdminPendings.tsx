@@ -28,6 +28,7 @@ import useFetchDataPOST from "../../hooks/useFetchDataPOST";
 import AddNewButton from "./button/AddButton";
 import "../../pages/Styles/AdminDashboard.css";
 import DeleteButton from "./button/DeleteButton";
+import { useLocalTableContext } from "../../context/LocalTableProvider";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -63,14 +64,14 @@ export const AdminPendingsTable = ({
   const [open, setOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [localData, setLocalData] = useState<DataType[]>([]);
+  const { localDataPending, setLocalDataPending } = useLocalTableContext();
 
   const handleSelectAll = (e: any) => {
     const checked = e.target.checked;
     setCheckAll(checked);
     let newSelected: React.Key[] = [];
     if (checked && patientdata) {
-      newSelected = patientdata.map((item: any) => item.mobile);
+      newSelected = patientdata.map((item: any) => item.id);
     }
     setSelectedRowKeys(newSelected);
     onSelectChange?.(newSelected); // ← الان شناخته میشه
@@ -87,7 +88,7 @@ export const AdminPendingsTable = ({
   };
   useEffect(() => {
     if (patientdata) {
-      setLocalData(patientdata);
+      setLocalDataPending(patientdata);
     }
   }, [patientdata]);
   useEffect(() => {
@@ -239,8 +240,8 @@ export const AdminPendingsTable = ({
       width: 20,
       render: (_, record) => (
         <Checkbox
-          checked={selectedRowKeys.includes(record.mobile)}
-          onChange={(e) => handleSelectRow(record.mobile, e.target.checked)}
+          checked={selectedRowKeys.includes(record.id)}
+          onChange={(e) => handleSelectRow(record.id, e.target.checked)}
         />
       ),
       className: "no-right-border",
@@ -434,7 +435,7 @@ export const AdminPendingsTable = ({
           <DeleteButton
             id={record.id}
             onDeleteSuccess={(deletedId) => {
-              setLocalData((prev) =>
+              setLocalDataPending((prev) =>
                 prev.filter((item) => item.id !== deletedId)
               );
               setSelectedRowKeys((prev) =>
@@ -492,7 +493,7 @@ export const AdminPendingsTable = ({
             </Flex>
           )}
           columns={columns}
-          dataSource={localData}
+          dataSource={localDataPending}
           style={{ margin: "10px 0" }}
           pagination={{
             responsive: true,

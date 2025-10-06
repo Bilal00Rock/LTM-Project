@@ -28,6 +28,7 @@ import useFetchDataPOST from "../../hooks/useFetchDataPOST";
 import AddNewButton from "./button/AddButton";
 import "../../pages/Styles/AdminDashboard.css";
 import DeleteButton from "./button/DeleteButton";
+import { useLocalTableContext } from "../../context/LocalTableProvider";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -61,7 +62,7 @@ export const AdminDoctorTable = ({
   const [open, setOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [localData, setLocalData] = useState<DataType[]>([]);
+  const { localDataDoc, setLocalDataDoc } = useLocalTableContext();
 
   const handleSelectAll = (e: any) => {
     const checked = e.target.checked;
@@ -85,9 +86,9 @@ export const AdminDoctorTable = ({
   };
   useEffect(() => {
     if (patientdata) {
-      setLocalData(patientdata);
+      setLocalDataDoc(patientdata);
     }
-  }, [patientdata]);
+  }, [patientdata, setLocalDataDoc]);
   useEffect(() => {
     if (patientdata) {
       setCheckAll(selectedRowKeys.length === patientdata.length);
@@ -375,11 +376,8 @@ export const AdminDoctorTable = ({
           <DeleteButton
             id={record.id}
             onDeleteSuccess={(deletedId) => {
-              setLocalData((prev) =>
+              setLocalDataDoc((prev) =>
                 prev.filter((item) => item.id !== deletedId)
-              );
-              setSelectedRowKeys((prev) =>
-                prev.filter((key) => key !== deletedId)
               );
             }}
           />
@@ -422,7 +420,7 @@ export const AdminDoctorTable = ({
             </div>
           )}
           columns={columns}
-          dataSource={localData}
+          dataSource={localDataDoc}
           style={{ margin: "10px 0" }}
           pagination={{
             responsive: true,

@@ -12,7 +12,9 @@ import useFetchDataPOST from "../../../hooks/useFetchDataPOST";
 import { AdminPatientsTable } from "../../../components/Table/AdminPatients";
 import { AdminDoctorTable } from "../../../components/Table/AdminDoctors";
 import { AdminPendingsTable } from "../../../components/Table/AdminPendings";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DeleteButton from "../../../components/Table/button/DeleteButton";
+import { useLocalTableContext } from "../../../context/LocalTableProvider";
 const layoutStyle: React.CSSProperties = {
   background: "#F2FCFC",
   borderRadius: "6px",
@@ -28,6 +30,14 @@ const AdminDash = () => {
     React.Key[]
   >([]);
   const [selectedDoctors, setSelectedDoctors] = useState<React.Key[]>([]);
+  const {
+    localDataDoc,
+    setLocalDataDoc,
+    localDataPatient,
+    setLocalDataPatient,
+    localDataPending,
+    setLocalDataPending,
+  } = useLocalTableContext();
 
   //APIs
   const {
@@ -50,7 +60,9 @@ const AdminDash = () => {
     loading: PdataLoading,
     error: perror,
   } = useFetchDataPOST(AdminPanelAPI.getPatients);
-
+  useEffect(() => {
+    setSelectedDoctors([]);
+  }, [localDataDoc]);
   return (
     <ConfigProvider>
       <Layout style={layoutStyle}>
@@ -93,51 +105,15 @@ const AdminDash = () => {
                   selectedDoctors.length > 0 ? (
                     <Flex align="center" justify="space-between" gap={30}>
                       <span>{selectedDoctors.length} مورد انتخاب شد</span>
-                      <Button
-                        style={{
-                          padding: 8,
-                          backgroundColor: "rgba(254, 81, 81, 0.07)",
-                          color: "#FE5151",
-                          border: "1px solid #FE5151",
-                          fontSize: "12px",
+                      <DeleteButton
+                        id={selectedDoctors.map((d) => d.toString())}
+                        onDeleteSuccess={(deletedId) => {
+                          setLocalDataDoc((prev) =>
+                            prev.filter((item) => !deletedId.includes(item.id))
+                          );
+                          setSelectedDoctors([]);
                         }}
-                        // onClick={() => handleDelete(record.id)}
-                      >
-                        <svg
-                          width="19px"
-                          height="19px"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ marginLeft: "-8px", marginRight: "-3px" }}
-                        >
-                          <g id="SVGRepo_bgCarrier" stroke-width="0" />
-
-                          <g
-                            id="SVGRepo_tracerCarrier"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-
-                          <g id="SVGRepo_iconCarrier">
-                            <path
-                              d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
-                              stroke="#FE5151"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                            <path
-                              d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9"
-                              stroke="#FE5151"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </g>
-                        </svg>
-                        حذف
-                      </Button>
+                      />
                     </Flex>
                   ) : (
                     "لیست دکتر ها"
@@ -155,52 +131,15 @@ const AdminDash = () => {
                   selectedPatients.length > 0 ? (
                     <Flex align="center" justify="space-between">
                       <span>{selectedPatients.length} مورد انتخاب شد</span>
-                      <Button
-                        style={{
-                          padding: 8,
-                          backgroundColor: "rgba(254, 81, 81, 0.07)",
-                          color: "#FE5151",
-                          border: "1px solid #FE5151",
-                          fontSize: "12px",
-                          marginRight: "30px",
+                      <DeleteButton
+                        id={selectedPatients.map((d) => d.toString())}
+                        onDeleteSuccess={(deletedId) => {
+                          setLocalDataPatient((prev) =>
+                            prev.filter((item) => !deletedId.includes(item.id))
+                          );
+                          setSelectedPatients([]);
                         }}
-                        // onClick={() => handleDelete(record.id)}
-                      >
-                        <svg
-                          width="19px"
-                          height="19px"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ marginLeft: "-8px", marginRight: "-3px" }}
-                        >
-                          <g id="SVGRepo_bgCarrier" stroke-width="0" />
-
-                          <g
-                            id="SVGRepo_tracerCarrier"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-
-                          <g id="SVGRepo_iconCarrier">
-                            <path
-                              d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
-                              stroke="#FE5151"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                            <path
-                              d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9"
-                              stroke="#FE5151"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </g>
-                        </svg>
-                        حذف
-                      </Button>
+                      />
                       <Button
                         style={{
                           padding: 8,
@@ -237,52 +176,15 @@ const AdminDash = () => {
                       <span>
                         {selectedPendingPatients.length} مورد انتخاب شد
                       </span>
-                      <Button
-                        style={{
-                          padding: 8,
-                          backgroundColor: "rgba(254, 81, 81, 0.07)",
-                          color: "#FE5151",
-                          border: "1px solid #FE5151",
-                          fontSize: "12px",
-                          marginRight:"30px"
+                      <DeleteButton
+                        id={selectedPendingPatients.map((d) => d.toString())}
+                        onDeleteSuccess={(deletedId) => {
+                          setLocalDataPending((prev) =>
+                            prev.filter((item) => !deletedId.includes(item.id))
+                          );
+                          setSelectedPendingPatients([]);
                         }}
-                        // onClick={() => handleDelete(record.id)}
-                      >
-                        <svg
-                          width="19px"
-                          height="19px"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ marginLeft: "-8px", marginRight: "-3px" }}
-                        >
-                          <g id="SVGRepo_bgCarrier" stroke-width="0" />
-
-                          <g
-                            id="SVGRepo_tracerCarrier"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-
-                          <g id="SVGRepo_iconCarrier">
-                            <path
-                              d="M20 14V7C20 5.34315 18.6569 4 17 4H12M20 14L13.5 20M20 14H15.5C14.3954 14 13.5 14.8954 13.5 16V20M13.5 20H7C5.34315 20 4 18.6569 4 17V12"
-                              stroke="#FE5151"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                            <path
-                              d="M4 4L6.5 6.5M9 9L6.5 6.5M6.5 6.5L9 4M6.5 6.5L4 9"
-                              stroke="#FE5151"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </g>
-                        </svg>
-                        حذف
-                      </Button>
+                      />
                       <Button
                         style={{
                           padding: 8,
@@ -290,7 +192,7 @@ const AdminDash = () => {
                           color: "rgb(0, 153, 0)",
                           border: "1px solid rgb(0, 153, 0)",
                           fontSize: "12px",
-                          marginRight:"10px"
+                          marginRight: "10px",
                         }}
                         // onClick={() => handleDelete(record.id)}
                       >

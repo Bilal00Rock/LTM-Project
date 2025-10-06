@@ -28,6 +28,7 @@ import useFetchDataPOST from "../../hooks/useFetchDataPOST";
 import AddNewButton from "./button/AddButton";
 import "../../pages/Styles/AdminDashboard.css";
 import DeleteButton from "./button/DeleteButton";
+import { useLocalTableContext } from "../../context/LocalTableProvider";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -63,17 +64,16 @@ export const AdminPatientsTable = ({
   const [open, setOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [localData, setLocalData] = useState<DataType[]>([]);
-
+  const { localDataPatient, setLocalDataPatient } = useLocalTableContext();
   const handleSelectAll = (e: any) => {
     const checked = e.target.checked;
     setCheckAll(checked);
     let newSelected: React.Key[] = [];
     if (checked && patientdata) {
-      newSelected = patientdata.map((item: any) => item.mobile);
+      newSelected = patientdata.map((item: any) => item.id);
     }
     setSelectedRowKeys(newSelected);
-    onSelectChange?.(newSelected); 
+    onSelectChange?.(newSelected);
   };
 
   const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
@@ -81,13 +81,13 @@ export const AdminPatientsTable = ({
       const newSelected = checked
         ? [...prev, recordKey]
         : prev.filter((key) => key !== recordKey);
-      onSelectChange?.(newSelected); 
+      onSelectChange?.(newSelected);
       return newSelected;
     });
   };
   useEffect(() => {
     if (patientdata) {
-      setLocalData(patientdata);
+      setLocalDataPatient(patientdata);
     }
   }, [patientdata]);
   useEffect(() => {
@@ -239,8 +239,8 @@ export const AdminPatientsTable = ({
       width: 20,
       render: (_, record) => (
         <Checkbox
-          checked={selectedRowKeys.includes(record.mobile)}
-          onChange={(e) => handleSelectRow(record.mobile, e.target.checked)}
+          checked={selectedRowKeys.includes(record.id)}
+          onChange={(e) => handleSelectRow(record.id, e.target.checked)}
         />
       ),
       className: "no-right-border",
@@ -435,7 +435,7 @@ export const AdminPatientsTable = ({
           <DeleteButton
             id={record.id}
             onDeleteSuccess={(deletedId) => {
-              setLocalData((prev) =>
+              setLocalDataPatient((prev) =>
                 prev.filter((item) => item.id !== deletedId)
               );
               setSelectedRowKeys((prev) =>
@@ -493,7 +493,7 @@ export const AdminPatientsTable = ({
             </Flex>
           )}
           columns={columns}
-          dataSource={localData}
+          dataSource={localDataPatient}
           style={{ margin: "10px 0" }}
           pagination={{
             responsive: true,

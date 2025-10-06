@@ -3,8 +3,8 @@ import { Button, Modal, message } from "antd";
 // import { AdminPanelAPI } from "../../api/axios";
 
 interface DeleteButtonProps {
-  id: string;
-  onDeleteSuccess?: (id: string) => void;
+  id: string | string[];
+  onDeleteSuccess?: (id: string | string[]) => void;
   text?: string;
 }
 
@@ -52,7 +52,8 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
           fontSize: "12px",
         }}
         onClick={showModal}
-        loading={loading}      >
+        loading={loading}
+      >
         <svg
           width="19px"
           height="19px"
@@ -86,7 +87,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
             />
           </g>
         </svg>
-       {text}
+        {text}
       </Button>
       <Modal
         open={isModalOpen}
