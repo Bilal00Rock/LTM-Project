@@ -29,6 +29,7 @@ import AddNewButton from "./button/AddButton";
 import "../../pages/Styles/AdminDashboard.css";
 import DeleteButton from "./button/DeleteButton";
 import { useLocalTableContext } from "../../context/LocalTableProvider";
+import ActiveButton from "./button/ActiveButton";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -443,23 +444,17 @@ export const AdminPendingsTable = ({
               );
             }}
           />
-          <Button
-            style={{
-              padding: 8,
-              backgroundColor: "rgba(2, 251, 2, 0.1)",
-              color: "rgb(0, 153, 0)",
-              border: "1px solid rgb(0, 153, 0)",
-              fontSize: "12px",
+          <ActiveButton
+            id={record.id}
+            onActiveSuccess={(activeId) => {
+              // setLocalDataPending((prev) =>
+              //   prev.filter((item) => item.id !== deletedId)
+              // );
+              // setSelectedRowKeys((prev) =>
+              //   prev.filter((key) => key !== deletedId)
+              // );
             }}
-            // onClick={() => handleDelete(record.id)}
-          >
-            <img
-              src="/img/active-account.png"
-              alt="active"
-              style={{ width: "20px", marginLeft: "-5px" }}
-            />
-            <span style={{ marginBottom: "-2px" }}>active</span>
-          </Button>
+          />
         </Space>
       ),
     },

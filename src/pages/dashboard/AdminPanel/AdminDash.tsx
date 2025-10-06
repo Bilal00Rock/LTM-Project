@@ -15,6 +15,8 @@ import { AdminPendingsTable } from "../../../components/Table/AdminPendings";
 import { useEffect, useState } from "react";
 import DeleteButton from "../../../components/Table/button/DeleteButton";
 import { useLocalTableContext } from "../../../context/LocalTableProvider";
+import ActiveButton from "../../../components/Table/button/ActiveButton";
+import DeactivateButton from "../../../components/Table/button/DeactivateButton";
 const layoutStyle: React.CSSProperties = {
   background: "#F2FCFC",
   borderRadius: "6px",
@@ -99,7 +101,7 @@ const AdminDash = () => {
             />
           </Col>
           <Col xs={24} lg={24}>
-            <Card>
+            <Card title={"لیست دکتر ها"}>
               <AdminDoctorTable
                 title={
                   selectedDoctors.length > 0 ? (
@@ -120,6 +122,7 @@ const AdminDash = () => {
                   )
                 }
                 onSelectChange={setSelectedDoctors}
+                clearSelectionTrigger={selectedDoctors.length === 0}
               />
             </Card>
           </Col>
@@ -130,40 +133,42 @@ const AdminDash = () => {
                 title={
                   selectedPatients.length > 0 ? (
                     <Flex align="center" justify="space-between">
-                      <span>{selectedPatients.length} مورد انتخاب شد</span>
-                      <DeleteButton
+                      <span style={{ marginLeft: "20px" }}>
+                        {selectedPatients.length} مورد انتخاب شد
+                      </span>
+                      <span style={{ marginLeft: "10px" }}>
+                        <DeleteButton
+                          id={selectedPatients.map((d) => d.toString())}
+                          onDeleteSuccess={(deletedId) => {
+                            setLocalDataPatient((prev) =>
+                              prev.filter(
+                                (item) => !deletedId.includes(item.id)
+                              )
+                            );
+                            setSelectedPatients([]);
+                          }}
+                        />
+                      </span>
+
+                      <DeactivateButton
                         id={selectedPatients.map((d) => d.toString())}
-                        onDeleteSuccess={(deletedId) => {
-                          setLocalDataPatient((prev) =>
-                            prev.filter((item) => !deletedId.includes(item.id))
-                          );
-                          setSelectedPatients([]);
+                        onDeactivateSuccess={(deactivateId) => {
+                          // setLocalDataPending((prev) =>
+                          //   prev.filter((item) => item.id !== deletedId)
+                          // );
+                          // setSelectedRowKeys((prev) =>
+                          //   prev.filter((key) => key !== deletedId)
+                          // );
                         }}
                       />
-                      <Button
-                        style={{
-                          padding: 8,
-                          backgroundColor: "rgba(81, 81, 81, 0.07)",
-                          color: "rgb(112, 112, 112)",
-                          border: "1px solid rgb(112, 112, 112)",
-                          fontSize: "12px",
-                          marginRight: "10px",
-                        }}
-                        // onClick={() => handleDelete(record.id)}
-                      >
-                        <img
-                          src="/img/deactive-account.png"
-                          alt="deactive"
-                          style={{ width: "20px", marginLeft: "-5px" }}
-                        />
-                        <span style={{ marginBottom: "-2px" }}>deactivate</span>
-                      </Button>
                     </Flex>
                   ) : (
                     "لیست بیماران فعال"
                   )
                 }
                 onSelectChange={setSelectedPatients}
+                // قبل api
+                clearSelectionTrigger={selectedDoctors.length === 0}
               />
             </Card>
           </Col>
@@ -173,42 +178,42 @@ const AdminDash = () => {
                 title={
                   selectedPendingPatients.length > 0 ? (
                     <Flex align="center" justify="space-between">
-                      <span>
+                      <span style={{ marginLeft: "20px" }}>
                         {selectedPendingPatients.length} مورد انتخاب شد
                       </span>
-                      <DeleteButton
+                      <span style={{ marginLeft: "10px" }}>
+                        <DeleteButton
+                          id={selectedPendingPatients.map((d) => d.toString())}
+                          onDeleteSuccess={(deletedId) => {
+                            setLocalDataPending((prev) =>
+                              prev.filter(
+                                (item) => !deletedId.includes(item.id)
+                              )
+                            );
+                            setSelectedPendingPatients([]);
+                          }}
+                        />
+                      </span>
+
+                      <ActiveButton
                         id={selectedPendingPatients.map((d) => d.toString())}
-                        onDeleteSuccess={(deletedId) => {
-                          setLocalDataPending((prev) =>
-                            prev.filter((item) => !deletedId.includes(item.id))
-                          );
-                          setSelectedPendingPatients([]);
+                        onActiveSuccess={(activeId) => {
+                          // setLocalDataPending((prev) =>
+                          //   prev.filter((item) => item.id !== deletedId)
+                          // );
+                          // setSelectedRowKeys((prev) =>
+                          //   prev.filter((key) => key !== deletedId)
+                          // );
                         }}
                       />
-                      <Button
-                        style={{
-                          padding: 8,
-                          backgroundColor: "rgba(2, 251, 2, 0.1)",
-                          color: "rgb(0, 153, 0)",
-                          border: "1px solid rgb(0, 153, 0)",
-                          fontSize: "12px",
-                          marginRight: "10px",
-                        }}
-                        // onClick={() => handleDelete(record.id)}
-                      >
-                        <img
-                          src="/img/active-account.png"
-                          alt="active"
-                          style={{ width: "20px", marginLeft: "-5px" }}
-                        />
-                        <span style={{ marginBottom: "-2px" }}>active</span>
-                      </Button>
                     </Flex>
                   ) : (
                     "لیست بیماران در حال ثبت نام"
                   )
                 }
                 onSelectChange={setSelectedPendingPatients}
+                // قبل api
+                clearSelectionTrigger={selectedDoctors.length === 0}
               />
             </Card>
           </Col>

@@ -29,6 +29,7 @@ import AddNewButton from "./button/AddButton";
 import "../../pages/Styles/AdminDashboard.css";
 import DeleteButton from "./button/DeleteButton";
 import { useLocalTableContext } from "../../context/LocalTableProvider";
+import DeactivateButton from "./button/DeactivateButton";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -443,23 +444,17 @@ export const AdminPatientsTable = ({
               );
             }}
           />
-          <Button
-            style={{
-              padding: 8,
-              backgroundColor: "rgba(81, 81, 81, 0.07)",
-              color: "rgb(112, 112, 112)",
-              border: "1px solid rgb(112, 112, 112)",
-              fontSize: "12px",
+          <DeactivateButton
+            id={record.id}
+            onDeactivateSuccess={(activeId) => {
+              // setLocalDataPending((prev) =>
+              //   prev.filter((item) => item.id !== deletedId)
+              // );
+              // setSelectedRowKeys((prev) =>
+              //   prev.filter((key) => key !== deletedId)
+              // );
             }}
-            // onClick={() => handleDelete(record.id)}
-          >
-            <img
-              src="/img/deactive-account.png"
-              alt="deactive"
-              style={{ width: "20px", marginLeft: "-5px" }}
-            />
-            <span style={{ marginBottom: "-2px" }}>deactivate</span>
-          </Button>
+          />
         </Space>
       ),
     },

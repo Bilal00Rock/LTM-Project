@@ -95,7 +95,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
         onCancel={handleCancel}
         okText="حذف"
         cancelText="انصراف"
-        title="آیا از حذف این مورد مطمئن هستید؟"
+        title="آیا از حذف بیمار مطمئن هستید؟"
       >
         <p>این عمل قابل بازگشت نیست!</p>
       </Modal>
