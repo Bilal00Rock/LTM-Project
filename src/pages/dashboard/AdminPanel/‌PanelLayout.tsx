@@ -49,6 +49,7 @@ const contentStyle: React.CSSProperties = {
   boxShadow: "0 2px 5px rgba(0, 0, 0, 0.25)",
   maxHeight: "93vh",
   overflow: "overlay",
+  overflowX:"hidden",
   padding: "32px 18px 32px 5px",
 };
 const collapseBstyle: React.CSSProperties = {

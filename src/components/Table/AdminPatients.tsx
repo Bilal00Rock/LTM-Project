@@ -30,6 +30,7 @@ import "../../pages/Styles/AdminDashboard.css";
 import DeleteButton from "./button/DeleteButton";
 import { useLocalTableContext } from "../../context/LocalTableProvider";
 import DeactivateButton from "./button/DeactivateButton";
+import AddFormLayout from "../Forms/AddPatient/AddFormLayout";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -484,7 +485,7 @@ export const AdminPatientsTable = ({
           title={() => (
             <Flex justify="space-between">
               <span>{title}</span>
-              <AddNewButton />
+              <AddNewButton onClick={showDrawer} />
             </Flex>
           )}
           columns={columns}
@@ -508,6 +509,26 @@ export const AdminPatientsTable = ({
       ) : (
         <></>
       )}
+      <Drawer
+        title="افزودن بیمار"
+        placement="left"
+        closable={false}
+        open={open}
+        destroyOnClose
+        width={720}
+        onClose={onClose}
+        styles={{
+          mask: {
+            backdropFilter: "blur(2px)",
+          },
+          body: {
+            paddingBottom: 80,
+          },
+        }}
+        extra={<Button onClick={onClose}>بازگشت</Button>}
+      >
+        <AddFormLayout open={open} setOpen={setOpen} />
+      </Drawer>
     </div>
   );
 };

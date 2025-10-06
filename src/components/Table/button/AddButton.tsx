@@ -1,7 +1,11 @@
 import { Button } from "antd";
 import React from "react";
 
-const AddNewButton = () => {
+interface AddNewButtonProps {
+  onClick?: () => void;
+}
+
+const AddNewButton: React.FC<AddNewButtonProps> = ({ onClick }) => {
   return (
     <div
       style={{
@@ -13,6 +17,7 @@ const AddNewButton = () => {
       }}
     >
       <Button
+       onClick={onClick} 
         style={{
           padding: 10,
           backgroundColor: "rgba(59, 173, 255, 0.12)",
