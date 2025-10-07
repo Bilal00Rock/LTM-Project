@@ -1,6 +1,9 @@
 import { Form, Input, Button, Radio, ConfigProvider } from "antd";
 import { useEffect } from "react";
-
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import { DateObject } from "react-multi-date-picker";
 
 type Props = {
   patient: any;
@@ -45,20 +48,66 @@ const EditPatientForm = ({ patient, onClose }: Props) => {
         >
           <Input />
         </Form.Item>
-        <Form.Item label="جنسیت" name="gender" style={{paddingRight: "20px" }}>
-          <Radio.Group >
+        <Form.Item label="جنسیت" name="gender" style={{ paddingRight: "20px" }}>
+          <Radio.Group>
             <Radio.Button value="male">مرد</Radio.Button>
             <Radio.Button value="female">زن</Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="وضیعت تاهل" name="maritalStatus" style={{paddingRight: "20px" }}> 
+        <Form.Item
+          label="وضیعت تاهل"
+          name="maritalStatus"
+          style={{ paddingRight: "20px" }}
+        >
           <Radio.Group>
             <Radio.Button value="single">مجرد</Radio.Button>
             <Radio.Button value="married">متاهل</Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="تاریخ تولد" name="birthdate" style={{ width: 300, paddingRight: "20px" }}>
-
+        <Form.Item
+          label="تاریخ تولد"
+          name="birthdate"
+          style={{ width: 200, paddingRight: "20px" }}
+        >
+          <DatePicker
+            calendar={persian}
+            locale={persian_fa}
+            format="YYYY/MM/DD"
+            placeholder="تاریخ تولد را انتخاب کنید"
+            value={
+              patient.birthdate
+                ? new DateObject({
+                    date: patient.birthdate,
+                    calendar: persian,
+                    locale: persian_fa,
+                  })
+                : ""
+            }
+            onChange={(value) => {
+              if (value) {
+                form.setFieldsValue({
+                  birthdate: value.format("YYYY/MM/DD"),
+                });
+              } else {
+                form.setFieldsValue({
+                  birthdate: null,
+                });
+              }
+            }}
+            style={{
+              width: "100%",
+              direction: "rtl",
+              textAlign: "center",
+              borderRadius: "8px",
+              padding: "6px 10px",
+              fontSize: "14px",
+              color: "#333",
+              border:"0px",
+              backgroundColor:"#F5F5F5"
+            }}
+            inputClass="custom-input"
+            containerStyle={{ width: "100%" }}
+          />
         </Form.Item>
 
         <h2>ویرایش اطلاعات پزشک معالج</h2>
