@@ -3,10 +3,18 @@
   padding-right: 15px !important;
   padding-left: 0px !important;
 }
-.ant-table-cell-fix-left-first{
-   box-shadow:  1px 0 5px -2px rgba(0, 0, 0, 0.3) !important;
+.ant-table-cell-fix-left-first {
+  box-shadow: 1px 0 5px -2px rgba(0, 0, 0, 0.3) !important;
 }
 
-.ant-steps-item-title{
+.ant-steps-item-title {
   font-size: 15px !important;
+}
+
+.button-short span {
+  font-size: 0px;
+  transition: 0.3s !important;
+}
+.button-short:hover span {
+  font-size: 12px;
 }

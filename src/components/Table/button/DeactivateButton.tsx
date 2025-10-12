@@ -50,14 +50,16 @@ const DeactivateButton: React.FC<DeactivateButtonProps> = ({
           color: "rgb(112, 112, 112)",
           border: "1px solid rgb(112, 112, 112)",
           fontSize: "12px",
+          transform:"translateY(-1.5px)"
         }}
         onClick={showModal}
         loading={loading}
+        className="button-short"
       >
         <img
           src="/img/deactive-account.png"
           alt="deactive"
-          style={{ width: "20px", marginLeft: "-5px" }}
+          style={{ width: "20px", marginLeft: "-7px" }}
         />
         <span style={{ marginBottom: "-2px" }}>{text}</span>
       </Button>

@@ -267,8 +267,8 @@ export const AdminPendingsTable = ({
         const isExpanded = expandedId === record.id;
         const displayText = isExpanded
           ? text
-          : text.length > 10
-          ? text.slice(0, 10) + "..."
+          : text.length > 6
+          ? text.slice(0, 6) + "..."
           : text;
         const handleClick = (e: React.MouseEvent) => {
           e.stopPropagation();
@@ -339,8 +339,8 @@ export const AdminPendingsTable = ({
         const isDocExpanded = docExpandedId === record.id;
         const displayTextDoc = isDocExpanded
           ? safeText
-          : safeText.length > 10
-          ? safeText.slice(0, 10) + "..."
+          : safeText.length > 6
+          ? safeText.slice(0, 6) + "..."
           : safeText;
 
         const dochandleClick = (e: React.MouseEvent) => {

@@ -49,10 +49,11 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
           backgroundColor: "rgba(254, 81, 81, 0.07)",
           color: "#FE5151",
           border: "1px solid #FE5151",
-          fontSize: "12px",
+          transform:"translateY(-2px)"
         }}
         onClick={showModal}
         loading={loading}
+        className="button-short"
       >
         <svg
           width="19px"
@@ -60,7 +61,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
           viewBox="0 0 24 24"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          style={{ marginLeft: "-8px", marginRight: "-3px" }}
+          style={{ marginLeft: "-8px", marginRight: "-1px" }}
         >
           <g id="SVGRepo_bgCarrier" stroke-width="0" />
 

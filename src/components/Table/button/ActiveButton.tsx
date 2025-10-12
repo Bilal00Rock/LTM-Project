@@ -50,14 +50,16 @@ const ActiveButton: React.FC<ActiveButtonProps> = ({
           color: "rgb(0, 153, 0)",
           border: "1px solid rgb(0, 153, 0)",
           fontSize: "12px",
+          transform:"translateY(-1.5px)"
         }}
         onClick={showModal}
         loading={loading}
+        className="button-short"
       >
         <img
           src="/img/active-account.png"
           alt="active"
-          style={{ width: "20px", marginLeft: "-5px" }}
+          style={{ width: "20px", marginLeft: "-8px" }}
         />
         <span style={{marginBottom:"-2px"}}>{text}</span>
       </Button>

@@ -35,14 +35,14 @@ const EditEntityButton = ({ type, data }: Props) => {
           backgroundColor: "rgba(239, 255, 59, 0.14)",
           color: "rgb(255, 174, 0)",
           border: "1px solid rgb(255, 174, 0)",
-          fontSize: "12px",
         }}
         onClick={showDrawer}
+        className="button-short"
       >
         <svg
-          width="25px"
-          height="25px"
-          style={{ marginLeft: "-8px", marginRight: "-5px" }}
+          width="26px"
+          height="26px"
+          style={{ marginLeft: "-11px" }}
           viewBox="0 -0.5 25 25"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ const EditEntityButton = ({ type, data }: Props) => {
             fill="rgb(255, 174, 0)"
           />
         </svg>
-        ویرایش
+        <span>ویرایش</span>
       </Button>
 
       <Drawer

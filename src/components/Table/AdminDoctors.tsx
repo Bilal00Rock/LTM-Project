@@ -258,8 +258,8 @@ export const AdminDoctorTable = ({
         const isExpanded = expandedId === record.id;
         const displayText = isExpanded
           ? text
-          : text.length > 10
-          ? text.slice(0, 10) + "..."
+          : text.length > 6
+          ? text.slice(0, 6) + "..."
           : text;
         const handleClick = (e: React.MouseEvent) => {
           e.stopPropagation();

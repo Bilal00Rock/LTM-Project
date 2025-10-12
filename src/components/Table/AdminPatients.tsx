@@ -30,7 +30,6 @@ import "../../pages/Styles/AdminDashboard.css";
 import DeleteButton from "./button/DeleteButton";
 import { useLocalTableContext } from "../../context/LocalTableProvider";
 import DeactivateButton from "./button/DeactivateButton";
-import AddFormLayout from "../Forms/AddPatient/AddFormLayout";
 import EditPatientButton from "./button/EditPatientButton";
 import AddPatientFormAdmin from "../Forms/AddAdminPanel/AddPatient";
 type Props = {
@@ -260,8 +259,8 @@ export const AdminPatientsTable = ({
         const isExpanded = expandedId === record.id;
         const displayText = isExpanded
           ? text
-          : text.length > 10
-          ? text.slice(0, 10) + "..."
+          : text.length > 6
+          ? text.slice(0, 6) + "..."
           : text;
         const handleClick = (e: React.MouseEvent) => {
           e.stopPropagation();
@@ -333,8 +332,8 @@ export const AdminPatientsTable = ({
         const isDocExpanded = docExpandedId === record.id;
         const displayTextDoc = isDocExpanded
           ? safeText
-          : safeText.length > 10
-          ? safeText.slice(0, 10) + "..."
+          : safeText.length > 6
+          ? safeText.slice(0, 6) + "..."
           : safeText;
 
         const dochandleClick = (e: React.MouseEvent) => {
@@ -393,7 +392,7 @@ export const AdminPatientsTable = ({
       align: "center",
       render: (_, record) => (
         <Space align="center">
-          <EditPatientButton type="patient"  data={record} />
+          <EditPatientButton type="patient" data={record} />
           <DeleteButton
             id={record.id}
             onDeleteSuccess={(deletedId) => {
@@ -474,16 +473,22 @@ export const AdminPatientsTable = ({
         placement="left"
         closable={false}
         open={open}
+        getContainer={false}
         destroyOnClose
         width={720}
         onClose={onClose}
         styles={{
           mask: {
-            backdropFilter: "blur(2px)",
+            backdropFilter: "blur(1.5px)",
+            backgroundColor: "rgba(0, 0, 0, 0.04)",
           },
           body: {
             paddingBottom: 80,
           },
+          content: {
+      borderTopLeftRadius: 12, 
+      borderBottomLeftRadius: 12,
+    },
         }}
         extra={<Button onClick={onClose}>بازگشت</Button>}
       >
