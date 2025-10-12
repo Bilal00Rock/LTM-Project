@@ -32,6 +32,7 @@ import { useLocalTableContext } from "../../context/LocalTableProvider";
 import DeactivateButton from "./button/DeactivateButton";
 import AddFormLayout from "../Forms/AddPatient/AddFormLayout";
 import EditPatientButton from "./button/EditPatientButton";
+import AddPatientFormAdmin from "../Forms/AddAdminPanel/AddPatient";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -388,10 +389,11 @@ export const AdminPatientsTable = ({
       title: "Actions",
       key: "actions",
       width: "auto",
+      fixed: "right",
       align: "center",
       render: (_, record) => (
         <Space align="center">
-          <EditPatientButton patient={record} />
+          <EditPatientButton type="patient"  data={record} />
           <DeleteButton
             id={record.id}
             onDeleteSuccess={(deletedId) => {
@@ -485,7 +487,7 @@ export const AdminPatientsTable = ({
         }}
         extra={<Button onClick={onClose}>بازگشت</Button>}
       >
-        <AddFormLayout open={open} setOpen={setOpen} />
+        <AddPatientFormAdmin open={open} onClose={onClose} />
       </Drawer>
     </div>
   );

@@ -32,6 +32,7 @@ import { useLocalTableContext } from "../../context/LocalTableProvider";
 import ActiveButton from "./button/ActiveButton";
 import AddFormLayout from "../Forms/AddPatient/AddFormLayout";
 import EditPatientButton from "./button/EditPatientButton";
+import AddPatientFormAdmin from "../Forms/AddAdminPanel/AddPatient";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -121,7 +122,7 @@ export const AdminPendingsTable = ({
     //   if (drawer) {
     //     drawer.scrollIntoView({ behavior: "smooth", block: "start" });
     //   }
-    // }, 50); 
+    // }, 50);
   };
 
   const onClose = () => {
@@ -393,10 +394,11 @@ export const AdminPendingsTable = ({
       title: "Actions",
       key: "actions",
       width: "auto",
+      fixed: "right",
       align: "center",
       render: (_, record) => (
         <Space align="center">
-          <EditPatientButton patient={record} />
+          <EditPatientButton type="patient" data={record} />
           <DeleteButton
             id={record.id}
             onDeleteSuccess={(deletedId) => {
@@ -490,7 +492,7 @@ export const AdminPendingsTable = ({
         }}
         extra={<Button onClick={onClose}>بازگشت</Button>}
       >
-        <AddFormLayout open={open} setOpen={setOpen} />
+        <AddPatientFormAdmin open={open} onClose={onClose} />
       </Drawer>
     </div>
   );
