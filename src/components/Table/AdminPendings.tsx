@@ -33,6 +33,7 @@ import ActiveButton from "./button/ActiveButton";
 import AddFormLayout from "../Forms/AddPatient/AddFormLayout";
 import EditPatientButton from "./button/EditPatientButton";
 import AddPatientFormAdmin from "../Forms/AddAdminPanel/AddPatient";
+import ProfileDrawer from "../Drawers/AdminPatientProfileDrawer";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -69,6 +70,8 @@ export const AdminPendingsTable = ({
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const { localDataPending, setLocalDataPending } = useLocalTableContext();
+    const [selectedPhone, setSelectedPhone] = useState<string | null>(null);
+  const [profileDrawerOpen, setProfileDrawerOpen] = useState(false);
 
   const handleSelectAll = (e: any) => {
     const checked = e.target.checked;
@@ -398,6 +401,14 @@ export const AdminPendingsTable = ({
       align: "center",
       render: (_, record) => (
         <Space align="center">
+          <a
+            onClick={() => {
+              setSelectedPhone(record.mobile);
+              setProfileDrawerOpen(true);
+            }}
+          >
+            پروفایل
+          </a>
           <EditPatientButton type="patient" data={record} />
           <DeleteButton
             id={record.id}
@@ -494,6 +505,11 @@ export const AdminPendingsTable = ({
       >
         <AddPatientFormAdmin open={open} onClose={onClose} />
       </Drawer>
+      <ProfileDrawer
+        open={profileDrawerOpen}
+        onClose={() => setProfileDrawerOpen(false)}
+        phoneNumber={selectedPhone}
+      />
     </div>
   );
 };
