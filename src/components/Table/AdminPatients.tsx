@@ -32,6 +32,7 @@ import { useLocalTableContext } from "../../context/LocalTableProvider";
 import DeactivateButton from "./button/DeactivateButton";
 import EditPatientButton from "./button/EditPatientButton";
 import AddPatientFormAdmin from "../Forms/AddAdminPanel/AddPatient";
+import ProfileDrawer from "../Drawers/AdminPatientProfileDrawer";
 type Props = {
   title: string;
   onSelectChange?: (selectedKeys: React.Key[]) => void;
@@ -105,6 +106,9 @@ export const AdminPatientsTable = ({
 
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [docExpandedId, setDocExpandedId] = useState<string | null>(null);
+
+  const [selectedPhone, setSelectedPhone] = useState<string | null>(null);
+  const [profileDrawerOpen, setProfileDrawerOpen] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = () => {
@@ -392,6 +396,14 @@ export const AdminPatientsTable = ({
       align: "center",
       render: (_, record) => (
         <Space align="center">
+          <a
+            onClick={() => {
+              setSelectedPhone(record.mobile);
+              setProfileDrawerOpen(true);
+            }}
+          >
+            پروفایل
+          </a>
           <EditPatientButton type="patient" data={record} />
           <DeleteButton
             id={record.id}
@@ -473,7 +485,6 @@ export const AdminPatientsTable = ({
         placement="left"
         closable={false}
         open={open}
-        getContainer={false}
         destroyOnClose
         width={720}
         onClose={onClose}
@@ -486,14 +497,19 @@ export const AdminPatientsTable = ({
             paddingBottom: 80,
           },
           content: {
-      borderTopLeftRadius: 12, 
-      borderBottomLeftRadius: 12,
-    },
+            borderTopLeftRadius: 12,
+            borderBottomLeftRadius: 12,
+          },
         }}
         extra={<Button onClick={onClose}>بازگشت</Button>}
       >
         <AddPatientFormAdmin open={open} onClose={onClose} />
       </Drawer>
+      <ProfileDrawer
+        open={profileDrawerOpen}
+        onClose={() => setProfileDrawerOpen(false)}
+        phoneNumber={selectedPhone}
+      />
     </div>
   );
 };
