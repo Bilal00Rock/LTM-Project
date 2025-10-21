@@ -1,8 +1,18 @@
-import { Drawer, Spin, Alert, Row, Col, Flex, Button, Modal, Tabs, Table } from "antd";
+import {
+  Drawer,
+  Spin,
+  Alert,
+  Row,
+  Col,
+  Flex,
+  Button,
+  Modal,
+  Tabs,
+  Table,
+} from "antd";
 import { useFetchData } from "../../hooks"; // فرض می‌شود این هوک داده‌ها را واکشی می‌کند
 import moment from "moment-jalaali"; // برای کار با تاریخ شمسی
-import React, { useState } from "react"; 
-
+import React, { useState } from "react";
 // --- تعریف Props کامپوننت ---
 interface ProfileDrawerProps {
   open: boolean;
@@ -15,34 +25,131 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   onClose,
   phoneNumber,
 }) => {
-  // --- مدیریت وضعیت واکشی داده ---
   const shouldFetch = !!phoneNumber && open;
-  // از نوع 'any' برای داده‌ها استفاده می‌شود
-  const { data, loading, error } = useFetchData( 
-    shouldFetch
-      ? `/Patient/GetPatientsData?From=2025-09-13&To=2025-10-14&PhoneNumber=${phoneNumber}`
-      : ""
-  );
 
-  // داده‌های پزشکی برای راحتی دسترسی (با اطمینان از عدم خطا)
-  const medicalInformations: any = data?.medicalInformations;
+  const toDate = moment().format("YYYY-MM-DD");
+  const fromDate = moment().subtract(5, "year").format("YYYY-MM-DD");
+  console.log(fromDate);
+
+  // ---- MOCK DATA برای تست (بدون تغییر) ----
+  const mockData = {
+    fullName: "علی رضایی",
+    phoneNumber: phoneNumber || "09123456789",
+    gender: "male",
+    birthdate: "1995-06-20T00:00:00Z",
+    maritalStatus: "married",
+    medicalInformations: {
+      diagnosisDate: "2023-02-10T00:00:00Z",
+      epilepsyTypeName: "صرع ژنرالیزه",
+      epilepsyConsciousnessTypeId: 1,
+      movementStatus: "فعال",
+      epilepsySecondType: "صرع فوکال",
+      pastAntiepilepticMedicineList: [
+        {
+          medicine: { name: "کاربامازپین", type: "قرص" },
+          amount: "200mg",
+          durationOfUseTypeId: "3 ماه",
+          stopDate: "2024-01-01T00:00:00Z",
+          resonOfStop: "عوارض جانبی",
+        },
+      ],
+      currentAntiepilepticMedicineList: [
+        {
+          medicine: { name: "والپروات سدیم", type: "شربت" },
+          amount: "500mg",
+          durationOfUseTypeId: "6 ماه",
+          stopDate: null,
+          resonOfStop: null,
+        },
+      ],
+      otherMedicineList: [
+        {
+          medicine: { name: "ویتامین D3", type: "کپسول" },
+          amount: "1000 واحد",
+          durationOfUseTypeId: "روزانه",
+          stopDate: null,
+          resonOfStop: null,
+        },
+      ],
+      eegDate: "2023-05-01T00:00:00Z",
+      eegResult: "امواج غیر طبیعی در لوب تمپورال چپ",
+      photoDate: "2023-06-12T00:00:00Z",
+      photoResult: "MRI طبیعی",
+      otherDiagnosticMeasuresDate: "2023-07-15T00:00:00Z",
+      otherDiagnosticMeasuresResult: "CT Scan بدون یافته خاص",
+      firstSeizure: "2018-01-10",
+      lastSeizure: "2024-08-22",
+      yearlySeizureCount: 3,
+      seizureInterval: "4 ماه",
+      seizureTimeUnitId: "ماه",
+      parentFamilyRelationshipId: "ندارد",
+      hospitalizationDate: "2024-04-01",
+      hospitalizationCount: 2,
+      hospitalizationDuration: 10,
+      hospitalizationTimeUnitId: "روز",
+      systemicDisease: "دیابت نوع ۲",
+      pastYearComplaints: [{ Id: "سردردهای شدید" }, { Id: "اختلال خواب" }],
+      familyDiseaseHistoryList: [
+        {
+          name: "صرع",
+          relationship: "برادر",
+          familyDiseasesHistoryTypeId: "ارثی",
+        },
+        {
+          name: "دیابت",
+          relationship: "پدر",
+          familyDiseasesHistoryTypeId: "غیر ارثی",
+        },
+      ],
+      drugConsumption: [
+        {
+          drugTypeId: "سیگار",
+          dailyAmount: "5 نخ",
+          drugConsumptionDuration: "3 سال",
+          dateTimeUnitTypeId: "سال",
+        },
+      ],
+      familyDescription:
+        "خانواده دارای سطح درآمد متوسط و حمایت اجتماعی مناسب است.",
+    },
+  };
+
+  // برای شبیه‌سازی وضعیت loading
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (open && phoneNumber) {
+      setLoading(true);
+      setTimeout(() => {
+        setData(mockData);
+        setError(null);
+        setLoading(false);
+      }, 100);
+    }
+  }, [open, phoneNumber]);
+
+  const medicalInformations = data?.medicalInformations;
 
   // --- مدیریت وضعیت مودال‌ها ---
   const [isMedModalOpen, setIsMedModalOpen] = useState(false);
   const [isOtherModalOpen, setOtherModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+  const showExportModal = () => setIsExportModalOpen(true);
+  const closeExportModal = () => setIsExportModalOpen(false);
 
   const showMedModal = () => setIsMedModalOpen(true);
   const showOtherModal = () => setOtherModalOpen(true);
-  
-  const handleCloseModals = () => { // برای بسته شدن هر دو استفاده می‌شود
+
+  const handleCloseModals = () => {
     setIsMedModalOpen(false);
     setOtherModalOpen(false);
   };
-  
-  // --- توابع رندر محتوای مودال (کاملاً مشابه کد PatientProfile) ---
 
-  // ۱. رندر جدول داروها
+  // --- توابع رندر جدول‌ها (بدون تغییر) ---
   const renderMedicines = (medications: any[] = []) => {
+    // ... محتوای renderMedicines ...
     const columns = [
       {
         title: "نام دارو",
@@ -83,13 +190,13 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
         columns={columns}
         dataSource={medications}
         rowKey={(record, index: any) => index}
-        pagination={false} 
+        pagination={false}
       />
     );
   };
-  
-  // ۲. رندر نتایج آزمایش‌ها
+
   const renderResults = (medicalInfo: any) => {
+    // ... محتوای renderResults ...
     const results = [
       {
         category: "EEG",
@@ -120,11 +227,19 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
       { title: "نتیجه", dataIndex: "details", key: "details" },
     ];
 
-    return <Table columns={columns} dataSource={results} rowKey="category" pagination={false} bordered />;
+    return (
+      <Table
+        columns={columns}
+        dataSource={results}
+        rowKey="category"
+        pagination={false}
+        bordered
+      />
+    );
   };
 
-  // ۳. رندر اطلاعات تشنج
   const renderSeizureInfo = (medicalInfo: any) => {
+    // ... محتوای renderSeizureInfo ...
     const seizureData = [
       { label: "اولین تشنج", value: medicalInfo?.firstSeizure },
       { label: "آخرین تشنج", value: medicalInfo?.lastSeizure },
@@ -145,7 +260,9 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
       { label: "بیماری‌های سیستمیک", value: medicalInfo?.systemicDisease },
       {
         label: "شکایات سال گذشته",
-        value: medicalInfo?.pastYearComplaints?.map((pyc: any) => pyc.Id).join(", "),
+        value: medicalInfo?.pastYearComplaints
+          ?.map((pyc: any) => pyc.Id)
+          .join(", "),
       },
     ];
 
@@ -155,15 +272,24 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
         title: "مقدار",
         dataIndex: "value",
         key: "value",
-        render: (value: string | number) => (value !== undefined && value !== null ? value : "-"),
+        render: (value: string | number) =>
+          value !== undefined && value !== null ? value : "-",
       },
     ];
 
-    return <Table columns={columns} dataSource={seizureData} rowKey="label" pagination={false} bordered />;
+    return (
+      <Table
+        columns={columns}
+        dataSource={seizureData}
+        rowKey="label"
+        pagination={false}
+        bordered
+      />
+    );
   };
 
-  // ۴. رندر سابقه بیماری‌های خانوادگی
   const renderFamilyDiseaseHistory = (medicalInfo: any) => {
+    // ... محتوای renderFamilyDiseaseHistory ...
     const familyDiseaseData = medicalInfo?.familyDiseaseHistoryList
       ? medicalInfo.familyDiseaseHistoryList.map((fdh: any) => ({
           name: fdh.name,
@@ -174,15 +300,31 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 
     const columns = [
       { title: "نام بیماری", dataIndex: "name", key: "name" },
-      { title: "ارتباط خانوادگی", dataIndex: "relationship", key: "relationship" },
-      { title: "نوع تاریخچه بیماری", dataIndex: "diseaseHistoryType", key: "diseaseHistoryType" },
+      {
+        title: "ارتباط خانوادگی",
+        dataIndex: "relationship",
+        key: "relationship",
+      },
+      {
+        title: "نوع تاریخچه بیماری",
+        dataIndex: "diseaseHistoryType",
+        key: "diseaseHistoryType",
+      },
     ];
 
-    return <Table columns={columns} dataSource={familyDiseaseData} rowKey="name" pagination={false} bordered />;
+    return (
+      <Table
+        columns={columns}
+        dataSource={familyDiseaseData}
+        rowKey="name"
+        pagination={false}
+        bordered
+      />
+    );
   };
 
-  // ۵. رندر سابقه مصرف مواد
   const renderDrugConsumption = (medicalInfo: any) => {
+    // ... محتوای renderDrugConsumption ...
     const drugConsumptionData = medicalInfo?.drugConsumption
       ? medicalInfo.drugConsumption.map((dc: any) => ({
           drugName: dc.drugTypeId,
@@ -199,26 +341,37 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
       { title: "واحد زمان مصرف", dataIndex: "timeUnit", key: "timeUnit" },
     ];
 
-    return <Table columns={columns} dataSource={drugConsumptionData} rowKey="drugName" pagination={false} bordered />;
+    return (
+      <Table
+        columns={columns}
+        dataSource={drugConsumptionData}
+        rowKey="drugName"
+        pagination={false}
+        bordered
+      />
+    );
   };
 
-  // ۶. رندر شرح حال خانواده
   const renderFamilyDescription = (medicalInfo: any) => {
+    // ... محتوای renderFamilyDescription ...
     return <div>{medicalInfo?.familyDescription || "-"}</div>;
   };
-  
 
-  // --- تعریف آیتم‌های Tab برای مودال داروها ---
+  // --- تعریف آیتم‌های Tab برای مودال داروها (بدون تغییر) ---
   const tabItems = [
     {
       key: "1",
       label: "داروهای ضد صرع قبلی",
-      children: renderMedicines(medicalInformations?.pastAntiepilepticMedicineList),
+      children: renderMedicines(
+        medicalInformations?.pastAntiepilepticMedicineList
+      ),
     },
     {
       key: "2",
       label: "داروهای ضد صرع فعلی",
-      children: renderMedicines(medicalInformations?.currentAntiepilepticMedicineList),
+      children: renderMedicines(
+        medicalInformations?.currentAntiepilepticMedicineList
+      ),
     },
     {
       key: "3",
@@ -227,7 +380,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
     },
   ];
 
-  // --- تعریف آیتم‌های Tab داخلی برای بخش اجتماعی مودال سایر مشخصات ---
+  // --- تعریف آیتم‌های Tab داخلی برای بخش اجتماعی مودال سایر مشخصات (بدون تغییر) ---
   const medicaltabItems = [
     {
       key: "1",
@@ -246,7 +399,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
     },
   ];
 
-  // --- تعریف آیتم‌های Tab اصلی برای مودال سایر مشخصات ---
+  // --- تعریف آیتم‌های Tab اصلی برای مودال سایر مشخصات (بدون تغییر) ---
   const othertabItems = [
     {
       key: "1",
@@ -262,14 +415,12 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
       key: "3",
       label: "اجتماعی",
       children: (
-        // Tabهای داخلی
         <Tabs type="card" defaultActiveKey="1" items={medicaltabItems} />
       ),
     },
   ];
 
-
-  // --- JSX رندر ---
+  // --- JSX رندر (با استفاده از تابع جدید در Modal) ---
   return (
     <Drawer
       title="پروفایل بیمار"
@@ -280,7 +431,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
       destroyOnClose
     >
       {loading ? (
-        <Spin size="large" style={{ display: 'block', margin: '50px auto' }} />
+        <Spin size="large" style={{ display: "block", margin: "50px auto" }} />
       ) : error ? (
         <Alert
           message="خطا در دریافت اطلاعات"
@@ -289,9 +440,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
           showIcon
         />
       ) : data ? (
-        <div style={{ lineHeight: "2rem" ,paddingBlock:"2rem"}}>
-          
-          {/* --- اطلاعات فردی --- */}
+        <div style={{ lineHeight: "2rem", paddingBlock: "2rem" }}>
+          {/* --- اطلاعات فردی (بدون تغییر) --- */}
           <div className="profileMainSection">
             <h3>اطلاعات فردی</h3>
             <Row gutter={[10, 13]}>
@@ -323,8 +473,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                       ? data.gender.toLowerCase() === "male"
                         ? "مرد"
                         : data.gender.toLowerCase() === "female"
-                          ? "زن"
-                          : "-"
+                        ? "زن"
+                        : "-"
                       : "-"}
                   </b>
                 </p>
@@ -350,15 +500,15 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                     ? data.maritalStatus.toLowerCase() === "single"
                       ? "مجرد"
                       : data.maritalStatus.toLowerCase() === "married"
-                        ? "متاهل"
-                        : "-"
+                      ? "متاهل"
+                      : "-"
                     : "-"}
                 </p>
               </Col>
             </Row>
           </div>
-          
-          {/* --- اطلاعات پزشکی و دکمه‌های مودال --- */}
+
+          {/* --- اطلاعات پزشکی و دکمه‌های مودال (بدون تغییر) --- */}
           <div className="profileMainSection">
             <h3>اطلاعات پزشکی</h3>
             <Row gutter={[10, 13]}>
@@ -415,18 +565,16 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
               </Col>
               <Col span={8}>
                 <Flex gap={5} align="flex-start">
-                  <Button 
-                    size="middle" 
-                    onClick={showMedModal} 
-                    // دکمه زمانی فعال است که medicalInformations وجود داشته باشد
+                  <Button
+                    size="middle"
+                    onClick={showMedModal}
                     disabled={!medicalInformations}
                   >
                     دارو ها
                   </Button>{" "}
-                  <Button 
-                    size="middle" 
+                  <Button
+                    size="middle"
                     onClick={showOtherModal}
-                    // دکمه زمانی فعال است که medicalInformations وجود داشته باشد
                     disabled={!medicalInformations}
                   >
                     سایر مشخصات
@@ -435,8 +583,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
               </Col>
             </Row>
           </div>
-          
-          {/* --- Modal داروها --- */}
+
+          {/* --- Modal داروها و سایر مشخصات (بدون تغییر) --- */}
           <Modal
             title={"داروها"}
             open={isMedModalOpen}
@@ -452,7 +600,6 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
             <Tabs type="card" defaultActiveKey="1" items={tabItems} />
           </Modal>
 
-          {/* --- Modal سایر مشخصات --- */}
           <Modal
             title={"سایر مشخصات"}
             open={isOtherModalOpen}
@@ -468,6 +615,29 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
             <Tabs type="card" defaultActiveKey="1" items={othertabItems} />
           </Modal>
 
+          {/* --- دکمه Export --- */}
+          <Flex justify="end" style={{ marginTop: 24, marginLeft: 20 }}>
+            <Button type="primary" onClick={showExportModal} disabled={!data}>
+              📤 export
+            </Button>
+          </Flex>
+
+          <Modal
+            title="خروجی گرفتن از داده‌ها"
+            open={isExportModalOpen}
+            centered
+            onCancel={closeExportModal}
+            footer={null}
+          >
+            <Flex justify="center" gap={10} style={{ paddingBlock: "10px" }}>
+              <Button type="primary" onClick={() => {}}>
+                📄 CSV
+              </Button>
+              <Button type="default" onClick={() => {}}>
+                📘 PDF
+              </Button>
+            </Flex>
+          </Modal>
         </div>
       ) : (
         <p>داده‌ای برای نمایش وجود ندارد</p>

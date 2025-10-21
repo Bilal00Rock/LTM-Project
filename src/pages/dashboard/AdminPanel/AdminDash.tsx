@@ -27,7 +27,9 @@ const layoutStyle: React.CSSProperties = {
 };
 
 const AdminDash = () => {
-  const [selectedPatients, setSelectedPatients] = useState<React.Key[]>([]);
+  const [selectedPatients, setSelectedPatients] = useState<
+    { id: string; mobile: string }[]
+  >([]);
   const [selectedPendingPatients, setSelectedPendingPatients] = useState<
     React.Key[]
   >([]);
@@ -40,7 +42,8 @@ const AdminDash = () => {
     localDataPending,
     setLocalDataPending,
   } = useLocalTableContext();
-
+  selectedPatients && console.log("selectedPatients :", selectedPatients.map((d) => d.id));
+  selectedPendingPatients && console.log("selectedPendingPatients :", selectedPendingPatients);
   //APIs
   const {
     data: DocCount,
@@ -138,7 +141,7 @@ const AdminDash = () => {
                       </span>
                       <span style={{ marginLeft: "10px" }}>
                         <DeleteButton
-                          id={selectedPatients.map((d) => d.toString())}
+                          id={selectedPatients.map((d) => d.id)}
                           onDeleteSuccess={(deletedId) => {
                             setLocalDataPatient((prev) =>
                               prev.filter(
@@ -151,7 +154,7 @@ const AdminDash = () => {
                       </span>
 
                       <DeactivateButton
-                        id={selectedPatients.map((d) => d.toString())}
+                        id={selectedPatients.map((d) => d.id)}
                         onDeactivateSuccess={(deactivateId) => {
                           // setLocalDataPending((prev) =>
                           //   prev.filter((item) => item.id !== deletedId)

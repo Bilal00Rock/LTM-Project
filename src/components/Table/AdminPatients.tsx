@@ -35,7 +35,7 @@ import AddPatientFormAdmin from "../Forms/AddAdminPanel/AddPatient";
 import ProfileDrawer from "../Drawers/AdminPatientProfileDrawer";
 type Props = {
   title: string;
-  onSelectChange?: (selectedKeys: React.Key[]) => void;
+  onSelectChange?: (selectedItems: { id: string; mobile: string }[]) => void;
 };
 
 //cahnge according to API data types
@@ -70,26 +70,44 @@ export const AdminPatientsTable = ({
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const { localDataPatient, setLocalDataPatient } = useLocalTableContext();
-  const handleSelectAll = (e: any) => {
-    const checked = e.target.checked;
-    setCheckAll(checked);
-    let newSelected: React.Key[] = [];
-    if (checked && patientdata) {
-      newSelected = patientdata.map((item: any) => item.id);
-    }
-    setSelectedRowKeys(newSelected);
-    onSelectChange?.(newSelected);
-  };
+const handleSelectAll = (e: any) => {
+  const checked = e.target.checked;
+  setCheckAll(checked);
+  let newSelectedKeys: React.Key[] = [];
+  let newSelectedItems: { id: string; mobile: string }[] = [];
 
-  const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
-    setSelectedRowKeys((prev) => {
-      const newSelected = checked
-        ? [...prev, recordKey]
-        : prev.filter((key) => key !== recordKey);
-      onSelectChange?.(newSelected);
-      return newSelected;
-    });
-  };
+  if (checked && patientdata) {
+    newSelectedKeys = patientdata.map((item: any) => item.id);
+    newSelectedItems = patientdata.map((item: any) => ({
+      id: item.id,
+      mobile: item.mobile,
+    }));
+  }
+
+  setSelectedRowKeys(newSelectedKeys);
+  onSelectChange?.(newSelectedItems); // 👈 حالا خروجی شامل id و mobile است
+};
+
+const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
+  setSelectedRowKeys((prev) => {
+    let newSelectedKeys: React.Key[];
+
+    if (checked) {
+      newSelectedKeys = [...prev, recordKey];
+    } else {
+      newSelectedKeys = prev.filter((key) => key !== recordKey);
+    }
+
+    // ساخت خروجی شامل id و mobile
+    const selectedItems =
+      patientdata
+        ?.filter((item: any) => newSelectedKeys.includes(item.id))
+        .map((item: any) => ({ id: item.id, mobile: item.mobile })) || [];
+
+    onSelectChange?.(selectedItems); // 👈 اینجا هم آرایه از آبجکت‌ها پاس میدیم
+    return newSelectedKeys;
+  });
+};
   useEffect(() => {
     if (patientdata) {
       setLocalDataPatient(patientdata);
@@ -452,7 +470,7 @@ export const AdminPatientsTable = ({
         <Table
           {...other}
           bordered
-          rowKey="mobile"
+          rowKey="id"
           title={() => (
             <Flex justify="space-between">
               <span>{title}</span>
