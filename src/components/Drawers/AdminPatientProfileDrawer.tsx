@@ -10,8 +10,7 @@ import {
   Tabs,
   Table,
 } from "antd";
-import { useFetchData } from "../../hooks"; // فرض می‌شود این هوک داده‌ها را واکشی می‌کند
-import moment from "moment-jalaali"; // برای کار با تاریخ شمسی
+import moment from "moment-jalaali";
 import React, { useState } from "react";
 // --- تعریف Props کامپوننت ---
 interface ProfileDrawerProps {
@@ -29,7 +28,6 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 
   const toDate = moment().format("YYYY-MM-DD");
   const fromDate = moment().subtract(5, "year").format("YYYY-MM-DD");
-  console.log(fromDate);
 
   // ---- MOCK DATA برای تست (بدون تغییر) ----
   const mockData = {
@@ -147,9 +145,103 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
     setOtherModalOpen(false);
   };
 
-  // --- توابع رندر جدول‌ها (بدون تغییر) ---
+
+  const isPrimitive = (val: any) =>
+    val === null ||
+    val === undefined ||
+    typeof val === "string" ||
+    typeof val === "number" ||
+    typeof val === "boolean" ||
+    val instanceof Date;
+
+  const flattenObject = (
+    obj: any,
+    prefix = "",
+    res: Record<string, any> = {}
+  ) => {
+    if (isPrimitive(obj)) {
+      res[prefix] = obj === null || obj === undefined ? "" : String(obj);
+      return res;
+    }
+    if (Array.isArray(obj)) {
+      obj.forEach((item, idx) => {
+        const newPrefix = prefix ? `${prefix}[${idx}]` : `[${idx}]`;
+        flattenObject(item, newPrefix, res);
+      });
+      if (obj.length === 0) {
+        // empty array -> keep as empty string
+        res[prefix] = "";
+      }
+      return res;
+    }
+    // object
+    const keys = Object.keys(obj);
+    if (keys.length === 0 && prefix) {
+      res[prefix] = "";
+      return res;
+    }
+    keys.forEach((key) => {
+      const newPrefix = prefix ? `${prefix}.${key}` : key;
+      flattenObject(obj[key], newPrefix, res);
+    });
+    return res;
+  };
+
+  const csvEscape = (value: string) => {
+    if (value === null || value === undefined) return "";
+    const v = String(value);
+    if (v.includes('"')) {
+      return `"${v.replace(/"/g, '""')}"`;
+    }
+    if (v.includes(",") || v.includes("\n") || v.includes("\r")) {
+      return `"${v}"`;
+    }
+    return v;
+  };
+
+  const exportToCSV = (payload: any, fileName = "export.csv") => {
+    if (!payload) return;
+
+    const rows = Array.isArray(payload) ? payload : [payload];
+
+    const flattenedRows = rows.map((r) => flattenObject(r, "", {}));
+    const headersSet = new Set<string>();
+    flattenedRows.forEach((fr) => {
+      Object.keys(fr).forEach((k) => headersSet.add(k));
+    });
+    const headers = Array.from(headersSet).sort();
+
+    const csvLines = [];
+    csvLines.push(headers.join(","));
+
+    flattenedRows.forEach((fr) => {
+      const line = headers
+        .map((h) => {
+          const v = fr.hasOwnProperty(h) ? fr[h] : "";
+          return csvEscape(v);
+        })
+        .join(",");
+      csvLines.push(line);
+    });
+
+    const csvContent = csvLines.join("\r\n");
+
+    const BOM = "\uFEFF";
+    const blob = new Blob([BOM + csvContent], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
   const renderMedicines = (medications: any[] = []) => {
-    // ... محتوای renderMedicines ...
     const columns = [
       {
         title: "نام دارو",
@@ -196,7 +288,6 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   };
 
   const renderResults = (medicalInfo: any) => {
-    // ... محتوای renderResults ...
     const results = [
       {
         category: "EEG",
@@ -239,7 +330,6 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   };
 
   const renderSeizureInfo = (medicalInfo: any) => {
-    // ... محتوای renderSeizureInfo ...
     const seizureData = [
       { label: "اولین تشنج", value: medicalInfo?.firstSeizure },
       { label: "آخرین تشنج", value: medicalInfo?.lastSeizure },
@@ -289,7 +379,6 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   };
 
   const renderFamilyDiseaseHistory = (medicalInfo: any) => {
-    // ... محتوای renderFamilyDiseaseHistory ...
     const familyDiseaseData = medicalInfo?.familyDiseaseHistoryList
       ? medicalInfo.familyDiseaseHistoryList.map((fdh: any) => ({
           name: fdh.name,
@@ -324,7 +413,6 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   };
 
   const renderDrugConsumption = (medicalInfo: any) => {
-    // ... محتوای renderDrugConsumption ...
     const drugConsumptionData = medicalInfo?.drugConsumption
       ? medicalInfo.drugConsumption.map((dc: any) => ({
           drugName: dc.drugTypeId,
@@ -353,7 +441,6 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   };
 
   const renderFamilyDescription = (medicalInfo: any) => {
-    // ... محتوای renderFamilyDescription ...
     return <div>{medicalInfo?.familyDescription || "-"}</div>;
   };
 
@@ -630,10 +717,27 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
             footer={null}
           >
             <Flex justify="center" gap={10} style={{ paddingBlock: "10px" }}>
-              <Button type="primary" onClick={() => {}}>
+              {/* اینجا تابع exportToCSV را صدا می‌زنیم */}
+              <Button
+                type="primary"
+                onClick={() => {
+                  // اگر می‌خواهی فقط medicalInformations را اکسپورت کنی بجای data بذار medicalInformations
+                  // ولی طبق درخواستت همه چی — پس data را ارسال می‌کنیم
+                  exportToCSV(
+                    data,
+                    `profile_${data?.phoneNumber || "export"}.csv`
+                  );
+                  closeExportModal();
+                }}
+              >
                 📄 CSV
               </Button>
-              <Button type="default" onClick={() => {}}>
+              <Button
+                type="default"
+                onClick={() => {
+                  // placeholder برای PDF — در صورت نیاز می‌تونم PDF generator هم اضافه کنم
+                }}
+              >
                 📘 PDF
               </Button>
             </Flex>
