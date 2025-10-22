@@ -47,6 +47,7 @@ interface DataType {
   updatedAt: string;
   fullName: string;
   doctorId: string;
+  doctorFullName?: string;
   gender: string;
   maritalStatus: string;
   birthdate: string;
@@ -65,7 +66,7 @@ export const AdminPendingsTable = ({
     loading: patientDataLoading,
     error: error,
   } = useFetchDataPOST(AdminPanelAPI.getpendings); //change this back
-  console.log(patientdata);
+  // console.log(patientdata);
   const [open, setOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -219,8 +220,7 @@ export const AdminPendingsTable = ({
       <SearchOutlined style={{ color: filtered ? "#1677ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
+      (record[dataIndex]?.toString() || "")
         .toLowerCase()
         .includes((value as string).toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {

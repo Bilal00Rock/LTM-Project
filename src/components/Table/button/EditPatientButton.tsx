@@ -7,7 +7,7 @@ type EntityType = "patient" | "doctor";
 
 interface Props {
   type: EntityType;
-  data: any; // می‌تونی با نوع دقیق‌تر جایگزینش کنی
+  data: any; 
 }
 
 const EditEntityButton = ({ type, data }: Props) => {

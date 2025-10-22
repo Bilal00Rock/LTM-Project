@@ -36,9 +36,8 @@ const DeactivateButton: React.FC<DeactivateButtonProps> = ({
       setIsModalOpen(false);
       message.success("با موفقیت غیر فعال شد ✅");
 
-      // حذف از لیست در کامپوننت والد
       onDeactivateSuccess?.(id);
-    }, 1000); // شبیه‌سازی 1 ثانیه تأخیر
+    }, 1000);
   };
 
   return (

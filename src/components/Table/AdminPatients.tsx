@@ -65,7 +65,7 @@ export const AdminPatientsTable = ({
     loading: patientDataLoading,
     error: error,
   } = useFetchDataPOST(AdminPanelAPI.getPatients); //change this back
-  console.log(patientdata);
+  // console.log(patientdata);
   const [open, setOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);

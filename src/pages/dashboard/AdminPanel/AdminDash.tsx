@@ -42,8 +42,8 @@ const AdminDash = () => {
     localDataPending,
     setLocalDataPending,
   } = useLocalTableContext();
-  selectedPatients && console.log("selectedPatients :", selectedPatients.map((d) => d.id));
-  selectedPendingPatients && console.log("selectedPendingPatients :", selectedPendingPatients);
+  // selectedPatients && console.log("selectedPatients :", selectedPatients.map((d) => d.id));
+  // selectedPendingPatients && console.log("selectedPendingPatients :", selectedPendingPatients);
   //APIs
   const {
     data: DocCount,
@@ -170,7 +170,6 @@ const AdminDash = () => {
                   )
                 }
                 onSelectChange={setSelectedPatients}
-                // قبل api
                 clearSelectionTrigger={selectedDoctors.length === 0}
               />
             </Card>
@@ -215,7 +214,6 @@ const AdminDash = () => {
                   )
                 }
                 onSelectChange={setSelectedPendingPatients}
-                // قبل api
                 clearSelectionTrigger={selectedDoctors.length === 0}
               />
             </Card>

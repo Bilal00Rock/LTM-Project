@@ -64,7 +64,6 @@ export const AdminDoctorTable = ({
     loading: patientDataLoading,
     error: error,
   } = useFetchDataPOST(AdminPanelAPI.getDoctors);
-  console.log(patientdata);
   const [open, setOpen] = useState(false);
   const [checkAll, setCheckAll] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -78,7 +77,7 @@ export const AdminDoctorTable = ({
       newSelected = patientdata.map((item: any) => item.id);
     }
     setSelectedRowKeys(newSelected);
-    onSelectChange?.(newSelected); // ← الان شناخته میشه
+    onSelectChange?.(newSelected); 
   };
 
   const handleSelectRow = (recordKey: React.Key, checked: boolean) => {
@@ -86,7 +85,7 @@ export const AdminDoctorTable = ({
       const newSelected = checked
         ? [...prev, recordKey]
         : prev.filter((key) => key !== recordKey);
-      onSelectChange?.(newSelected); // ← الان شناخته میشه
+      onSelectChange?.(newSelected); 
       return newSelected;
     });
   };

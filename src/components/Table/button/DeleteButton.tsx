@@ -36,9 +36,8 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
       setIsModalOpen(false);
       message.success("حذف با موفقیت انجام شد ✅");
 
-      // حذف از لیست در کامپوننت والد
       onDeleteSuccess?.(id);
-    }, 1000); // شبیه‌سازی 1 ثانیه تأخیر
+    }, 1000);
   };
 
   return (

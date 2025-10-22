@@ -1,7 +1,5 @@
-// برای تست قبل از api
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
-// نوع داده‌ها
 interface DoctorDataType {
   mobile: string;
   nationalCode: string;
@@ -23,7 +21,6 @@ interface PatientDataType {
   birthdate: string;
 }
 
-// نوع Context جدید با سه استیت
 interface LocalTableContextType {
   localDataDoc: DoctorDataType[];
   setLocalDataDoc: React.Dispatch<React.SetStateAction<DoctorDataType[]>>;
@@ -35,7 +32,6 @@ interface LocalTableContextType {
   setLocalDataPending: React.Dispatch<React.SetStateAction<PatientDataType[]>>;
 }
 
-// مقدار اولیه Context
 const LocalTableContext = createContext<LocalTableContextType | undefined>(
   undefined
 );
@@ -44,7 +40,6 @@ interface Props {
   children: ReactNode;
 }
 
-// Provider
 export const LocalTableProvider = ({ children }: Props) => {
   const [localDataDoc, setLocalDataDoc] = useState<DoctorDataType[]>([]);
   const [localDataPatient, setLocalDataPatient] = useState<PatientDataType[]>([]);
@@ -66,7 +61,6 @@ export const LocalTableProvider = ({ children }: Props) => {
   );
 };
 
-// Hook برای راحتی استفاده
 export const useLocalTableContext = () => {
   const context = useContext(LocalTableContext);
   if (!context) {

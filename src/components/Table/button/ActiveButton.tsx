@@ -36,9 +36,8 @@ const ActiveButton: React.FC<ActiveButtonProps> = ({
       setIsModalOpen(false);
       message.success("با موفقیت فعال شد ✅");
 
-      // حذف از لیست در کامپوننت والد
       onActiveSuccess?.(id);
-    }, 1000); // شبیه‌سازی 1 ثانیه تأخیر
+    }, 1000);
   };
 
   return (

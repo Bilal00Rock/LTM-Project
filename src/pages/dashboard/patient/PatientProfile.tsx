@@ -63,7 +63,6 @@ const PatientProfile = () => {
   const to = dates[1].locale("en").format("YYYY-MM-DD");
   //console.log(from , to);
   //fetch data from API
-  console.log("URL : " ,  `${PatientsApi.getbyid}?From=${from}&To=${to}&PhoneNumber=${id}`)
   const {
     data: patientData,
     loading: patientDataLoading,

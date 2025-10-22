@@ -58,7 +58,7 @@ const EditPatientForm = ({ patient, onClose, open }: Props) => {
     try {
       const values = await form.validateFields();
       const finalData = { ...formData, ...values };
-      console.log("✅ Updated data:", finalData);
+      // console.log("✅ Updated data:", finalData);
       message.success("اطلاعات با موفقیت ویرایش شد ✅");
       onClose();
     } catch {
