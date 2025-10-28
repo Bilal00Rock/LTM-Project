@@ -53,96 +53,6 @@ export function flattenObject(
    ✅ خروجی CSV
 ------------------------------------------------------------------ */
 
-// نقشه کلیدها به انگلیسی برای CSV
-export const csvHeadersMap: Record<string, string> = {
-  // اطلاعات فردی
-  fullName: "Full Name",
-  phoneNumber: "Phone",
-  gender: "Gender",
-  birthdate: "Birth Date",
-  maritalStatus: "Marital Status",
-
-  // اطلاعات پزشکی
-  "medicalInformations.diagnosisDate": "Diagnosis Date",
-  "medicalInformations.epilepsyTypeName": "Epilepsy Type",
-  "medicalInformations.epilepsyConsciousnessTypeId": "Consciousness Status",
-  "medicalInformations.movementStatus": "Movement Status",
-  "medicalInformations.epilepsySecondType": "Second Epilepsy Type",
-
-  // داروهای ضد صرع قبلی
-  "medicalInformations.pastAntiepilepticMedicineList[].medicine.name":
-    "Past Medicine Name",
-  "medicalInformations.pastAntiepilepticMedicineList[].medicine.type":
-    "Past Medicine Type",
-  "medicalInformations.pastAntiepilepticMedicineList[].amount":
-    "Past Medicine Amount",
-  "medicalInformations.pastAntiepilepticMedicineList[].durationOfUseTypeId":
-    "Past Medicine Duration",
-  "medicalInformations.pastAntiepilepticMedicineList[].stopDate":
-    "Past Medicine Stop Date",
-  "medicalInformations.pastAntiepilepticMedicineList[].resonOfStop":
-    "Past Medicine Stop Reason",
-
-  // داروهای ضد صرع فعلی
-  "medicalInformations.currentAntiepilepticMedicineList[].medicine.name":
-    "Current Medicine Name",
-  "medicalInformations.currentAntiepilepticMedicineList[].medicine.type":
-    "Current Medicine Type",
-  "medicalInformations.currentAntiepilepticMedicineList[].amount":
-    "Current Medicine Amount",
-  "medicalInformations.currentAntiepilepticMedicineList[].durationOfUseTypeId":
-    "Current Medicine Duration",
-
-  // سایر داروها
-  "medicalInformations.otherMedicineList[].medicine.name":
-    "Other Medicine Name",
-  "medicalInformations.otherMedicineList[].medicine.type":
-    "Other Medicine Type",
-  "medicalInformations.otherMedicineList[].amount": "Other Medicine Amount",
-  "medicalInformations.otherMedicineList[].durationOfUseTypeId":
-    "Other Medicine Duration",
-
-  // نتایج آزمایش‌ها
-  "medicalInformations.eegDate": "EEG Date",
-  "medicalInformations.eegResult": "EEG Result",
-  "medicalInformations.photoDate": "Imaging Date",
-  "medicalInformations.photoResult": "Imaging Result",
-  "medicalInformations.otherDiagnosticMeasuresDate": "Other Tests Date",
-  "medicalInformations.otherDiagnosticMeasuresResult": "Other Tests Result",
-
-  // اطلاعات تشنج
-  "medicalInformations.firstSeizure": "First Seizure",
-  "medicalInformations.lastSeizure": "Last Seizure",
-  "medicalInformations.yearlySeizureCount": "Seizure Count Per Year",
-  "medicalInformations.seizureInterval": "Seizure Interval",
-  "medicalInformations.seizureTimeUnitId": "Seizure Time Unit",
-
-  // بستری‌ها
-  "medicalInformations.hospitalizationDate": "Hospitalization Date",
-  "medicalInformations.hospitalizationCount": "Hospitalization Count",
-  "medicalInformations.hospitalizationDuration": "Hospitalization Duration",
-  "medicalInformations.hospitalizationTimeUnitId": "Hospitalization Time Unit",
-  "medicalInformations.systemicDisease": "Systemic Disease",
-
-  // شکایات سال گذشته
-  "medicalInformations.pastYearComplaints": "Past Year Complaints",
-
-  // سابقه خانوادگی بیماری‌ها
-  "medicalInformations.familyDiseaseHistoryList[].name": "Family Disease Name",
-  "medicalInformations.familyDiseaseHistoryList[].relationship": "Relationship",
-  "medicalInformations.familyDiseaseHistoryList[].familyDiseasesHistoryTypeId":
-    "Family History Type",
-
-  // سوءمصرف مواد و دخانیات
-  "medicalInformations.drugConsumption[].drugTypeId": "Substance Type",
-  "medicalInformations.drugConsumption[].dailyAmount": "Daily Amount",
-  "medicalInformations.drugConsumption[].drugConsumptionDuration": "Duration",
-  "medicalInformations.drugConsumption[].dateTimeUnitTypeId": "Duration Unit",
-
-  // شرح حال خانواده
-  "medicalInformations.familyDescription": "Family Description",
-};
-
 export function exportToCSV(payload: any, fileName = "export.csv") {
   if (!payload) return;
   const rows = Array.isArray(payload) ? payload : [payload];
@@ -186,7 +96,8 @@ export function exportToCSV(payload: any, fileName = "export.csv") {
         return "داروهای ضد صرع فعلی";
       case k.includes("otherMedicineList"):
         return "سایر داروها";
-
+      case k.includes("medicalInformations.parentFamilyRelationshipId"):
+        return "ارتباط خانوادگی والدین";
       // تشخیص‌ها
       case k.includes("eegDate"):
         return "تاریخ EEG";
@@ -426,7 +337,14 @@ export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
       ${section(
         "اطلاعات تشنج",
         table(
-          ["اولین تشنج", "آخرین تشنج", "تعداد سالانه", "فاصله", "واحد زمان"],
+          [
+            "اولین تشنج",
+            "آخرین تشنج",
+            "تعداد سالانه",
+            "فاصله",
+            "واحد زمان",
+            "ارتباط خانوادگی والدین",
+          ],
           [
             [
               med.firstSeizure ?? "-",
@@ -434,6 +352,7 @@ export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
               med.yearlySeizureCount ?? "-",
               med.seizureInterval ?? "-",
               med.seizureTimeUnitId ?? "-",
+              med.parentFamilyRelationshipId ?? "-",
             ],
           ]
         )
