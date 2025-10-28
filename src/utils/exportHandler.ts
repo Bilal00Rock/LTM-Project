@@ -1,6 +1,9 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import html2pdf from "html2pdf.js";
 
+/* ------------------------------------------------------------------
+   ✅ لود فونت‌های Vazirmatn برای pdfMake
+------------------------------------------------------------------ */
 export function loadFontsToPdfMake(
   vazirmatnRegular: string,
   vazirmatnBold: string
@@ -15,12 +18,14 @@ export function loadFontsToPdfMake(
     Vazirmatn: {
       normal: "Vazirmatn-Regular.ttf",
       bold: "Vazirmatn-Bold.ttf",
-      italics: "Vazirmatn-Regular.ttf",
       bolditalics: "Vazirmatn-Bold.ttf",
     },
   };
 }
 
+/* ------------------------------------------------------------------
+   ✅ ابزار کمکی: تخت کردن آبجکت‌ها برای CSV
+------------------------------------------------------------------ */
 export function flattenObject(
   obj: any,
   prefix = "",
@@ -44,6 +49,9 @@ export function flattenObject(
   return res;
 }
 
+/* ------------------------------------------------------------------
+   ✅ خروجی CSV
+------------------------------------------------------------------ */
 export function exportToCSV(payload: any, fileName = "export.csv") {
   if (!payload) return;
   const rows = Array.isArray(payload) ? payload : [payload];
@@ -73,32 +81,202 @@ export function exportToCSV(payload: any, fileName = "export.csv") {
   URL.revokeObjectURL(url);
 }
 
+/* ------------------------------------------------------------------
+   ✅ خروجی PDF (چند جدول دقیق مثل سایت)
+------------------------------------------------------------------ */
 export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
-  const flat = flattenObject(payload);
-  const entries = Object.entries(flat);
+  if (!payload) return;
+
+  const fmtDate  = (date: string | null) =>
+    date ? new Date(date).toLocaleDateString("fa-IR") : "-";
+
+  const p = payload;
+  const med = p?.medicalInformations || {};
+
+  const pastMeds = med.pastAntiepilepticMedicineList || [];
+  const currentMeds = med.currentAntiepilepticMedicineList || [];
+  const otherMeds = med.otherMedicineList || [];
+  const familyHistory = med.familyDiseaseHistoryList || [];
+  const drugConsumption = med.drugConsumption || [];
+  const complaints =
+    med.pastYearComplaints?.map((c: any) => c.Id).join("، ") || "-";
+
+  const section = (title: string, content: string) => `
+    <h3 style="margin-top:20px; color:#333;">${title}</h3>
+    ${content}
+  `;
+
+  const table = (headers: string[], rows: string[][]) => `
+    <table border="1" cellspacing="0" cellpadding="6" style="width:100%; border-collapse:collapse; font-size:12px; text-align:center;">
+      <thead style="background:#f0f0f0;">
+        <tr>${headers.map((h) => `<th>${h}</th>`).join("")}</tr>
+      </thead>
+      <tbody>
+        ${rows
+          .map(
+            (r) =>
+              `<tr>${r
+                .map((c) => `<td style="word-break:break-word;">${c || "-"}</td>`)
+                .join("")}</tr>`
+          )
+          .join("")}
+      </tbody>
+    </table>
+  `;
 
   const html = `
     <div dir="rtl" style="font-family: Vazirmatn, sans-serif; text-align: right;">
-      <h2 style="text-align:center;">گزارش کامل پروفایل بیمار</h2>
-      <table border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse; width:100%; font-size:12px;">
-        <thead>
-          <tr style="background-color:#f0f0f0;">
-            <th style="width:40%; text-align:center;">کلید</th>
-            <th style="width:60%; text-align:center;">مقدار</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${entries
-            .map(
-              ([key, val]) => `
-            <tr>
-              <td style="word-break:break-all;">${key}</td>
-              <td>${val ?? "-"}</td>
-            </tr>`
-            )
-            .join("")}
-        </tbody>
-      </table>
+      <h2 style="text-align:center;">📋 گزارش کامل پروفایل بیمار</h2>
+
+      ${section(
+        "اطلاعات فردی",
+        table(
+          ["نام و نام خانوادگی", "شماره تماس", "جنسیت", "تاریخ تولد", "وضعیت تأهل"],
+          [[
+            p.fullName ?? "-",
+            p.phoneNumber ?? "-",
+            p.gender === "male" ? "مرد" : p.gender === "female" ? "زن" : "-",
+            fmtDate(p.birthdate),
+            p.maritalStatus === "married"
+              ? "متأهل"
+              : p.maritalStatus === "single"
+              ? "مجرد"
+              : "-",
+          ]]
+        )
+      )}
+
+      ${section(
+        "اطلاعات پزشکی",
+        table(
+          ["تاریخ تشخیص", "نوع صرع", "وضعیت آگاهی", "وضعیت حرکتی", "نوع دوم صرع"],
+          [[
+            fmtDate(med.diagnosisDate),
+            med.epilepsyTypeName,
+            med.epilepsyConsciousnessTypeId,
+            med.movementStatus,
+            med.epilepsySecondType,
+          ]]
+        )
+      )}
+
+      ${section(
+        "داروهای ضد صرع قبلی",
+        table(
+          ["نام دارو", "نوع", "مقدار", "مدت مصرف", "تاریخ توقف", "دلیل توقف"],
+          pastMeds.map((m: any) => [
+            m.medicine?.name,
+            m.medicine?.type,
+            m.amount,
+            m.durationOfUseTypeId,
+            fmtDate(m.stopDate),
+            m.resonOfStop,
+          ])
+        )
+      )}
+
+      ${section(
+        "داروهای ضد صرع فعلی",
+        table(
+          ["نام دارو", "نوع", "مقدار", "مدت مصرف"],
+          currentMeds.map((m: any) => [
+            m.medicine?.name,
+            m.medicine?.type,
+            m.amount,
+            m.durationOfUseTypeId,
+          ])
+        )
+      )}
+
+      ${section(
+        "سایر داروها",
+        table(
+          ["نام دارو", "نوع", "مقدار", "مدت مصرف"],
+          otherMeds.map((m: any) => [
+            m.medicine?.name,
+            m.medicine?.type,
+            m.amount,
+            m.durationOfUseTypeId,
+          ])
+        )
+      )}
+
+      ${section(
+        "نتایج آزمایش‌ها",
+        table(
+          ["دسته", "تاریخ", "نتیجه"],
+          [
+            ["EEG", fmtDate(med.eegDate), med.eegResult],
+            ["تصویربرداری", fmtDate(med.photoDate), med.photoResult],
+            ["سایر اقدامات", fmtDate(med.otherDiagnosticMeasuresDate), med.otherDiagnosticMeasuresResult],
+          ]
+        )
+      )}
+
+      ${section(
+        "اطلاعات تشنج",
+        table(
+          ["اولین تشنج", "آخرین تشنج", "تعداد سالانه", "فاصله", "واحد زمان"],
+          [[
+            med.firstSeizure ?? "-",
+            med.lastSeizure ?? "-",
+            med.yearlySeizureCount ?? "-",
+            med.seizureInterval ?? "-",
+            med.seizureTimeUnitId ?? "-",
+          ]]
+        )
+      )}
+
+      ${section(
+        "بستری‌ها",
+        table(
+          ["تاریخ بستری", "تعداد دفعات", "مدت", "واحد", "بیماری سیستمیک"],
+          [[
+            fmtDate(med.hospitalizationDate),
+            med.hospitalizationCount ?? "-",
+            med.hospitalizationDuration ?? "-",
+            med.hospitalizationTimeUnitId ?? "-",
+            med.systemicDisease ?? "-",
+          ]]
+        )
+      )}
+
+      ${section(
+        "شکایات سال گذشته",
+        `<p style="font-size:13px; line-height:1.8;">${complaints}</p>`
+      )}
+
+      ${section(
+        "سابقه خانوادگی بیماری‌ها",
+        table(
+          ["نام بیماری", "نسبت خانوادگی", "نوع سابقه"],
+          familyHistory.map((f: any) => [
+            f.name,
+            f.relationship,
+            f.familyDiseasesHistoryTypeId,
+          ])
+        )
+      )}
+
+      ${section(
+        "سوءمصرف مواد و دخانیات",
+        table(
+          ["نوع ماده", "مقدار روزانه", "مدت", "واحد"],
+          drugConsumption.map((d: any) => [
+            d.drugTypeId,
+            d.dailyAmount,
+            d.drugConsumptionDuration,
+            d.dateTimeUnitTypeId,
+          ])
+        )
+      )}
+
+      ${section(
+        "شرح حال خانواده",
+        `<p style="font-size:13px; line-height:1.8;">${
+          med.familyDescription ?? "-"
+        }</p>`
+      )}
     </div>
   `;
 
