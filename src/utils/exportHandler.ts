@@ -52,20 +52,208 @@ export function flattenObject(
 /* ------------------------------------------------------------------
    ✅ خروجی CSV
 ------------------------------------------------------------------ */
+
+// نقشه کلیدها به انگلیسی برای CSV
+export const csvHeadersMap: Record<string, string> = {
+  // اطلاعات فردی
+  fullName: "Full Name",
+  phoneNumber: "Phone",
+  gender: "Gender",
+  birthdate: "Birth Date",
+  maritalStatus: "Marital Status",
+
+  // اطلاعات پزشکی
+  "medicalInformations.diagnosisDate": "Diagnosis Date",
+  "medicalInformations.epilepsyTypeName": "Epilepsy Type",
+  "medicalInformations.epilepsyConsciousnessTypeId": "Consciousness Status",
+  "medicalInformations.movementStatus": "Movement Status",
+  "medicalInformations.epilepsySecondType": "Second Epilepsy Type",
+
+  // داروهای ضد صرع قبلی
+  "medicalInformations.pastAntiepilepticMedicineList[].medicine.name":
+    "Past Medicine Name",
+  "medicalInformations.pastAntiepilepticMedicineList[].medicine.type":
+    "Past Medicine Type",
+  "medicalInformations.pastAntiepilepticMedicineList[].amount":
+    "Past Medicine Amount",
+  "medicalInformations.pastAntiepilepticMedicineList[].durationOfUseTypeId":
+    "Past Medicine Duration",
+  "medicalInformations.pastAntiepilepticMedicineList[].stopDate":
+    "Past Medicine Stop Date",
+  "medicalInformations.pastAntiepilepticMedicineList[].resonOfStop":
+    "Past Medicine Stop Reason",
+
+  // داروهای ضد صرع فعلی
+  "medicalInformations.currentAntiepilepticMedicineList[].medicine.name":
+    "Current Medicine Name",
+  "medicalInformations.currentAntiepilepticMedicineList[].medicine.type":
+    "Current Medicine Type",
+  "medicalInformations.currentAntiepilepticMedicineList[].amount":
+    "Current Medicine Amount",
+  "medicalInformations.currentAntiepilepticMedicineList[].durationOfUseTypeId":
+    "Current Medicine Duration",
+
+  // سایر داروها
+  "medicalInformations.otherMedicineList[].medicine.name":
+    "Other Medicine Name",
+  "medicalInformations.otherMedicineList[].medicine.type":
+    "Other Medicine Type",
+  "medicalInformations.otherMedicineList[].amount": "Other Medicine Amount",
+  "medicalInformations.otherMedicineList[].durationOfUseTypeId":
+    "Other Medicine Duration",
+
+  // نتایج آزمایش‌ها
+  "medicalInformations.eegDate": "EEG Date",
+  "medicalInformations.eegResult": "EEG Result",
+  "medicalInformations.photoDate": "Imaging Date",
+  "medicalInformations.photoResult": "Imaging Result",
+  "medicalInformations.otherDiagnosticMeasuresDate": "Other Tests Date",
+  "medicalInformations.otherDiagnosticMeasuresResult": "Other Tests Result",
+
+  // اطلاعات تشنج
+  "medicalInformations.firstSeizure": "First Seizure",
+  "medicalInformations.lastSeizure": "Last Seizure",
+  "medicalInformations.yearlySeizureCount": "Seizure Count Per Year",
+  "medicalInformations.seizureInterval": "Seizure Interval",
+  "medicalInformations.seizureTimeUnitId": "Seizure Time Unit",
+
+  // بستری‌ها
+  "medicalInformations.hospitalizationDate": "Hospitalization Date",
+  "medicalInformations.hospitalizationCount": "Hospitalization Count",
+  "medicalInformations.hospitalizationDuration": "Hospitalization Duration",
+  "medicalInformations.hospitalizationTimeUnitId": "Hospitalization Time Unit",
+  "medicalInformations.systemicDisease": "Systemic Disease",
+
+  // شکایات سال گذشته
+  "medicalInformations.pastYearComplaints": "Past Year Complaints",
+
+  // سابقه خانوادگی بیماری‌ها
+  "medicalInformations.familyDiseaseHistoryList[].name": "Family Disease Name",
+  "medicalInformations.familyDiseaseHistoryList[].relationship": "Relationship",
+  "medicalInformations.familyDiseaseHistoryList[].familyDiseasesHistoryTypeId":
+    "Family History Type",
+
+  // سوءمصرف مواد و دخانیات
+  "medicalInformations.drugConsumption[].drugTypeId": "Substance Type",
+  "medicalInformations.drugConsumption[].dailyAmount": "Daily Amount",
+  "medicalInformations.drugConsumption[].drugConsumptionDuration": "Duration",
+  "medicalInformations.drugConsumption[].dateTimeUnitTypeId": "Duration Unit",
+
+  // شرح حال خانواده
+  "medicalInformations.familyDescription": "Family Description",
+};
+
 export function exportToCSV(payload: any, fileName = "export.csv") {
   if (!payload) return;
   const rows = Array.isArray(payload) ? payload : [payload];
   const flattenedRows = rows.map((r) => flattenObject(r, "", {}));
 
-  const headersSet = new Set<string>();
-  flattenedRows.forEach((fr) =>
-    Object.keys(fr).forEach((k) => headersSet.add(k))
-  );
-  const headers = Array.from(headersSet).sort();
+  const keys = Array.from(
+    flattenedRows.reduce<Set<string>>((set, fr) => {
+      Object.keys(fr).forEach((k) => set.add(k));
+      return set;
+    }, new Set<string>())
+  ).sort();
+
+  const translateKeyToFarsi = (key: string): string => {
+    const k = key.replace(/\[\d+\]/g, ""); // حذف [0], [1]
+    switch (true) {
+      case k === "fullName":
+        return "نام و نام خانوادگی";
+      case k === "phoneNumber":
+        return "شماره تماس";
+      case k === "gender":
+        return "جنسیت";
+      case k === "birthdate":
+        return "تاریخ تولد";
+      case k === "maritalStatus":
+        return "وضعیت تأهل";
+      case k.includes("diagnosisDate"):
+        return "تاریخ تشخیص";
+      case k.includes("epilepsyTypeName"):
+        return "نوع صرع";
+      case k.includes("epilepsyConsciousnessTypeId"):
+        return "وضعیت آگاهی";
+      case k.includes("movementStatus"):
+        return "وضعیت حرکتی";
+      case k.includes("epilepsySecondType"):
+        return "نوع دوم صرع";
+
+      // داروها
+      case k.includes("pastAntiepilepticMedicineList"):
+        return "داروهای ضد صرع قبلی";
+      case k.includes("currentAntiepilepticMedicineList"):
+        return "داروهای ضد صرع فعلی";
+      case k.includes("otherMedicineList"):
+        return "سایر داروها";
+
+      // تشخیص‌ها
+      case k.includes("eegDate"):
+        return "تاریخ EEG";
+      case k.includes("eegResult"):
+        return "نتیجه EEG";
+      case k.includes("photoDate"):
+        return "تاریخ تصویربرداری";
+      case k.includes("photoResult"):
+        return "نتیجه تصویربرداری";
+      case k.includes("otherDiagnosticMeasuresDate"):
+        return "تاریخ سایر اقدامات تشخیصی";
+      case k.includes("otherDiagnosticMeasuresResult"):
+        return "نتیجه سایر اقدامات تشخیصی";
+
+      // تشنج
+      case k.includes("firstSeizure"):
+        return "اولین تشنج";
+      case k.includes("lastSeizure"):
+        return "آخرین تشنج";
+      case k.includes("yearlySeizureCount"):
+        return "تعداد تشنج در سال";
+      case k.includes("seizureInterval"):
+        return "فاصله بین تشنج‌ها";
+      case k.includes("seizureTimeUnitId"):
+        return "واحد زمان تشنج";
+
+      // بستری‌ها
+      case k.includes("hospitalizationDate"):
+        return "تاریخ بستری";
+      case k.includes("hospitalizationCount"):
+        return "تعداد دفعات بستری";
+      case k.includes("hospitalizationDuration"):
+        return "مدت بستری";
+      case k.includes("hospitalizationTimeUnitId"):
+        return "واحد مدت بستری";
+      case k.includes("systemicDisease"):
+        return "بیماری سیستمیک";
+
+      // سابقه خانوادگی
+      case k.includes("familyDiseaseHistoryList"):
+        return "سابقه خانوادگی بیماری‌ها";
+      case k.includes("familyDescription"):
+        return "شرح حال خانواده";
+
+      // شکایات و سوءمصرف
+      case k.includes("pastYearComplaints"):
+        return "شکایات سال گذشته";
+      case k.includes("drugConsumption"):
+        return "سوءمصرف مواد و دخانیات";
+
+      default:
+        return k; // اگر ترجمه نداشت
+    }
+  };
+
+  const headers = keys.map((k) => translateKeyToFarsi(k));
 
   const csvLines = [headers.join(",")];
+
   flattenedRows.forEach((fr) => {
-    const line = headers.map((h) => JSON.stringify(fr[h] || "")).join(",");
+    const line = keys
+      .map((k) => {
+        let val = fr[k];
+        if (Array.isArray(val)) val = val.join("، ");
+        return JSON.stringify(val ?? "");
+      })
+      .join(",");
     csvLines.push(line);
   });
 
@@ -87,7 +275,7 @@ export function exportToCSV(payload: any, fileName = "export.csv") {
 export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
   if (!payload) return;
 
-  const fmtDate  = (date: string | null) =>
+  const fmtDate = (date: string | null) =>
     date ? new Date(date).toLocaleDateString("fa-IR") : "-";
 
   const p = payload;
@@ -116,7 +304,9 @@ export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
           .map(
             (r) =>
               `<tr>${r
-                .map((c) => `<td style="word-break:break-word;">${c || "-"}</td>`)
+                .map(
+                  (c) => `<td style="word-break:break-word;">${c || "-"}</td>`
+                )
                 .join("")}</tr>`
           )
           .join("")}
@@ -131,32 +321,48 @@ export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
       ${section(
         "اطلاعات فردی",
         table(
-          ["نام و نام خانوادگی", "شماره تماس", "جنسیت", "تاریخ تولد", "وضعیت تأهل"],
-          [[
-            p.fullName ?? "-",
-            p.phoneNumber ?? "-",
-            p.gender === "male" ? "مرد" : p.gender === "female" ? "زن" : "-",
-            fmtDate(p.birthdate),
-            p.maritalStatus === "married"
-              ? "متأهل"
-              : p.maritalStatus === "single"
-              ? "مجرد"
-              : "-",
-          ]]
+          [
+            "نام و نام خانوادگی",
+            "شماره تماس",
+            "جنسیت",
+            "تاریخ تولد",
+            "وضعیت تأهل",
+          ],
+          [
+            [
+              p.fullName ?? "-",
+              p.phoneNumber ?? "-",
+              p.gender === "male" ? "مرد" : p.gender === "female" ? "زن" : "-",
+              fmtDate(p.birthdate),
+              p.maritalStatus === "married"
+                ? "متأهل"
+                : p.maritalStatus === "single"
+                ? "مجرد"
+                : "-",
+            ],
+          ]
         )
       )}
 
       ${section(
         "اطلاعات پزشکی",
         table(
-          ["تاریخ تشخیص", "نوع صرع", "وضعیت آگاهی", "وضعیت حرکتی", "نوع دوم صرع"],
-          [[
-            fmtDate(med.diagnosisDate),
-            med.epilepsyTypeName,
-            med.epilepsyConsciousnessTypeId,
-            med.movementStatus,
-            med.epilepsySecondType,
-          ]]
+          [
+            "تاریخ تشخیص",
+            "نوع صرع",
+            "وضعیت آگاهی",
+            "وضعیت حرکتی",
+            "نوع دوم صرع",
+          ],
+          [
+            [
+              fmtDate(med.diagnosisDate),
+              med.epilepsyTypeName,
+              med.epilepsyConsciousnessTypeId,
+              med.movementStatus,
+              med.epilepsySecondType,
+            ],
+          ]
         )
       )}
 
@@ -208,7 +414,11 @@ export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
           [
             ["EEG", fmtDate(med.eegDate), med.eegResult],
             ["تصویربرداری", fmtDate(med.photoDate), med.photoResult],
-            ["سایر اقدامات", fmtDate(med.otherDiagnosticMeasuresDate), med.otherDiagnosticMeasuresResult],
+            [
+              "سایر اقدامات",
+              fmtDate(med.otherDiagnosticMeasuresDate),
+              med.otherDiagnosticMeasuresResult,
+            ],
           ]
         )
       )}
@@ -217,13 +427,15 @@ export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
         "اطلاعات تشنج",
         table(
           ["اولین تشنج", "آخرین تشنج", "تعداد سالانه", "فاصله", "واحد زمان"],
-          [[
-            med.firstSeizure ?? "-",
-            med.lastSeizure ?? "-",
-            med.yearlySeizureCount ?? "-",
-            med.seizureInterval ?? "-",
-            med.seizureTimeUnitId ?? "-",
-          ]]
+          [
+            [
+              med.firstSeizure ?? "-",
+              med.lastSeizure ?? "-",
+              med.yearlySeizureCount ?? "-",
+              med.seizureInterval ?? "-",
+              med.seizureTimeUnitId ?? "-",
+            ],
+          ]
         )
       )}
 
@@ -231,13 +443,15 @@ export function exportToPDF_HTML(payload: any, fileName = "export.pdf") {
         "بستری‌ها",
         table(
           ["تاریخ بستری", "تعداد دفعات", "مدت", "واحد", "بیماری سیستمیک"],
-          [[
-            fmtDate(med.hospitalizationDate),
-            med.hospitalizationCount ?? "-",
-            med.hospitalizationDuration ?? "-",
-            med.hospitalizationTimeUnitId ?? "-",
-            med.systemicDisease ?? "-",
-          ]]
+          [
+            [
+              fmtDate(med.hospitalizationDate),
+              med.hospitalizationCount ?? "-",
+              med.hospitalizationDuration ?? "-",
+              med.hospitalizationTimeUnitId ?? "-",
+              med.systemicDisease ?? "-",
+            ],
+          ]
         )
       )}
 
