@@ -57,6 +57,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
   //Auth
   const [Error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [loginLoading, setLoginLoading] = useState(false);
   const authContext = useAuth();
 
   if (!authContext) {
@@ -88,6 +89,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
   };
   //API Post
   const onFinish = async (values: any) => {
+    setLoginLoading(true)
     const username = values.D_id;
     const password = values.password;
     try {
@@ -146,6 +148,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
         errormsg("خظایی رخ داده است");
       }
     } finally {
+      setLoginLoading(false)
       setLoading(false);
     }
   };
@@ -259,6 +262,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
                 type="primary"
                 htmlType="submit"
                 style={{ fontWeight: "bold", fontSize: "large" }}
+                loading={loginLoading}
               >
                 ورود
               </Button>

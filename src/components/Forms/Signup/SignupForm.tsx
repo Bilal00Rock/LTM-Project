@@ -41,6 +41,8 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
   className,
 }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [signupLoading, setSignupLoading] = useState(false);
+  const [backLoading, setBackLoading] = useState(false);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -52,7 +54,9 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
   const navigate = useNavigate();
 
   const onBRClick = useCallback(() => {
+    setBackLoading(true);
     navigate("/login-page");
+    setBackLoading(true);
   }, [navigate]);
   const next = () => {
     setCurrent(current + 1);
@@ -89,6 +93,7 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
   const [Error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const onFinish = async (values: any) => {
+    setSignupLoading(true);
     //console.log("Received values of form: ", values);
     const medicalSystemCode = values.D_id;
     const nationalCode = values.N_id;
@@ -118,7 +123,7 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
           placement: "topLeft", // Place notification on the right
         });
         //msgSuccess("رمز یکبار مصرف ارسال شد");
-        
+
         next();
       }
     } catch (error) {
@@ -128,15 +133,16 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
           errormsg("پاسخی از سرور دریافت نشد");
         } else if (error.response?.status === 404) {
           errormsg(error.response.data?.message);
-        }
-        else {
+        } else {
           setError(error);
-          if (Error) errormsg(`خطایی رخ داده است:${error.response.data?.message}`);
+          if (Error)
+            errormsg(`خطایی رخ داده است:${error.response.data?.message}`);
         }
       } else {
         errormsg("خظایی رخ داده است");
       }
     } finally {
+      setSignupLoading(false);
       setLoading(false);
     }
   };
@@ -264,11 +270,19 @@ const SignupForm: FunctionComponent<SignupComponentProps> = ({
                 type="primary"
                 htmlType="submit"
                 style={{ fontWeight: "bold", fontSize: "large" }}
+                loading={signupLoading}
+                disabled={backLoading}
               >
                 ثبت نام پزشک
               </Button>
               <Divider plain>یا</Divider>
-              <Button block type="default" onClick={onBRClick}>
+              <Button
+                block
+                type="default"
+                onClick={onBRClick}
+                loading={backLoading}
+                disabled={signupLoading}
+              >
                 بازگشت به صفحه ورود
               </Button>
             </ConfigProvider>

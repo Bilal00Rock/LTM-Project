@@ -179,7 +179,7 @@ const NewPassForm: FunctionComponent<NewPassFormComponentProps> = ({
               },
               {
                 pattern: PWD_REGEX,
-                message: "لطفا گذرواژه قوی تری استفاده کنید",
+                message: "لطفا طبق توضیحات زیر گذرواژه را انتخاب کنید",
               },
             ]}
             hasFeedback

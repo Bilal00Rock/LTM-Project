@@ -18,6 +18,7 @@ export const ForgotPassPage: FunctionComponent = () => {
   const { Content } = Layout;
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [backLoading, setBackLoading] = useState(false);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -53,7 +54,7 @@ export const ForgotPassPage: FunctionComponent = () => {
     backgroundColor: "#F2FCFC",
     maxWidth: "1000px",
     flexDirection: "column",
-    padding: '10%'
+    padding: "10%",
   };
 
   const content2: React.CSSProperties = {
@@ -63,7 +64,9 @@ export const ForgotPassPage: FunctionComponent = () => {
   //#endregion
   const navigate = useNavigate();
   const onBackClick = useCallback(() => {
+    setBackLoading(true)
     navigate("/login-page");
+    setBackLoading(false)
   }, [navigate]);
 
   const [current, setCurrent] = useState(0);
@@ -100,7 +103,7 @@ export const ForgotPassPage: FunctionComponent = () => {
             title="عملیات با موفقیت انجام شد!"
             subTitle="رمز شما با موفقیت تغییر یافت!"
           />
-          <Button block type="default" onClick={onBackClick}>
+          <Button block type="default" onClick={onBackClick} loading={backLoading}>
             برگشت به صفحه ورود
           </Button>
         </>
@@ -117,7 +120,7 @@ export const ForgotPassPage: FunctionComponent = () => {
     <ConfigProvider locale={fa_IR} direction={"rtl"}>
       <Layout style={layoutStyle}>
         <Content style={contentStyle}>
-          <div >
+          <div>
             <img
               className={styles.headerLogoWithoutBack1Icon}
               loading="lazy"
@@ -125,13 +128,13 @@ export const ForgotPassPage: FunctionComponent = () => {
               src={process.env.PUBLIC_URL + "/img/logo.png"}
             />
           </div>
-            <Flex vertical gap={10}>
-              <b className={styles2.forgotPassword1} style={titleFont}>
-                فراموشی رمز عبور!
-              </b>
-              <Steps current={current} items={items} />
-              <div>{steps[current].content}</div>
-            </Flex>
+          <Flex vertical gap={10}>
+            <b className={styles2.forgotPassword1} style={titleFont}>
+              فراموشی رمز عبور!
+            </b>
+            <Steps current={current} items={items} />
+            <div>{steps[current].content}</div>
+          </Flex>
         </Content>
       </Layout>
     </ConfigProvider>
