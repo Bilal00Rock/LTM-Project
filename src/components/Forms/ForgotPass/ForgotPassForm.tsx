@@ -20,6 +20,8 @@ const ForgotPassForm: FunctionComponent<FrogotpassComponentProps> = ({
   setCurrent,
 }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [sendLoading, setSendLoading] = useState(false);
+  const [backLoading, setBackLoading] = useState(false);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -27,13 +29,17 @@ const ForgotPassForm: FunctionComponent<FrogotpassComponentProps> = ({
   }, []);
   const navigate = useNavigate();
   const onBackClick = useCallback(() => {
+    setBackLoading(true);
     navigate("/login-page");
+    setBackLoading(false);
   }, [navigate]);
 
   const onFinish = (values: any) => {
+    setSendLoading(true);
     console.log("Received values of form: ", values);
     setCurrent(current + 1);
     console.log(current);
+    setSendLoading(false);
   };
   const smallWidth = windowWidth < 1700;
   const toosmallWidth = windowWidth < 1300;
@@ -125,12 +131,20 @@ const ForgotPassForm: FunctionComponent<FrogotpassComponentProps> = ({
               type="primary"
               htmlType="submit"
               style={{ fontWeight: "bold" }}
+              loading={sendLoading}
+              disabled={backLoading}
             >
               ارسال کد
             </Button>
 
             <Divider>یا</Divider>
-            <Button block type="default" onClick={onBackClick}>
+            <Button
+              block
+              type="default"
+              onClick={onBackClick}
+              loading={backLoading}
+              disabled={sendLoading}
+            >
               برگشت به صفحه ورود
             </Button>
           </ConfigProvider>

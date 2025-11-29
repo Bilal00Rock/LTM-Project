@@ -12,9 +12,12 @@ const { Content } = Layout;
 const Signup: FunctionComponent = () => {
   const [current, setCurrent] = useState(0);
   const [data , setData] = useState<any>({});
+  const [backLoading, setBackLoading] = useState(false);
   const navigate = useNavigate();
   const onBackClick = useCallback(() => {
+    setBackLoading(true)
     navigate("/login-page");
+    setBackLoading(false)
   }, [navigate]);
 
   
@@ -40,7 +43,7 @@ const Signup: FunctionComponent = () => {
             title="عملیات با موفقیت انجام شد!"
             subTitle="ثبت نام شما با موفقیت انجام شد!"
           />
-          <Button block type="default" onClick={onBackClick}>
+          <Button block type="default" onClick={onBackClick} loading={backLoading}>
             برگشت به صفحه ورود
           </Button>
         </>

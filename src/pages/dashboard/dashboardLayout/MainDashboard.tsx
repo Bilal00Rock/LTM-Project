@@ -190,7 +190,7 @@ const MainDashboardLayout = ({ children }: DashboardLayoutProps) => {
         },
       }}
     >
-      <Layout style={{ maxHeight: "100vh" }} hasSider={true}>
+      <Layout style={{ maxHeight: "100vh" , overflow:"hidden" }} hasSider={true}> {/* fix slide bug - Mehran Khedmatgozar*/}
         <Sider
           trigger={null}
           theme="light"

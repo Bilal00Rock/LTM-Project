@@ -71,6 +71,7 @@ const PatientProfile = () => {
   } = useFetchData(
     `${PatientsApi.getbyid}?From=${from}&To=${to}&PhoneNumber=${id}`
   );
+
   //} = useFetchData(`${PatientsApi.getbyid}`);
   //console.log(`${PatientsApi.getbyid}?PhoneNumber=${id}`);
   //console.log(patientData);
@@ -127,7 +128,11 @@ const PatientProfile = () => {
               ? "زن"
               : "",
         },
-        { key: "birthdate", label: "تاریخ تولد", children: moment(patientData?.birthdate).format("jYYYY/jMM/jDD") },
+        {
+          key: "birthdate",
+          label: "تاریخ تولد",
+          children: moment(patientData?.birthdate).format("jYYYY/jMM/jDD"),
+        },
         {
           key: "maritalStatus",
           label: "وضیعت تاهل",
@@ -147,7 +152,9 @@ const PatientProfile = () => {
           {
             key: "dateOfDiagnose",
             label: "تاریخ تشخیص",
-            children: moment(patientData?.medicalInformations.diagnosisDate).format("jYYYY/jMM/jDD"),
+            children: moment(
+              patientData?.medicalInformations.diagnosisDate
+            ).format("jYYYY/jMM/jDD"),
           },
           {
             key: "epitype",
@@ -197,207 +204,276 @@ const PatientProfile = () => {
   const Medinfo = patientData?.medicalInformations || [];
   // Function to render medicine lists
 
+  const renderMedicines = (medications: any[]) => {
+    const columns = [
+      {
+        title: "نام دارو",
+        dataIndex: ["medicine", "name"],
+        key: "name",
+      },
+      {
+        title: "نوع دارو",
+        dataIndex: ["medicine", "type"],
+        key: "type",
+      },
+      {
+        title: "مقدار",
+        dataIndex: "amount",
+        key: "amount",
+      },
+      {
+        title: "شناسه مدت زمان مصرف",
+        dataIndex: "durationOfUseTypeId",
+        key: "durationOfUseTypeId",
+      },
+      {
+        title: "تاریخ توقف",
+        dataIndex: "stopDate",
+        key: "stopDate",
+        render: (date: any) =>
+          date ? new Date(date).toLocaleDateString("fa-IR") : "-",
+      },
+      {
+        title: "دلیل توقف",
+        dataIndex: "resonOfStop",
+        key: "resonOfStop",
+      },
+    ];
 
-const renderMedicines = (medications: any[]) => {
-  const columns = [
-    {
-      title: 'نام دارو',
-      dataIndex: ['medicine', 'name'],
-      key: 'name',
-    },
-    {
-      title: 'نوع دارو',
-      dataIndex: ['medicine', 'type'],
-      key: 'type',
-    },
-    {
-      title: 'مقدار',
-      dataIndex: 'amount',
-      key: 'amount',
-    },
-    {
-      title: 'شناسه مدت زمان مصرف',
-      dataIndex: 'durationOfUseTypeId',
-      key: 'durationOfUseTypeId',
-    },
-    {
-      title: 'تاریخ توقف',
-      dataIndex: 'stopDate',
-      key: 'stopDate',
-      render: (date : any) => (date ? new Date(date).toLocaleDateString('fa-IR') : '-'),
-    },
-    {
-      title: 'دلیل توقف',
-      dataIndex: 'resonOfStop',
-      key: 'resonOfStop',
-    },
-  ];
+    return (
+      <Table
+        columns={columns}
+        dataSource={medications}
+        rowKey={(record, index: any) => index}
+        pagination={{
+          responsive: true,
+          position: ["bottomRight"],
+          pageSize: 5,
+        }}
+      />
+    );
+  };
+  interface FamilyDiseaseHistoryDTO {
+    id: number;
+    familyDiseasesHistoryTypeId: number;
+    name: string;
+    relationship: string;
+  }
 
-  return <Table columns={columns} dataSource={medications} rowKey={(record, index: any) => index} pagination={{ responsive: true, position: ["bottomRight"] ,pageSize: 5}}/>;
-};
-interface FamilyDiseaseHistoryDTO {
-  id: number;
-  familyDiseasesHistoryTypeId: number;
-  name: string;
-  relationship: string;
-}
+  interface DrugConsumptionDTO {
+    id: number;
+    drugTypeId: number;
+    dailyAmount: string;
+    drugConsumptionDuration: string;
+    dateTimeUnitTypeId: number;
+  }
+  interface MedicalInfo {
+    eegDate?: string;
+    eegResult?: string;
+    photoDate?: string;
+    photoResult?: string;
+    otherDiagnosticMeasuresDate?: string;
+    otherDiagnosticMeasuresResult?: string;
+    firstSeizure?: string;
+    lastSeizure?: string;
+    yearlySeizureCount?: number;
+    seizureInterval?: number;
+    seizureTimeUnitId?: number;
+    parentFamilyRelationshipId?: number;
+    hospitalizationDate?: string;
+    hospitalizationCount?: number;
+    hospitalizationDuration?: number;
+    hospitalizationTimeUnitId?: number;
+    systemicDisease?: string;
+    pastYearComplaints?: { Id: number }[];
+    familyDiseaseHistoryList: FamilyDiseaseHistoryDTO[];
+    drugConsumption: DrugConsumptionDTO[];
+    familyDescription: string;
+  }
+  const renderResults = (medicalInformation: MedicalInfo) => {
+    const results = [
+      {
+        category: "EEG",
+        date: medicalInformation.eegDate,
+        details: medicalInformation.eegResult,
+      },
+      {
+        category: "اقدامات تصویربرداری",
+        date: medicalInformation.photoDate,
+        details: medicalInformation.photoResult,
+      },
+      {
+        category: "سایر اقدامات تشخیصی",
+        date: medicalInformation.otherDiagnosticMeasuresDate,
+        details: medicalInformation.otherDiagnosticMeasuresResult,
+      },
+    ];
 
-interface DrugConsumptionDTO {
-  id: number;
-  drugTypeId: number;
-  dailyAmount: string;
-  drugConsumptionDuration: string;
-  dateTimeUnitTypeId: number;
-}
-interface MedicalInfo {
-  eegDate?: string;
-  eegResult?: string;
-  photoDate?: string;
-  photoResult?: string;
-  otherDiagnosticMeasuresDate?: string;
-  otherDiagnosticMeasuresResult?: string;
-  firstSeizure?: string;
-  lastSeizure?: string;
-  yearlySeizureCount?: number;
-  seizureInterval?: number;
-  seizureTimeUnitId?: number;
-  parentFamilyRelationshipId?: number;
-  hospitalizationDate?: string;
-  hospitalizationCount?: number;
-  hospitalizationDuration?: number;
-  hospitalizationTimeUnitId?: number;
-  systemicDisease?: string;
-  pastYearComplaints?: { Id: number }[];
-  familyDiseaseHistoryList: FamilyDiseaseHistoryDTO[];
-  drugConsumption: DrugConsumptionDTO[];
-  familyDescription: string;
-}
-const renderResults = (medicalInformation: MedicalInfo) => {
-  const results = [
-    { category: 'EEG', date: medicalInformation.eegDate, details: medicalInformation.eegResult },
-    { category: 'اقدامات تصویربرداری', date: medicalInformation.photoDate, details: medicalInformation.photoResult },
-    { category: 'سایر اقدامات تشخیصی', date: medicalInformation.otherDiagnosticMeasuresDate, details: medicalInformation.otherDiagnosticMeasuresResult },
-  ];
+    const columns = [
+      {
+        title: "نتایج",
+        dataIndex: "category",
+        key: "category",
+      },
+      {
+        title: "تاریخ",
+        dataIndex: "date",
+        key: "date",
+        render: (date: string) =>
+          date ? new Date(date).toLocaleDateString("fa-IR") : "-",
+      },
+      {
+        title: "نتیجه",
+        dataIndex: "details",
+        key: "details",
+      },
+    ];
 
-  const columns = [
-    {
-      title: 'نتایج',
-      dataIndex: 'category',
-      key: 'category',
-    },
-    {
-      title: 'تاریخ',
-      dataIndex: 'date',
-      key: 'date',
-      render: (date: string) => (date ? new Date(date).toLocaleDateString('fa-IR') : '-'),
-    },
-    {
-      title: 'نتیجه',
-      dataIndex: 'details',
-      key: 'details',
-    },
-  ];
+    return (
+      <Table
+        columns={columns}
+        dataSource={results}
+        rowKey={(record, index: any) => index}
+        pagination={false}
+        bordered
+      />
+    );
+  };
 
-  return <Table columns={columns} dataSource={results} rowKey={(record, index: any) => index} pagination={false} bordered />;
-};
- 
-const renderSeizureInfo = (medicalInfo: MedicalInfo) => {
-  const seizureData = [
-    { label: 'اولین تشنج', value: medicalInfo.firstSeizure },
-    { label: 'آخرین تشنج', value: medicalInfo.lastSeizure },
-    { label: 'تعداد تشنج سالانه', value: medicalInfo.yearlySeizureCount },
-    { label: 'فاصله بین تشنج‌ها', value: medicalInfo.seizureInterval },
-    { label: 'واحد زمان تشنج', value: medicalInfo.seizureTimeUnitId },
-    { label: 'ارتباط خانوادگی والدین', value: medicalInfo.parentFamilyRelationshipId },
-    { label: 'تاریخ بستری', value: medicalInfo.hospitalizationDate },
-    { label: 'تعداد دفعات بستری', value: medicalInfo.hospitalizationCount },
-    { label: 'مدت زمان بستری', value: medicalInfo.hospitalizationDuration },
-    { label: 'واحد زمان بستری', value: medicalInfo.hospitalizationTimeUnitId },
-    { label: 'بیماری‌های سیستمیک', value: medicalInfo.systemicDisease },
-    { label: 'شکایات سال گذشته', value: medicalInfo.pastYearComplaints?.map(pyc => pyc.Id).join(', ') },
-  ];
+  const renderSeizureInfo = (medicalInfo: MedicalInfo) => {
+    const seizureData = [
+      { label: "اولین تشنج", value: medicalInfo.firstSeizure },
+      { label: "آخرین تشنج", value: medicalInfo.lastSeizure },
+      { label: "تعداد تشنج سالانه", value: medicalInfo.yearlySeizureCount },
+      { label: "فاصله بین تشنج‌ها", value: medicalInfo.seizureInterval },
+      { label: "واحد زمان تشنج", value: medicalInfo.seizureTimeUnitId },
+      {
+        label: "ارتباط خانوادگی والدین",
+        value: medicalInfo.parentFamilyRelationshipId,
+      },
+      { label: "تاریخ بستری", value: medicalInfo.hospitalizationDate },
+      { label: "تعداد دفعات بستری", value: medicalInfo.hospitalizationCount },
+      { label: "مدت زمان بستری", value: medicalInfo.hospitalizationDuration },
+      {
+        label: "واحد زمان بستری",
+        value: medicalInfo.hospitalizationTimeUnitId,
+      },
+      { label: "بیماری‌های سیستمیک", value: medicalInfo.systemicDisease },
+      {
+        label: "شکایات سال گذشته",
+        value: medicalInfo.pastYearComplaints?.map((pyc) => pyc.Id).join(", "),
+      },
+    ];
 
-  const columns = [
-    {
-      title: 'مشخصات',
-      dataIndex: 'label',
-      key: 'label',
-    },
-    {
-      title: 'مقدار',
-      dataIndex: 'value',
-      key: 'value',
-      render: (value: string | number) => (value !== undefined ? value : '-'),
-    },
-  ];
+    const columns = [
+      {
+        title: "مشخصات",
+        dataIndex: "label",
+        key: "label",
+      },
+      {
+        title: "مقدار",
+        dataIndex: "value",
+        key: "value",
+        render: (value: string | number) => (value !== undefined ? value : "-"),
+      },
+    ];
 
-  return <Table columns={columns} dataSource={seizureData} rowKey={(record, index: any) => index} pagination={false} bordered />;
-};
-const renderFamilyDiseaseHistory = (medicalInfo: MedicalInfo) => {
-  const familyDiseaseData =  medicalInfo.familyDiseaseHistoryList ? medicalInfo.familyDiseaseHistoryList.map(fdh => ({
-    name: fdh.name,
-    relationship: fdh.relationship,
-    diseaseHistoryType: fdh.familyDiseasesHistoryTypeId,
-  })) : [];
+    return (
+      <Table
+        columns={columns}
+        dataSource={seizureData}
+        rowKey={(record, index: any) => index}
+        pagination={false}
+        bordered
+      />
+    );
+  };
+  const renderFamilyDiseaseHistory = (medicalInfo: MedicalInfo) => {
+    const familyDiseaseData = medicalInfo.familyDiseaseHistoryList
+      ? medicalInfo.familyDiseaseHistoryList.map((fdh) => ({
+          name: fdh.name,
+          relationship: fdh.relationship,
+          diseaseHistoryType: fdh.familyDiseasesHistoryTypeId,
+        }))
+      : [];
 
-  const columns = [
-    {
-      title: 'نام بیماری',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'ارتباط خانوادگی',
-      dataIndex: 'relationship',
-      key: 'relationship',
-    },
-    {
-      title: 'نوع تاریخچه بیماری',
-      dataIndex: 'diseaseHistoryType',
-      key: 'diseaseHistoryType',
-    },
-  ];
+    const columns = [
+      {
+        title: "نام بیماری",
+        dataIndex: "name",
+        key: "name",
+      },
+      {
+        title: "ارتباط خانوادگی",
+        dataIndex: "relationship",
+        key: "relationship",
+      },
+      {
+        title: "نوع تاریخچه بیماری",
+        dataIndex: "diseaseHistoryType",
+        key: "diseaseHistoryType",
+      },
+    ];
 
-  return <Table columns={columns} dataSource={familyDiseaseData} rowKey="name" pagination={false} bordered />;
-};
+    return (
+      <Table
+        columns={columns}
+        dataSource={familyDiseaseData}
+        rowKey="name"
+        pagination={false}
+        bordered
+      />
+    );
+  };
 
-const renderDrugConsumption = (medicalInfo: MedicalInfo) => {
-  const drugConsumptionData = medicalInfo.drugConsumption ? medicalInfo.drugConsumption.map(dc => ({
-    drugName: dc.drugTypeId,
-    dailyAmount: dc.dailyAmount,
-    duration: dc.drugConsumptionDuration,
-    timeUnit: dc.dateTimeUnitTypeId,
-  })): [];
+  const renderDrugConsumption = (medicalInfo: MedicalInfo) => {
+    const drugConsumptionData = medicalInfo.drugConsumption
+      ? medicalInfo.drugConsumption.map((dc) => ({
+          drugName: dc.drugTypeId,
+          dailyAmount: dc.dailyAmount,
+          duration: dc.drugConsumptionDuration,
+          timeUnit: dc.dateTimeUnitTypeId,
+        }))
+      : [];
 
-  const columns = [
-    {
-      title: 'نام دارو',
-      dataIndex: 'drugName',
-      key: 'drugName',
-    },
-    {
-      title: 'مقدار روزانه',
-      dataIndex: 'dailyAmount',
-      key: 'dailyAmount',
-    },
-    {
-      title: 'مدت زمان مصرف',
-      dataIndex: 'duration',
-      key: 'duration',
-    },
-    {
-      title: 'واحد زمان مصرف',
-      dataIndex: 'timeUnit',
-      key: 'timeUnit',
-    },
-  ];
+    const columns = [
+      {
+        title: "نام دارو",
+        dataIndex: "drugName",
+        key: "drugName",
+      },
+      {
+        title: "مقدار روزانه",
+        dataIndex: "dailyAmount",
+        key: "dailyAmount",
+      },
+      {
+        title: "مدت زمان مصرف",
+        dataIndex: "duration",
+        key: "duration",
+      },
+      {
+        title: "واحد زمان مصرف",
+        dataIndex: "timeUnit",
+        key: "timeUnit",
+      },
+    ];
 
-  return <Table columns={columns} dataSource={drugConsumptionData} rowKey="drugName" pagination={false} bordered />;
-};
+    return (
+      <Table
+        columns={columns}
+        dataSource={drugConsumptionData}
+        rowKey="drugName"
+        pagination={false}
+        bordered
+      />
+    );
+  };
 
-const renderFamilyDescription = (medicalInfo: MedicalInfo) => {
-  return <div>{medicalInfo.familyDescription || '-'}</div>;
-};
+  const renderFamilyDescription = (medicalInfo: MedicalInfo) => {
+    return <div>{medicalInfo.familyDescription || "-"}</div>;
+  };
 
   const tabItems: TabsProps["items"] = [
     {
@@ -447,10 +523,11 @@ const renderFamilyDescription = (medicalInfo: MedicalInfo) => {
     {
       key: "3",
       label: "اجتماعی",
-      children: <Tabs type="card" defaultActiveKey="1" items={medicaltabItems} />
+      children: (
+        <Tabs type="card" defaultActiveKey="1" items={medicaltabItems} />
+      ),
     },
   ];
-
 
   const handleDateChange = (date: any, dateString: [string, string]) => {
     //console.log(date);
@@ -632,7 +709,7 @@ const renderFamilyDescription = (medicalInfo: MedicalInfo) => {
           </Col>
           <Col span={8}>
             <Card title={"وضیعت روحی بیمار"} loading={patientDataLoading}>
-               <MentalState data={patientData} />
+              <MentalState data={patientData} />
             </Card>
           </Col>
           <Col span={12}>

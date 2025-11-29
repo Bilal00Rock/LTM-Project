@@ -57,6 +57,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
   //Auth
   const [Error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [loginLoading, setLoginLoading] = useState(false);
   const authContext = useAuth();
 
   if (!authContext) {
@@ -88,6 +89,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
   };
   //API Post
   const onFinish = async (values: any) => {
+    setLoginLoading(true)
     const username = values.D_id;
     const password = values.password;
     try {
@@ -146,6 +148,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
         errormsg("خظایی رخ داده است");
       }
     } finally {
+      setLoginLoading(false)
       setLoading(false);
     }
   };
@@ -189,7 +192,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
             }}
           >
             <FormItem>
-              <b style={{ fontSize: "30px",  }}>
+              <b style={{ fontSize: "20px",  }}>
                 ورود ادمین
               </b>
             </FormItem>
@@ -215,6 +218,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
                     <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
                   </Tooltip>
                 }
+                style={{ fontSize: "18px" }}
               />
             </Form.Item>
             <Form.Item
@@ -227,6 +231,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
                 prefix={<LockOutlined />}
                 type="password"
                 placeholder="رمز عبور"
+                style={{ fontSize: "18px"}}
               />
             </Form.Item>
           </ConfigProvider>
@@ -247,7 +252,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
                     /* here is your component tokens */
                     contentFontSizeLG: 20,
                     fontWeight: 800,
-                    controlHeightLG: 55,
+                    controlHeightLG: 45,
                   },
                 },
               }}
@@ -257,6 +262,7 @@ const AdminLoginForm: FunctionComponent<LoginComponentType> = ({
                 type="primary"
                 htmlType="submit"
                 style={{ fontWeight: "bold", fontSize: "large" }}
+                loading={loginLoading}
               >
                 ورود
               </Button>

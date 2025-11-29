@@ -1,0 +1,653 @@
+import {
+  Drawer,
+  Spin,
+  Alert,
+  Row,
+  Col,
+  Flex,
+  Button,
+  Modal,
+  Tabs,
+  Table,
+} from "antd";
+import moment from "moment-jalaali";
+import React, { useEffect, useState } from "react";
+import {
+  exportToCSV,
+  exportToPDF_HTML,
+  loadFontsToPdfMake,
+} from "../../utils/exportHandler";
+interface ProfileDrawerProps {
+  open: boolean;
+  onClose: () => void;
+  phoneNumber: string | null;
+}
+
+const vazirmatnRegularBase64 =
+  "AAEAAAAPAIAAAwBwR0RFRqgcpLkA..."
+  const vazirmatnBoldBase64 =
+  "AAEAAAAPAIAAAwBwR0RFRqgcpLkA..."
+
+const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
+  open,
+  onClose,
+  phoneNumber,
+}) => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const [isMedModalOpen, setIsMedModalOpen] = useState(false);
+  const [isOtherModalOpen, setOtherModalOpen] = useState(false);
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false);
+
+  const showMedModal = () => setIsMedModalOpen(true);
+  const showOtherModal = () => setOtherModalOpen(true);
+  const showExportModal = () => setIsExportModalOpen(true);
+  const closeExportModal = () => setIsExportModalOpen(false);
+  const handleCloseModals = () => {
+    setIsMedModalOpen(false);
+    setOtherModalOpen(false);
+  };
+  useEffect(() => {
+    loadFontsToPdfMake(vazirmatnRegularBase64, vazirmatnBoldBase64);
+  }, []);
+
+  const mockData = {
+    fullName: "علی رضایی",
+    phoneNumber: phoneNumber || "09123456789",
+    gender: "male",
+    birthdate: "1995-06-20T00:00:00Z",
+    maritalStatus: "married",
+    medicalInformations: {
+      diagnosisDate: "2023-02-10T00:00:00Z",
+      epilepsyTypeName: "صرع ژنرالیزه",
+      epilepsyConsciousnessTypeId: 1,
+      movementStatus: "فعال",
+      epilepsySecondType: "صرع فوکال",
+      pastAntiepilepticMedicineList: [
+        {
+          medicine: { name: "کاربامازپین", type: "قرص" },
+          amount: "200mg",
+          durationOfUseTypeId: "3 ماه",
+          stopDate: "2024-01-01T00:00:00Z",
+          resonOfStop: "عوارض جانبی",
+        },
+      ],
+      currentAntiepilepticMedicineList: [
+        {
+          medicine: { name: "والپروات سدیم", type: "شربت" },
+          amount: "500mg",
+          durationOfUseTypeId: "6 ماه",
+          stopDate: null,
+          resonOfStop: null,
+        },
+      ],
+      otherMedicineList: [
+        {
+          medicine: { name: "ویتامین D3", type: "کپسول" },
+          amount: "1000 واحد",
+          durationOfUseTypeId: "روزانه",
+          stopDate: null,
+          resonOfStop: null,
+        },
+      ],
+      eegDate: "2023-05-01T00:00:00Z",
+      eegResult: "امواج غیر طبیعی در لوب تمپورال چپ",
+      photoDate: "2023-06-12T00:00:00Z",
+      photoResult: "MRI طبیعی",
+      otherDiagnosticMeasuresDate: "2023-07-15T00:00:00Z",
+      otherDiagnosticMeasuresResult: "CT Scan بدون یافته خاص",
+      firstSeizure: "2018-01-10",
+      lastSeizure: "2024-08-22",
+      yearlySeizureCount: 3,
+      seizureInterval: "4 ماه",
+      seizureTimeUnitId: "ماه",
+      parentFamilyRelationshipId: "ندارد",
+      hospitalizationDate: "2024-04-01",
+      hospitalizationCount: 2,
+      hospitalizationDuration: 10,
+      hospitalizationTimeUnitId: "روز",
+      systemicDisease: "دیابت نوع ۲",
+      pastYearComplaints: [{ Id: "سردردهای شدید" }, { Id: "اختلال خواب" }],
+      familyDiseaseHistoryList: [
+        {
+          name: "صرع",
+          relationship: "برادر",
+          familyDiseasesHistoryTypeId: "ارثی",
+        },
+        {
+          name: "دیابت",
+          relationship: "پدر",
+          familyDiseasesHistoryTypeId: "غیر ارثی",
+        },
+      ],
+      drugConsumption: [
+        {
+          drugTypeId: "سیگار",
+          dailyAmount: "5 نخ",
+          drugConsumptionDuration: "3 سال",
+          dateTimeUnitTypeId: "سال",
+        },
+      ],
+      familyDescription:
+        "خانواده دارای سطح درآمد متوسط و حمایت اجتماعی مناسب است.",
+    },
+  };
+
+  React.useEffect(() => {
+    if (open && phoneNumber) {
+      setLoading(true);
+      setTimeout(() => {
+        setData(mockData);
+        setError(null);
+        setLoading(false);
+      }, 100);
+    }
+  }, [open, phoneNumber]);
+
+  const medicalInformations = data?.medicalInformations;
+
+
+  const renderMedicines = (medications: any[] = []) => {
+    const columns = [
+      {
+        title: "نام دارو",
+        dataIndex: ["medicine", "name"],
+        key: "name",
+      },
+      {
+        title: "نوع دارو",
+        dataIndex: ["medicine", "type"],
+        key: "type",
+      },
+      {
+        title: "مقدار",
+        dataIndex: "amount",
+        key: "amount",
+      },
+      {
+        title: "شناسه مدت زمان مصرف",
+        dataIndex: "durationOfUseTypeId",
+        key: "durationOfUseTypeId",
+      },
+      {
+        title: "تاریخ توقف",
+        dataIndex: "stopDate",
+        key: "stopDate",
+        render: (date: any) =>
+          date ? moment(date).format("jYYYY/jMM/jDD") : "-",
+      },
+      {
+        title: "دلیل توقف",
+        dataIndex: "resonOfStop",
+        key: "resonOfStop",
+      },
+    ];
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={medications}
+        rowKey={(record, index: any) => index}
+        pagination={false}
+      />
+    );
+  };
+
+  const renderResults = (medicalInfo: any) => {
+    const results = [
+      {
+        category: "EEG",
+        date: medicalInfo?.eegDate,
+        details: medicalInfo?.eegResult,
+      },
+      {
+        category: "اقدامات تصویربرداری",
+        date: medicalInfo?.photoDate,
+        details: medicalInfo?.photoResult,
+      },
+      {
+        category: "سایر اقدامات تشخیصی",
+        date: medicalInfo?.otherDiagnosticMeasuresDate,
+        details: medicalInfo?.otherDiagnosticMeasuresResult,
+      },
+    ];
+
+    const columns = [
+      { title: "نتایج", dataIndex: "category", key: "category" },
+      {
+        title: "تاریخ",
+        dataIndex: "date",
+        key: "date",
+        render: (date: string) =>
+          date ? moment(date).format("jYYYY/jMM/jDD") : "-",
+      },
+      { title: "نتیجه", dataIndex: "details", key: "details" },
+    ];
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={results}
+        rowKey="category"
+        pagination={false}
+        bordered
+      />
+    );
+  };
+
+  const renderSeizureInfo = (medicalInfo: any) => {
+    const seizureData = [
+      { label: "اولین تشنج", value: medicalInfo?.firstSeizure },
+      { label: "آخرین تشنج", value: medicalInfo?.lastSeizure },
+      { label: "تعداد تشنج سالانه", value: medicalInfo?.yearlySeizureCount },
+      { label: "فاصله بین تشنج‌ها", value: medicalInfo?.seizureInterval },
+      { label: "واحد زمان تشنج", value: medicalInfo?.seizureTimeUnitId },
+      {
+        label: "ارتباط خانوادگی والدین",
+        value: medicalInfo?.parentFamilyRelationshipId,
+      },
+      { label: "تاریخ بستری", value: medicalInfo?.hospitalizationDate },
+      { label: "تعداد دفعات بستری", value: medicalInfo?.hospitalizationCount },
+      { label: "مدت زمان بستری", value: medicalInfo?.hospitalizationDuration },
+      {
+        label: "واحد زمان بستری",
+        value: medicalInfo?.hospitalizationTimeUnitId,
+      },
+      { label: "بیماری‌های سیستمیک", value: medicalInfo?.systemicDisease },
+      {
+        label: "شکایات سال گذشته",
+        value: medicalInfo?.pastYearComplaints
+          ?.map((pyc: any) => pyc.Id)
+          .join(", "),
+      },
+    ];
+
+    const columns = [
+      { title: "مشخصات", dataIndex: "label", key: "label" },
+      {
+        title: "مقدار",
+        dataIndex: "value",
+        key: "value",
+        render: (value: string | number) =>
+          value !== undefined && value !== null ? value : "-",
+      },
+    ];
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={seizureData}
+        rowKey="label"
+        pagination={false}
+        bordered
+      />
+    );
+  };
+
+  const renderFamilyDiseaseHistory = (medicalInfo: any) => {
+    const familyDiseaseData = medicalInfo?.familyDiseaseHistoryList
+      ? medicalInfo.familyDiseaseHistoryList.map((fdh: any) => ({
+          name: fdh.name,
+          relationship: fdh.relationship,
+          diseaseHistoryType: fdh.familyDiseasesHistoryTypeId,
+        }))
+      : [];
+
+    const columns = [
+      { title: "نام بیماری", dataIndex: "name", key: "name" },
+      {
+        title: "ارتباط خانوادگی",
+        dataIndex: "relationship",
+        key: "relationship",
+      },
+      {
+        title: "نوع تاریخچه بیماری",
+        dataIndex: "diseaseHistoryType",
+        key: "diseaseHistoryType",
+      },
+    ];
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={familyDiseaseData}
+        rowKey="name"
+        pagination={false}
+        bordered
+      />
+    );
+  };
+
+  const renderDrugConsumption = (medicalInfo: any) => {
+    const drugConsumptionData = medicalInfo?.drugConsumption
+      ? medicalInfo.drugConsumption.map((dc: any) => ({
+          drugName: dc.drugTypeId,
+          dailyAmount: dc.dailyAmount,
+          duration: dc.drugConsumptionDuration,
+          timeUnit: dc.dateTimeUnitTypeId,
+        }))
+      : [];
+
+    const columns = [
+      { title: "نام دارو", dataIndex: "drugName", key: "drugName" },
+      { title: "مقدار روزانه", dataIndex: "dailyAmount", key: "dailyAmount" },
+      { title: "مدت زمان مصرف", dataIndex: "duration", key: "duration" },
+      { title: "واحد زمان مصرف", dataIndex: "timeUnit", key: "timeUnit" },
+    ];
+
+    return (
+      <Table
+        columns={columns}
+        dataSource={drugConsumptionData}
+        rowKey="drugName"
+        pagination={false}
+        bordered
+      />
+    );
+  };
+
+  const renderFamilyDescription = (medicalInfo: any) => {
+    return <div>{medicalInfo?.familyDescription || "-"}</div>;
+  };
+
+  const tabItems = [
+    {
+      key: "1",
+      label: "داروهای ضد صرع قبلی",
+      children: renderMedicines(
+        medicalInformations?.pastAntiepilepticMedicineList
+      ),
+    },
+    {
+      key: "2",
+      label: "داروهای ضد صرع فعلی",
+      children: renderMedicines(
+        medicalInformations?.currentAntiepilepticMedicineList
+      ),
+    },
+    {
+      key: "3",
+      label: "سایر داروها",
+      children: renderMedicines(medicalInformations?.otherMedicineList),
+    },
+  ];
+
+  const medicaltabItems = [
+    {
+      key: "1",
+      label: "سابقه خانوادگی بیماری های مختلف",
+      children: renderFamilyDiseaseHistory(medicalInformations),
+    },
+    {
+      key: "2",
+      label: "سابقه سوء مصرف مواد و دخانیات توسط بیمار",
+      children: renderDrugConsumption(medicalInformations),
+    },
+    {
+      key: "3",
+      label: "شرح حال خانواده و میانگین درامد",
+      children: renderFamilyDescription(medicalInformations),
+    },
+  ];
+
+  const othertabItems = [
+    {
+      key: "1",
+      label: "نتایج آزمایش ها",
+      children: renderResults(medicalInformations),
+    },
+    {
+      key: "2",
+      label: "سابقه شکایت با بیماری",
+      children: renderSeizureInfo(medicalInformations),
+    },
+    {
+      key: "3",
+      label: "اجتماعی",
+      children: (
+        <Tabs type="card" defaultActiveKey="1" items={medicaltabItems} />
+      ),
+    },
+  ];
+
+  return (
+    <Drawer
+      title="پروفایل بیمار"
+      placement="left"
+      width={850}
+      onClose={onClose}
+      open={open}
+      destroyOnClose
+    >
+      {loading ? (
+        <Spin size="large" style={{ display: "block", margin: "50px auto" }} />
+      ) : error ? (
+        <Alert
+          message="خطا در دریافت اطلاعات"
+          description={String(error)}
+          type="error"
+          showIcon
+        />
+      ) : data ? (
+        <div style={{ lineHeight: "2rem", paddingBlock: "2rem" }}>
+          <div className="profileMainSection">
+            <h3>اطلاعات فردی</h3>
+            <Row gutter={[10, 13]}>
+              <Col span={8}>
+                <p>
+                  <span
+                    style={{ fontWeight: "400", color: "rgba(0, 0, 0, 0.67)" }}
+                  >
+                    نام و نام خانوادگی:
+                  </span>{" "}
+                  {data.fullName ?? "-"}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <span
+                    style={{ fontWeight: "400", color: "rgba(0, 0, 0, 0.67)" }}
+                  >
+                    شماره تماس:
+                  </span>{" "}
+                  {data.phoneNumber ?? "-"}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  جنسیت:{" "}
+                  <b>
+                    {data.gender && typeof data.gender === "string"
+                      ? data.gender.toLowerCase() === "male"
+                        ? "مرد"
+                        : data.gender.toLowerCase() === "female"
+                        ? "زن"
+                        : "-"
+                      : "-"}
+                  </b>
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <span
+                    style={{ fontWeight: "400", color: "rgba(0, 0, 0, 0.67)" }}
+                  >
+                    تاریخ تولد:
+                  </span>{" "}
+                  {moment(data?.birthdate).format("jYYYY/jMM/jDD") ?? "-"}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <span
+                    style={{ fontWeight: "400", color: "rgba(0, 0, 0, 0.67)" }}
+                  >
+                    وضیعت تاهل:
+                  </span>{" "}
+                  {data.maritalStatus && typeof data.maritalStatus === "string"
+                    ? data.maritalStatus.toLowerCase() === "single"
+                      ? "مجرد"
+                      : data.maritalStatus.toLowerCase() === "married"
+                      ? "متاهل"
+                      : "-"
+                    : "-"}
+                </p>
+              </Col>
+            </Row>
+          </div>
+
+          <div className="profileMainSection">
+            <h3>اطلاعات پزشکی</h3>
+            <Row gutter={[10, 13]}>
+              <Col span={8}>
+                <p>
+                  <span
+                    style={{ fontWeight: "400", color: "rgba(0, 0, 0, 0.67)" }}
+                  >
+                    تاریخ تشخیص:
+                  </span>{" "}
+                  {moment(data?.medicalInformations?.diagnosisDate).format(
+                    "jYYYY/jMM/jDD"
+                  ) ?? "-"}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <span
+                    style={{ fontWeight: "400", color: "rgba(0, 0, 0, 0.67)" }}
+                  >
+                    نوع صرع:
+                  </span>{" "}
+                  {data?.medicalInformations?.epilepsyTypeName ?? "-"}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  وضیعت آگاهی صرع:{" "}
+                  <b>
+                    {data?.medicalInformations?.epilepsyConsciousnessTypeId ??
+                      "-"}
+                  </b>
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <span
+                    style={{ fontWeight: "400", color: "rgba(0, 0, 0, 0.67)" }}
+                  >
+                    وضیعت حرکتی صرع:
+                  </span>{" "}
+                  {data?.medicalInformations?.movementStatus ?? "-"}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <span
+                    style={{ fontWeight: "400", color: "rgba(0, 0, 0, 0.67)" }}
+                  >
+                    نوع دوم صرع:
+                  </span>{" "}
+                  {data?.medicalInformations?.epilepsySecondType ?? "-"}
+                </p>
+              </Col>
+              <Col span={8}>
+                <Flex gap={5} align="flex-start">
+                  <Button
+                    size="middle"
+                    onClick={showMedModal}
+                    disabled={!medicalInformations}
+                  >
+                    دارو ها
+                  </Button>{" "}
+                  <Button
+                    size="middle"
+                    onClick={showOtherModal}
+                    disabled={!medicalInformations}
+                  >
+                    سایر مشخصات
+                  </Button>
+                </Flex>
+              </Col>
+            </Row>
+          </div>
+
+          <Modal
+            title={"داروها"}
+            open={isMedModalOpen}
+            centered
+            onCancel={handleCloseModals}
+            width={800}
+            footer={
+              <Button type="primary" onClick={handleCloseModals}>
+                تایید
+              </Button>
+            }
+          >
+            <Tabs type="card" defaultActiveKey="1" items={tabItems} />
+          </Modal>
+
+          <Modal
+            title={"سایر مشخصات"}
+            open={isOtherModalOpen}
+            centered
+            onCancel={handleCloseModals}
+            width={800}
+            footer={
+              <Button type="primary" onClick={handleCloseModals}>
+                تایید
+              </Button>
+            }
+          >
+            <Tabs type="card" defaultActiveKey="1" items={othertabItems} />
+          </Modal>
+
+          <Flex justify="end" style={{ marginTop: 24, marginLeft: 20 }}>
+            <Button type="primary" onClick={showExportModal} disabled={!data}>
+              📤 export
+            </Button>
+          </Flex>
+
+          <Modal
+            title="خروجی گرفتن از داده‌ها"
+            open={isExportModalOpen}
+            centered
+            onCancel={closeExportModal}
+            footer={null}
+          >
+            <Flex justify="center" gap={10} style={{ paddingBlock: "10px" }}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  exportToCSV(
+                    data,
+                    `profile_${data?.phoneNumber || "export"}.csv`
+                  );
+                  closeExportModal();
+                }}
+              >
+                📄 CSV
+              </Button>
+              <Button
+                onClick={() => {
+                  exportToPDF_HTML(
+                    data,
+                    `profile_${data?.phoneNumber || "export"}.pdf`
+                  );
+                  closeExportModal();
+                }}
+              >
+                📘 PDF
+              </Button>
+            </Flex>
+          </Modal>
+        </div>
+      ) : (
+        <p>داده‌ای برای نمایش وجود ندارد</p>
+      )}
+    </Drawer>
+  );
+};
+
+export default ProfileDrawer;

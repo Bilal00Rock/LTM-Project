@@ -1,4 +1,4 @@
-import { Col, ConfigProvider, Flex, Layout, Row, Space } from "antd/es";
+import { Button, Col, ConfigProvider, Flex, Layout, Row, Space } from "antd/es";
 import { HomeOutlined } from "@ant-design/icons";
 import { PageHeader } from "../../../components/PageHeader/PageHeader";
 import { Card } from "../../../components/Card/Card";
@@ -12,6 +12,11 @@ import useFetchDataPOST from "../../../hooks/useFetchDataPOST";
 import { AdminPatientsTable } from "../../../components/Table/AdminPatients";
 import { AdminDoctorTable } from "../../../components/Table/AdminDoctors";
 import { AdminPendingsTable } from "../../../components/Table/AdminPendings";
+import { useEffect, useState } from "react";
+import DeleteButton from "../../../components/Table/button/DeleteButton";
+import { useLocalTableContext } from "../../../context/LocalTableProvider";
+import ActiveButton from "../../../components/Table/button/ActiveButton";
+import DeactivateButton from "../../../components/Table/button/DeactivateButton";
 const layoutStyle: React.CSSProperties = {
   background: "#F2FCFC",
   borderRadius: "6px",
@@ -22,7 +27,23 @@ const layoutStyle: React.CSSProperties = {
 };
 
 const AdminDash = () => {
-
+  const [selectedPatients, setSelectedPatients] = useState<
+    { id: string; mobile: string }[]
+  >([]);
+  const [selectedPendingPatients, setSelectedPendingPatients] = useState<
+    React.Key[]
+  >([]);
+  const [selectedDoctors, setSelectedDoctors] = useState<React.Key[]>([]);
+  const {
+    localDataDoc,
+    setLocalDataDoc,
+    localDataPatient,
+    setLocalDataPatient,
+    localDataPending,
+    setLocalDataPending,
+  } = useLocalTableContext();
+  // selectedPatients && console.log("selectedPatients :", selectedPatients.map((d) => d.id));
+  // selectedPendingPatients && console.log("selectedPendingPatients :", selectedPendingPatients);
   //APIs
   const {
     data: DocCount,
@@ -36,15 +57,17 @@ const AdminDash = () => {
   } = useFetchDataPOST(AdminPanelAPI.getPatientsCount);
   const {
     data: UPData,
-    loading:UPDataLoading,
-    error:UPerror,
+    loading: UPDataLoading,
+    error: UPerror,
   } = useFetchDataPOST(AdminPanelAPI.getUnregP);
   const {
     data: Pdata,
     loading: PdataLoading,
     error: perror,
   } = useFetchDataPOST(AdminPanelAPI.getPatients);
-
+  useEffect(() => {
+    setSelectedDoctors([]);
+  }, [localDataDoc]);
   return (
     <ConfigProvider>
       <Layout style={layoutStyle}>
@@ -56,29 +79,143 @@ const AdminDash = () => {
         />
 
         <Row gutter={[12, 24]}>
-          
           <Col xs={24} lg={8}>
-            <StatsCard title={"تعداد دکتر های ثبت شده"} value={DocCount} error={docerror} loading={DocCountLoading}/>
+            <StatsCard
+              title={"تعداد دکتر های ثبت شده"}
+              value={DocCount}
+              error={docerror}
+              loading={DocCountLoading}
+            />
           </Col>
           <Col xs={24} lg={8}>
-            <StatsCard title={"تعداد بیماران ثبت شده"} value={PCount} error={Perror} loading={PCountLoading}/>
-          </Col>    
+            <StatsCard
+              title={"تعداد بیماران ثبت شده"}
+              value={PCount}
+              error={Perror}
+              loading={PCountLoading}
+            />
+          </Col>
           <Col xs={24} lg={8}>
-            <StatsCard title={"تعداد بیماران ثبت نام نشده"} value={UPData} error={UPerror} loading={UPDataLoading}/>
-          </Col> 
+            <StatsCard
+              title={"تعداد بیماران ثبت نام نشده"}
+              value={UPData}
+              error={UPerror}
+              loading={UPDataLoading}
+            />
+          </Col>
           <Col xs={24} lg={24}>
             <Card title={"لیست دکتر ها"}>
-            <AdminDoctorTable title="لیست دکتر ها"/>
+              <AdminDoctorTable
+                title={
+                  selectedDoctors.length > 0 ? (
+                    <Flex align="center" justify="space-between" gap={30}>
+                      <span>{selectedDoctors.length} مورد انتخاب شد</span>
+                      <DeleteButton
+                        id={selectedDoctors.map((d) => d.toString())}
+                        onDeleteSuccess={(deletedId) => {
+                          setLocalDataDoc((prev) =>
+                            prev.filter((item) => !deletedId.includes(item.id))
+                          );
+                          setSelectedDoctors([]);
+                        }}
+                      />
+                    </Flex>
+                  ) : (
+                    "لیست دکتر ها"
+                  )
+                }
+                onSelectChange={setSelectedDoctors}
+                clearSelectionTrigger={selectedDoctors.length === 0}
+              />
+            </Card>
+          </Col>
+
+          <Col xs={24} lg={24}>
+            <Card title={"لیست بیماران فعال"}>
+              <AdminPatientsTable
+                title={
+                  selectedPatients.length > 0 ? (
+                    <Flex align="center" justify="space-between">
+                      <span style={{ marginLeft: "20px" }}>
+                        {selectedPatients.length} مورد انتخاب شد
+                      </span>
+                      <span style={{ marginLeft: "10px" }}>
+                        <DeleteButton
+                          id={selectedPatients.map((d) => d.id)}
+                          onDeleteSuccess={(deletedId) => {
+                            setLocalDataPatient((prev) =>
+                              prev.filter(
+                                (item) => !deletedId.includes(item.id)
+                              )
+                            );
+                            setSelectedPatients([]);
+                          }}
+                        />
+                      </span>
+
+                      <DeactivateButton
+                        id={selectedPatients.map((d) => d.id)}
+                        onDeactivateSuccess={(deactivateId) => {
+                          // setLocalDataPending((prev) =>
+                          //   prev.filter((item) => item.id !== deletedId)
+                          // );
+                          // setSelectedRowKeys((prev) =>
+                          //   prev.filter((key) => key !== deletedId)
+                          // );
+                        }}
+                      />
+                    </Flex>
+                  ) : (
+                    "لیست بیماران فعال"
+                  )
+                }
+                onSelectChange={setSelectedPatients}
+                clearSelectionTrigger={selectedDoctors.length === 0}
+              />
             </Card>
           </Col>
           <Col xs={24} lg={24}>
-            <Card title={"لیست بیماران "}>
-            <AdminPatientsTable title="لیست بیماران"/>
-            </Card>
-          </Col>
-          <Col xs={24} lg={24}>
-            <Card title={"لیست بیماران "}>
-            <AdminPendingsTable title="لیست بیماران"/>
+            <Card title={"لیست بیماران در حال ثبت نام"}>
+              <AdminPendingsTable
+                title={
+                  selectedPendingPatients.length > 0 ? (
+                    <Flex align="center" justify="space-between">
+                      <span style={{ marginLeft: "20px" }}>
+                        {selectedPendingPatients.length} مورد انتخاب شد
+                      </span>
+                      <span style={{ marginLeft: "10px" }}>
+                        <DeleteButton
+                          id={selectedPendingPatients.map((d) => d.toString())}
+                          onDeleteSuccess={(deletedId) => {
+                            setLocalDataPending((prev) =>
+                              prev.filter(
+                                (item) => !deletedId.includes(item.id)
+                              )
+                            );
+                            setSelectedPendingPatients([]);
+                          }}
+                        />
+                      </span>
+
+                      <ActiveButton
+                        id={selectedPendingPatients.map((d) => d.toString())}
+                        onActiveSuccess={(activeId) => {
+                          // setLocalDataPending((prev) =>
+                          //   prev.filter((item) => item.id !== deletedId)
+                          // );
+                          // setSelectedRowKeys((prev) =>
+                          //   prev.filter((key) => key !== deletedId)
+                          // );
+                        }}
+                      />
+                    </Flex>
+                  ) : (
+                    "لیست بیماران در حال ثبت نام"
+                  )
+                }
+                onSelectChange={setSelectedPendingPatients}
+                clearSelectionTrigger={selectedDoctors.length === 0}
+              />
             </Card>
           </Col>
         </Row>

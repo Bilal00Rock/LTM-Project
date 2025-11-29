@@ -277,9 +277,9 @@ export const PatientTable = ({ title, ...other }: Props) => {
         <Space size="middle">
           <a
             onClick={() => {
-              console.log(record);
+              // console.log(record);
               gotoProf(record.phoneNumber);
-              console.log(record?.phoneNumber);
+              // console.log(record?.phoneNumber);
             }}
           >
             پروفایل

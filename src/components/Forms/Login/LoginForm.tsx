@@ -35,6 +35,8 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
   className = "",
 }) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [signupLoading, setSignupLoading] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -49,7 +51,9 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
     navigate("/forgot-password");
   }, [navigate]);
   const onBRClick = useCallback(() => {
+    setSignupLoading(true);
     navigate("/signup-page");
+    setSignupLoading(false);
   }, [navigate]);
   //login APICALL
   //message handeling
@@ -57,13 +61,14 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
   //Auth
   const [Error, setError] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
   const authContext = useAuth();
 
   if (!authContext) {
     throw new Error("useContext must be used within an AuthProvider");
   }
 
-  const { auth, setAuth ,persist, setPersist} = authContext;
+  const { auth, setAuth, persist, setPersist } = authContext;
 
   const msgSuccess = (content: string) => {
     loading
@@ -88,6 +93,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
   };
   //API Post
   const onFinish = async (values: any) => {
+    setLoginLoading(true);
     const username = values.D_id;
     const password = values.password;
     try {
@@ -106,13 +112,21 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
         //if not working with refreshtokens uncommint this
         // const accessToken = response?.body?.accesstoken;
         //commit the below
-        //dont set the token in cookie when refresh token is implemented 
+        //dont set the token in cookie when refresh token is implemented
         //setting cookie for Presist login
         const accessToken = response?.data?.token;
-        Cookies.set('accessToken', accessToken, { expires: 1, secure: true, sameSite: 'Strict' });
-        Cookies.set('user',  values.D_id, { expires: 1, secure: true, sameSite: 'Strict' });
+        Cookies.set("accessToken", accessToken, {
+          expires: 1,
+          secure: true,
+          sameSite: "Strict",
+        });
+        Cookies.set("user", values.D_id, {
+          expires: 1,
+          secure: true,
+          sameSite: "Strict",
+        });
 
-        console.log(values);  
+        console.log(values);
         setAuth({
           user: values.D_id, // Assign the doctor ID or username to `user`
           pass: values.password,
@@ -120,9 +134,9 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
           firstName: response?.data?.user?.firstName,
           lastName: response?.data?.user?.lastName,
           Pid: response?.data?.user?.normalizedUserName,
-          PhoneNumber: response?.data?.user?.phoneNumber
+          PhoneNumber: response?.data?.user?.phoneNumber,
         });
-        
+
         //console.log(auth);
         //console.log(auth.accessToken,auth .pass, auth.user);
         //go to dash
@@ -149,12 +163,14 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
           errormsg(" کد نظام پزشکی یا رمز عبور صحیح نمی باشد");
         } else {
           setError(error);
-          if (Error) errormsg(`خطایی رخ داده است:${error.response.data.message}`);
+          if (Error)
+            errormsg(`خطایی رخ داده است:${error.response.data.message}`);
         }
       } else {
         errormsg("خظایی رخ داده است");
       }
     } finally {
+      setLoginLoading(false);
       setLoading(false);
     }
   };
@@ -198,7 +214,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
             }}
           >
             <FormItem>
-              <b style={{ fontSize: "20px" }}>
+              <b style={{ fontSize: "15px" }}>
                 برای ورود، نام کاربری و رمز عبور خود را وارد کنید
               </b>
             </FormItem>
@@ -224,6 +240,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                     <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
                   </Tooltip>
                 }
+                style={{ fontSize: "18px" }}
               />
             </Form.Item>
             <Form.Item
@@ -236,23 +253,26 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                 prefix={<LockOutlined />}
                 type="password"
                 placeholder="رمز عبور"
+                style={{ fontSize: "18px" }}
               />
             </Form.Item>
           </ConfigProvider>
           <Form.Item>
-              <Checkbox
-                type="checkbox"
-                id="persist"
-                onChange={togglePersist}
-                checked={persist}
-              >مرا به خاطر بسپار</Checkbox>
+            <Checkbox
+              type="checkbox"
+              id="persist"
+              onChange={togglePersist}
+              checked={persist}
+            >
+              مرا به خاطر بسپار
+            </Checkbox>
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{ marginBottom: "10px" }}>
             <Flex justify="space-between" align="center">
               <Button
                 type="link"
                 onClick={onTextClick}
-                style={{ fontSize: "18px" }}
+                style={{ fontSize: "15px" }}
               >
                 رمز عبور را فراموش کرده اید؟
               </Button>
@@ -267,7 +287,7 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                     /* here is your component tokens */
                     contentFontSizeLG: 20,
                     fontWeight: 800,
-                    controlHeightLG: 55,
+                    controlHeightLG: 40,
                   },
                 },
               }}
@@ -277,11 +297,21 @@ const LoginForm: FunctionComponent<LoginComponentType> = ({
                 type="primary"
                 htmlType="submit"
                 style={{ fontWeight: "bold", fontSize: "large" }}
+                loading={loginLoading}
+                disabled={signupLoading}
               >
                 ورود
               </Button>
-              <Divider plain>یا</Divider>
-              <Button block type="default" onClick={onBRClick}>
+              <Divider plain style={{ margin: "10px 0" }}>
+                یا
+              </Divider>
+              <Button
+                block
+                type="default"
+                onClick={onBRClick}
+                loading={signupLoading}
+                disabled={loginLoading}
+              >
                 !ثبت نام کنید
               </Button>
             </ConfigProvider>

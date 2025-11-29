@@ -17,6 +17,8 @@ const useFetchData = (url: string, params?: any) => {
   const axoisPrivate = useAxiosPrivate();
   const fetchData = useCallback(async () => {
     setLoading(true);
+    setData([])
+    setError(null)
     try {
       const response = await axoisPrivate.get(url, { params: params });
 
@@ -36,7 +38,7 @@ const useFetchData = (url: string, params?: any) => {
             style: { direction: "rtl", textAlign: "right" }, // Apply RTL styling
             placement: "topLeft", // Place notification on the right
           });
-          Cookies.remove('accessToken');
+          Cookies.remove("accessToken");
           navigate(PATH_LOGIN.root);
         } else {
           setError(error);
@@ -48,9 +50,16 @@ const useFetchData = (url: string, params?: any) => {
       setLoading(false);
     }
   }, [axoisPrivate, url, params]);
+
   useEffect(() => {
+    if (!url) {
+      setLoading(false);
+      setData([])
+      setError(null)
+      return;
+    }
     fetchData();
-  }, [fetchData]);
+  }, [fetchData, url]);
   return { data, error, loading };
 };
 

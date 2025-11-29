@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ConfigProvider } from "antd";
 import { AuthProvider } from "./context/AuthProvoider.tsx";
+import { LocalTableProvider } from "./context/LocalTableProvider.tsx";
 
 const container = document.getElementById("root");
 const root = createRoot(container!);
@@ -21,7 +22,7 @@ async function enableMocking() {
 
   // `worker.start()` returns a Promise that resolves
   // once the Service Worker is up and ready to intercept requests.
- // return worker.start();
+  // return worker.start();
 }
 enableMocking().then(() => {
   root.render(
@@ -30,7 +31,9 @@ enableMocking().then(() => {
         <Provider store={store}>
           <AuthProvider>
             <ConfigProvider>
-              <App />
+              <LocalTableProvider>
+                <App />
+              </LocalTableProvider>
             </ConfigProvider>
           </AuthProvider>
         </Provider>
